@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "projectId": "business-node-management",
-  "revision": 15,
+  "revision": 16,
   "requirements": {
     "node.enter": {
       "reqId": "node.enter",
@@ -1534,46 +1534,6 @@
             "来源 IP 数显示 0",
             "异常率显示 0%"
           ]
-        }
-      ]
-    },
-    "navigation.3": {
-      "reqId": "navigation.3",
-      "featureName": "▤区域目录管理系统",
-      "interactionSteps": [],
-      "businessRules": [],
-      "fieldValidations": [],
-      "permissions": [],
-      "exceptionHandling": [],
-      "kind": "function",
-      "scenarios": [],
-      "fields": [],
-      "statistics": [],
-      "acceptanceCriteria": [],
-      "bindings": [
-        {
-          "pageId": "home",
-          "elementId": "navigation.3"
-        }
-      ]
-    },
-    "navigation.1": {
-      "reqId": "navigation.1",
-      "featureName": "✉鉴权管理",
-      "interactionSteps": [],
-      "businessRules": [],
-      "fieldValidations": [],
-      "permissions": [],
-      "exceptionHandling": [],
-      "kind": "function",
-      "scenarios": [],
-      "fields": [],
-      "statistics": [],
-      "acceptanceCriteria": [],
-      "bindings": [
-        {
-          "pageId": "home",
-          "elementId": "navigation.1"
         }
       ]
     }
