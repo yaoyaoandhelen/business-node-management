@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 2,
+  "projectId": "business-node-management",
+  "activeChangeId": "import-existing-prototype",
+  "changes": {
+    "import-existing-prototype": {
+      "stage": "PREVIEW_READY",
+      "acceptedReviewId": null,
+      "implementation": null,
+      "productAcceptance": {
+        "status": "reserved"
+      },
+      "importEvidence": "inputs/import-manifest.json",
+      "previewReviewId": "p-7f21e3ca53a5903ea1e7741e"
+    }
+  },
+  "stateRevision": 1
+}

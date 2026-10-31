@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "kind": "product-workflow-bootstrap",
+  "package": "@personal/product-workflow-kit",
+  "bootstrapVersion": "0.2.0",
+  "recordedAt": "2026-10-31T11:54:28.736Z",
+  "lockedVersion": "0.1.0",
+  "lockedArchiveSha256": "e759ffbdbf2e29514e0bba8c580e05f3fd439d730f8c827c53ea061eeb5d60d6",
+  "files": {
+    "restore.mjs": "1106c3fb546bb5001eef4f530bd520c889fd96f66fed1df827258c00ef047190",
+    "run.mjs": "21df81ed4f40aea0fcb6736de79763702a15add1121b8cba58386b5e39b709e6"
+  },
+  "historyId": "cbc76d39-78e9-4a4e-b063-b2d9514b0727"
+}

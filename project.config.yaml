@@ -1,0 +1,44 @@
+schemaVersion: 1
+projectId: business-node-management
+name: 业务节点管理系统
+projectType: business
+activeChangeId: import-existing-prototype
+pages:
+  - id: home
+    name: 首页与接入登记
+    path: ./index.html
+  - id: risk
+    name: 敏感词审核不通过
+    path: ./index.html?view=risk
+  - id: loading
+    name: 敏感词审核中
+    path: ./index.html?view=loading
+  - id: catalog
+    name: 数据目录与查询安全
+    path: ./index.html?view=catalog
+build:
+  adapter: vite
+  root: prototype
+  config: prototype/vite.config.mjs
+  output: prototype/dist
+  sourcePaths:
+    - prototype
+    - data/requirements
+    - project.config.yaml
+github:
+  owner: yaoyaoandhelen
+  repository: business-node-management
+  branch: main
+  basePath: /business-node-management/
+  url: https://yaoyaoandhelen.github.io/business-node-management/
+zentao:
+  provider: mcp
+  baseUrl: null
+  productId: null
+  projectId: null
+  executionId: null
+  receiver: null
+  mcp:
+    url: null
+    headersEnv: {}
+    tools: {}

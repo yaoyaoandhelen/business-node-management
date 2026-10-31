@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "projects": [
+    {
+      "id": "regional-node",
+      "name": "业务节点管理系统",
+      "description": "接入登记与智能审核原型",
+      "baseUrl": "http://localhost:5185",
+      "allowedOrigins": [
+        "http://localhost:5185"
+      ],
+      "pages": [
+        {
+          "id": "home",
+          "name": "首页与接入登记",
+          "path": "/"
+        },
+        {
+          "id": "risk",
+          "name": "敏感词审核不通过",
+          "path": "/?view=risk"
+        },
+        {
+          "id": "loading",
+          "name": "敏感词审核中",
+          "path": "/?view=loading"
+        },
+        {
+          "id": "catalog",
+          "name": "数据目录与查询安全",
+          "path": "/?view=catalog"
+        }
+      ]
+    },
+    {
+      "id": "customer-demo",
+      "name": "客户管理系统",
+      "description": "独立业务原型 · CRUD 示例",
+      "baseUrl": "http://localhost:5175",
+      "allowedOrigins": [
+        "http://localhost:5175"
+      ],
+      "pages": [
+        {
+          "id": "customers",
+          "name": "客户管理",
+          "path": "/"
+        },
+        {
+          "id": "archive",
+          "name": "归档客户",
+          "path": "/?view=archive"
+        }
+      ]
+    }
+  ]
+}

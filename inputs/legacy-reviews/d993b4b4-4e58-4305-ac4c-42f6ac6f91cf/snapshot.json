@@ -1,0 +1,615 @@
+{
+  "schemaVersion": 1,
+  "id": "d993b4b4-4e58-4305-ac4c-42f6ac6f91cf",
+  "createdAt": "2026-10-30T06:13:05.572Z",
+  "project": {
+    "id": "regional-node",
+    "name": "业务节点管理系统",
+    "description": "接入登记与智能审核原型",
+    "baseUrl": "http://localhost:5185",
+    "allowedOrigins": [
+      "http://localhost:5185"
+    ],
+    "pages": [
+      {
+        "id": "home",
+        "name": "首页与接入登记",
+        "path": "./"
+      }
+    ]
+  },
+  "document": {
+    "schemaVersion": 1,
+    "projectId": "regional-node",
+    "revision": 1,
+    "requirements": {
+      "node.enter": {
+        "reqId": "node.enter",
+        "featureName": "业务节点系统入口",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "点击进入业务节点管理系统首页"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.enter"
+          }
+        ]
+      },
+      "node.review": {
+        "reqId": "node.review",
+        "featureName": "接入登记审核",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "点击菜单进入接入登记列表"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.review"
+          }
+        ]
+      },
+      "node.create": {
+        "reqId": "node.create",
+        "featureName": "新增接入注册",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "打开完整表单；取消需二次确认；草稿使用当前浏览器会话存储，附件需重传"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.create"
+          }
+        ]
+      },
+      "node.query": {
+        "reqId": "node.query",
+        "featureName": "登记查询",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "登记名称为字符串，默认空，非必填，按名称包含匹配；审核状态枚举默认全部"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.query"
+          }
+        ]
+      },
+      "node.statistics": {
+        "reqId": "node.statistics",
+        "featureName": "首页数据统计",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "范围：当前浏览器页面内存中的登记记录；初始化为0，刷新页面重置",
+          "接入登记总数=成功通过机器审核的登记数量；待人工审核=未完成人工审核的登记数量；已完成审核=人工审核完成数量",
+          "刷新时机：进入首页与提交成功后；仅演示数据，不对应生产系统"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.statistics"
+          }
+        ]
+      },
+      "node.submit": {
+        "reqId": "node.submit",
+        "featureName": "提交与两阶段审核",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "先校验必填、版本号与HTTPS地址，然后启动机器审核",
+          "审核中不可重复提交；通过才创建待人工审核记录",
+          "命中风险展示字段和风险类别并保留表单；异常不得绕过机器审核进入人工审核",
+          "原型通过演示场景和测试词模拟结果，未接入真实模型；投产需后端模型审核、文件解析/OCR及幂等提交，禁止只依赖前端判断"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.submit"
+          }
+        ]
+      },
+      "node.machineAudit": {
+        "reqId": "node.machineAudit",
+        "featureName": "机器审核结果",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "覆盖登记文本及上传材料的敏感词、色情、暴力风险；演示不解析附件内容",
+          "通过后待人工审核，拦截后返回修改，模型异常返回重试"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.machineAudit"
+          }
+        ]
+      },
+      "node.material": {
+        "reqId": "node.material",
+        "featureName": "证明材料上传",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "核心业务证明材料必填，其他登记材料非必填；默认未选择",
+          "类型PDF/PNG/JPG/JPEG/DOC/DOCX；单文件上限20MB；演示只保存文件名，未上传服务器"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.material"
+          }
+        ]
+      },
+      "node.templates": {
+        "reqId": "node.templates",
+        "featureName": "材料模板",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "提供三个可下载文本模板，仅作原型材料准备说明"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.templates"
+          }
+        ]
+      },
+      "node.endpoint": {
+        "reqId": "node.endpoint",
+        "featureName": "业务节点地址",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "至少一行；地址类型枚举必填默认空；服务地址字符串必填默认空，必须HTTPS；API地址可选HTTPS",
+          "支持添加和删除地址；至少保留一行；连接测试仅为交互模拟"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.endpoint"
+          }
+        ]
+      },
+      "node.field.name": {
+        "reqId": "node.field.name",
+        "featureName": "登记名称",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：是",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.name"
+          }
+        ]
+      },
+      "node.field.operator": {
+        "reqId": "node.field.operator",
+        "featureName": "运营机构名称",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.operator"
+          }
+        ]
+      },
+      "node.field.org": {
+        "reqId": "node.field.org",
+        "featureName": "所属组织",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：是",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.org"
+          }
+        ]
+      },
+      "node.field.credit": {
+        "reqId": "node.field.credit",
+        "featureName": "统一社会信用代码",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.credit"
+          }
+        ]
+      },
+      "node.field.service": {
+        "reqId": "node.field.service",
+        "featureName": "服务类型",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：枚举；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.service"
+          }
+        ]
+      },
+      "node.field.version": {
+        "reqId": "node.field.version",
+        "featureName": "版本号",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：是",
+          "校验：1.0.0 或 v1.0.0"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.version"
+          }
+        ]
+      },
+      "node.field.date": {
+        "reqId": "node.field.date",
+        "featureName": "经营时间",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：日期；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.date"
+          }
+        ]
+      },
+      "node.field.legal": {
+        "reqId": "node.field.legal",
+        "featureName": "法人姓名",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.legal"
+          }
+        ]
+      },
+      "node.field.phone": {
+        "reqId": "node.field.phone",
+        "featureName": "法人联系方式",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.phone"
+          }
+        ]
+      },
+      "node.field.idcard": {
+        "reqId": "node.field.idcard",
+        "featureName": "法人身份证号",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.idcard"
+          }
+        ]
+      },
+      "node.field.address": {
+        "reqId": "node.field.address",
+        "featureName": "物理地址",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：最长100字符"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.address"
+          }
+        ]
+      },
+      "node.field.description": {
+        "reqId": "node.field.description",
+        "featureName": "业务简介",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：是",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.description"
+          }
+        ]
+      },
+      "node.field.remark": {
+        "reqId": "node.field.remark",
+        "featureName": "备注",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.remark"
+          }
+        ]
+      }
+    },
+    "modules": [
+      {
+        "id": "portal",
+        "name": "系统入口",
+        "reqIds": [
+          "node.enter",
+          "node.review",
+          "node.statistics"
+        ],
+        "children": []
+      },
+      {
+        "id": "registration",
+        "name": "接入登记审核",
+        "reqIds": [],
+        "children": [
+          {
+            "id": "query",
+            "name": "登记查询",
+            "reqIds": [
+              "node.query"
+            ],
+            "children": []
+          },
+          {
+            "id": "form",
+            "name": "登记信息与材料",
+            "reqIds": [
+              "node.create",
+              "node.material",
+              "node.templates",
+              "node.endpoint",
+              "node.field.name",
+              "node.field.operator",
+              "node.field.org",
+              "node.field.credit",
+              "node.field.service",
+              "node.field.version",
+              "node.field.date",
+              "node.field.legal",
+              "node.field.phone",
+              "node.field.idcard",
+              "node.field.address",
+              "node.field.description",
+              "node.field.remark"
+            ],
+            "children": []
+          },
+          {
+            "id": "audit",
+            "name": "机器审核与人工流转",
+            "reqIds": [
+              "node.submit",
+              "node.machineAudit"
+            ],
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

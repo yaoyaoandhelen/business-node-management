@@ -1,0 +1,1 @@
+{"customer-demo": {"config": "apps/demo/vite.config.js", "directory": "apps/demo/dist"}, "regional-node": {"config": "apps/business/vite.config.js", "directory": "apps/business/dist"}}

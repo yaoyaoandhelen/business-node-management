@@ -1,0 +1,9 @@
+node_modules/
+prototype/node_modules/
+prototype/dist/
+.local/
+dist/
+_site/
+*.tmp
+.DS_Store
+.agents/skills/
