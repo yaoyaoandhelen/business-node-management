@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "projectId": "business-node-management",
+  "reviewId": "r-7e1201654c8a05e88323df2e",
+  "attempts": [
+    {
+      "id": "15635242-88d6-48f1-b3e1-8b063b7f13d8",
+      "type": "deploy",
+      "reviewId": "r-7e1201654c8a05e88323df2e",
+      "manifestHash": "188a12f48570bc9f0c856bd4a4b298d88bf07282c6eadc4302cf349b76503bd7",
+      "startedAt": "2026-10-31T15:39:57.230Z",
+      "target": "yaoyaoandhelen/business-node-management",
+      "status": "intent"
+    },
+    {
+      "id": "15635242-88d6-48f1-b3e1-8b063b7f13d8",
+      "type": "deploy",
+      "reviewId": "r-7e1201654c8a05e88323df2e",
+      "manifestHash": "188a12f48570bc9f0c856bd4a4b298d88bf07282c6eadc4302cf349b76503bd7",
+      "startedAt": "2026-10-31T15:39:57.230Z",
+      "target": "yaoyaoandhelen/business-node-management",
+      "status": "deployment_pending",
+      "workflowUrl": "https://github.com/yaoyaoandhelen/business-node-management/actions/workflows/pages.yml",
+      "requestId": "15635242-88d6-48f1-b3e1-8b063b7f13d8"
+    },
+    {
+      "id": "11110a40-1a38-4354-8ea6-a80e25664367",
+      "type": "verify",
+      "reviewId": "r-7e1201654c8a05e88323df2e",
+      "manifestHash": "188a12f48570bc9f0c856bd4a4b298d88bf07282c6eadc4302cf349b76503bd7",
+      "startedAt": "2026-10-31T15:41:02.019Z",
+      "url": "https://yaoyaoandhelen.github.io/business-node-management/review/r-7e1201654c8a05e88323df2e/",
+      "status": "verified",
+      "verifiedAt": "2026-10-31T15:41:29.466Z",
+      "resources": [
+        "index.html",
+        "snapshot.json",
+        "prototype/index.html",
+        "assets/index-CCyNXxqk.js",
+        "assets/index-B291VyXR.css",
+        "prototype/inspector-config.js",
+        "prototype/inspector.js",
+        "prototype/assets/index-C1fMBMxQ.css",
+        "prototype/app.js"
+      ]
+    }
+  ]
+}
