@@ -1,0 +1,1691 @@
+{
+  "schemaVersion": 1,
+  "id": "r-7e1201654c8a05e88323df2e",
+  "reviewId": "r-7e1201654c8a05e88323df2e",
+  "createdAt": "2026-10-31T15:39:24.627Z",
+  "project": {
+    "id": "business-node-management",
+    "name": "业务节点管理系统",
+    "baseUrl": "./prototype/",
+    "allowedOrigins": [],
+    "pages": [
+      {
+        "id": "home",
+        "name": "首页与接入登记",
+        "path": "./index.html"
+      },
+      {
+        "id": "risk",
+        "name": "敏感词审核不通过",
+        "path": "./index.html?view=risk"
+      },
+      {
+        "id": "loading",
+        "name": "敏感词审核中",
+        "path": "./index.html?view=loading"
+      },
+      {
+        "id": "catalog",
+        "name": "数据目录与查询安全",
+        "path": "./index.html?view=catalog"
+      }
+    ]
+  },
+  "document": {
+    "schemaVersion": 2,
+    "projectId": "business-node-management",
+    "revision": 16,
+    "requirements": {
+      "node.enter": {
+        "reqId": "node.enter",
+        "featureName": "业务节点系统入口",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "点击进入业务节点管理系统首页；进入后显示接入登记审核菜单。"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.enter"
+          }
+        ],
+        "updatedAt": "2026-10-30T06:17:27.592Z",
+        "kind": "function",
+        "scenarios": [],
+        "fields": [],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "进入业务节点管理系统",
+            "given": "用户位于系统入口页面",
+            "when": "用户点击进入业务节点管理系统",
+            "then": [
+              "显示业务节点管理系统首页",
+              "页面显示接入登记审核菜单"
+            ]
+          }
+        ]
+      },
+      "node.review": {
+        "reqId": "node.review",
+        "featureName": "接入登记审核",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "点击菜单进入接入登记列表"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.review"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "打开接入登记列表",
+            "given": "用户已进入业务节点管理系统首页",
+            "when": "用户点击接入登记审核菜单",
+            "then": [
+              "进入接入登记列表页面",
+              "页面提供登记查询和新增入口"
+            ]
+          }
+        ]
+      },
+      "node.create": {
+        "reqId": "node.create",
+        "featureName": "新增接入注册",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "打开完整表单；取消需二次确认；草稿使用当前浏览器会话存储，附件需重传"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.create"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "打开完整登记表单",
+            "given": "用户位于接入登记列表",
+            "when": "用户点击新增",
+            "then": [
+              "打开新增接入注册表单",
+              "表单包含登记信息、证明材料、材料模板和业务节点地址区域"
+            ]
+          },
+          {
+            "name": "取消登记需要确认",
+            "given": "新增接入注册表单已打开",
+            "when": "用户点击取消或关闭",
+            "then": [
+              "系统提示未保存修改将丢失并要求二次确认",
+              "确认前不关闭表单"
+            ]
+          },
+          {
+            "name": "恢复会话草稿",
+            "given": "用户已填写表单并保存草稿，且已选择附件",
+            "when": "用户在同一浏览器会话中重新打开登记表单",
+            "then": [
+              "已保存的文本字段恢复",
+              "附件不随草稿恢复并需重新上传"
+            ]
+          }
+        ]
+      },
+      "node.query": {
+        "reqId": "node.query",
+        "featureName": "登记查询",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "登记名称为字符串，默认空，非必填，按名称包含匹配；审核状态枚举默认全部"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.query"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "登记名称",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": false,
+            "validation": "按名称包含匹配",
+            "message": ""
+          },
+          {
+            "name": "审核状态",
+            "type": "枚举",
+            "defaultValue": "全部",
+            "required": false,
+            "validation": "从现有原型提供的审核状态中选择",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "按登记名称包含匹配",
+            "given": "登记列表中存在名称不同但包含相同关键字的记录",
+            "when": "用户输入名称关键字并查询",
+            "then": [
+              "仅显示登记名称包含该关键字的记录",
+              "无匹配记录时显示空态"
+            ]
+          },
+          {
+            "name": "组合审核状态筛选",
+            "given": "登记列表中存在不同审核状态的记录",
+            "when": "用户选择审核状态并查询",
+            "then": [
+              "仅显示符合所选审核状态及其他查询条件的记录",
+              "重置后登记名称为空且审核状态恢复全部"
+            ]
+          }
+        ]
+      },
+      "node.statistics": {
+        "reqId": "node.statistics",
+        "featureName": "首页数据统计",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "范围：当前浏览器页面内存中的登记记录；初始化为0，刷新页面重置",
+          "接入登记总数=成功通过机器审核的登记数量；待人工审核=未完成人工审核的登记数量；已完成审核=人工审核完成数量",
+          "刷新时机：进入首页与提交成功后；仅演示数据，不对应生产系统"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.statistics"
+          }
+        ],
+        "kind": "statistic",
+        "scenarios": [],
+        "fields": [],
+        "statistics": [
+          {
+            "name": "接入登记总数",
+            "formula": "成功通过机器审核的登记数量",
+            "scope": "当前浏览器页面内存中的登记记录，初始化为0，刷新页面重置",
+            "refresh": "进入首页与提交成功后刷新"
+          },
+          {
+            "name": "待人工审核",
+            "formula": "尚未完成人工审核的登记数量",
+            "scope": "当前浏览器页面内存中的登记记录，初始化为0，刷新页面重置",
+            "refresh": "进入首页与提交成功后刷新"
+          },
+          {
+            "name": "已完成审核",
+            "formula": "人工审核完成的登记数量；当前原型没有人工审核完成操作，显示0",
+            "scope": "当前浏览器页面内存中的登记记录，初始化为0，刷新页面重置",
+            "refresh": "进入首页与提交成功后刷新"
+          }
+        ],
+        "acceptanceCriteria": []
+      },
+      "node.submit": {
+        "reqId": "node.submit",
+        "featureName": "提交与两阶段审核",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "先校验必填、版本号与HTTPS地址，然后启动机器审核",
+          "审核中不可重复提交；通过才创建待人工审核记录",
+          "命中风险展示字段和风险类别并保留表单；异常不得绕过机器审核进入人工审核",
+          "原型通过演示场景和测试词模拟结果，未接入真实模型；投产需后端模型审核、文件解析/OCR及幂等提交，禁止只依赖前端判断"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.submit"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "校验通过后进入人工审核",
+            "given": "用户已完整填写必填项、合法版本号、HTTPS地址和必需材料",
+            "when": "用户提交审核且机器审核通过",
+            "then": [
+              "先进入机器审核，审核完成后显示通过结果",
+              "仅创建一条待人工审核记录",
+              "清除已保存的草稿"
+            ]
+          },
+          {
+            "name": "格式校验不通过不启动审核",
+            "given": "登记表单存在必填项缺失、版本号格式错误或非HTTPS地址",
+            "when": "用户提交审核",
+            "then": [
+              "系统提示对应校验错误",
+              "不启动机器审核且不创建登记记录",
+              "保留已填写信息和已选材料"
+            ]
+          },
+          {
+            "name": "审核中防止重复提交",
+            "given": "一次登记提交正在机器审核中",
+            "when": "用户再次触发提交",
+            "then": [
+              "不重复启动审核",
+              "不创建重复登记记录"
+            ]
+          },
+          {
+            "name": "风险或异常不进入人工审核",
+            "given": "一次登记提交已完成格式校验",
+            "when": "机器审核命中风险或审核服务异常",
+            "then": [
+              "不创建待人工审核记录",
+              "风险时展示命中字段和风险类别，异常时提示重试",
+              "保留已填写信息和已选材料"
+            ]
+          }
+        ]
+      },
+      "node.machineAudit": {
+        "reqId": "node.machineAudit",
+        "featureName": "机器审核结果",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "内容审核字段：登记名称、运营机构名称、所属组织名称、物理地址、业务简介、证明材料文件名、备注。",
+          "材料范围：核心业务证明材料、营业执照、法人身份证、服务承诺书的文本与图像；原型不解析附件。",
+          "结构化信息进行格式校验；姓名、信用代码、身份证号不因单字命中敏感词直接拦截；URL不默认抓取网页正文。",
+          "敏感内容分类：色情低俗、暴力威胁、严重辱骂与仇恨、欺诈与非法招揽；结合上下文和经业务确认的策略判断。",
+          "命中则阻止提交，展示字段位置、证据与修改建议，保留数据；重新提交必须重新审核。",
+          "模型服务失败或文件无法解析属于审核未完成，不能当作通过或敏感词命中。",
+          "当前原型只用安全测试标记演示，没有真实模型审核。",
+          "风险弹窗不展示流程条、行内定位按钮、底部重复结果、下载按钮及审核范围和格式校验段落；底部仅保留返回修改。",
+          "弹窗只保留申请未提交提示、风险明细和返回修改；提示文案末尾包含请修改后重新提交审核；删除顶部标题区、提交帮助和分类说明。",
+          "保留顶部结果区：警示图标、内容安全审核结果、敏感词审核未通过及业务简介说明；其他已删减区域不恢复。",
+          "审核中明确显示敏感词审核中及登记文本与材料敏感词检查说明；业务页面不展示原型演示提示。风险弹窗删除标题下说明和请逐项检查并修改。真实模型未接入的事实保留在研发交付文档。"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.machineAudit"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "展示机器审核中状态",
+            "given": "登记内容已通过格式校验并启动机器审核",
+            "when": "机器审核尚未完成",
+            "then": [
+              "显示敏感词审核中状态",
+              "说明正在检查登记文本与材料内容",
+              "不显示审核通过或人工审核待处理结果"
+            ]
+          },
+          {
+            "name": "展示风险明细并返回修改",
+            "given": "登记文本或材料命中经确认的内容安全策略",
+            "when": "机器审核返回未通过",
+            "then": [
+              "显示警示图标、内容安全审核结果和敏感词审核未通过",
+              "提示申请未提交且不会进入人工审核，并以请修改后重新提交审核作为提示结尾",
+              "风险明细展示风险类型、命中位置、证据和修改建议",
+              "底部仅提供返回修改，不展示流程条、下载按钮或重复结果"
+            ]
+          },
+          {
+            "name": "审核未完成不得视为通过",
+            "given": "模型服务失败或材料无法解析",
+            "when": "机器审核无法形成有效结果",
+            "then": [
+              "明确提示审核未完成并允许返回重试",
+              "不将其展示为审核通过或敏感词命中",
+              "不进入人工审核"
+            ]
+          }
+        ]
+      },
+      "node.material": {
+        "reqId": "node.material",
+        "featureName": "证明材料上传",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "核心业务证明材料必填，其他登记材料非必填；默认未选择",
+          "类型PDF/PNG/JPG/JPEG/DOC/DOCX；单文件上限20MB；演示只保存文件名，未上传服务器"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.material"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "核心业务证明材料",
+            "type": "文件",
+            "defaultValue": null,
+            "required": true,
+            "validation": "PDF/PNG/JPG/JPEG/DOC/DOCX；单文件不超过20MB；原型仅保存文件名",
+            "message": ""
+          },
+          {
+            "name": "营业执照",
+            "type": "文件",
+            "defaultValue": null,
+            "required": false,
+            "validation": "PDF/PNG/JPG/JPEG/DOC/DOCX；单文件不超过20MB；原型仅保存文件名",
+            "message": ""
+          },
+          {
+            "name": "法人身份证",
+            "type": "文件",
+            "defaultValue": null,
+            "required": false,
+            "validation": "PDF/PNG/JPG/JPEG/DOC/DOCX；单文件不超过20MB；原型仅保存文件名",
+            "message": ""
+          },
+          {
+            "name": "服务承诺书",
+            "type": "文件",
+            "defaultValue": null,
+            "required": false,
+            "validation": "PDF/PNG/JPG/JPEG/DOC/DOCX；单文件不超过20MB；原型仅保存文件名",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "选择合规证明材料",
+            "given": "用户正在填写接入登记表单",
+            "when": "用户选择PDF、PNG、JPG、JPEG、DOC或DOCX格式且不超过20MB的材料",
+            "then": [
+              "系统接受文件并显示文件名",
+              "核心业务证明材料已选择后可参与提交校验",
+              "其他登记材料允许不选择"
+            ]
+          },
+          {
+            "name": "拦截缺失或超限材料",
+            "given": "核心业务证明材料未选择，或任一已选文件超过20MB",
+            "when": "用户提交登记或选择超限文件",
+            "then": [
+              "缺少核心业务证明材料时阻止提交并提示上传",
+              "超过20MB的文件不被接受并提示单文件大小限制",
+              "已填写的其他表单内容保留"
+            ]
+          }
+        ]
+      },
+      "node.templates": {
+        "reqId": "node.templates",
+        "featureName": "材料模板",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "提供三个可下载文本模板，仅作原型材料准备说明"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.templates"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "下载三类材料模板",
+            "given": "用户已打开新增接入注册表单",
+            "when": "用户分别下载营业执照、身份证和服务承诺书模板",
+            "then": [
+              "三个模板均可下载为文本文件",
+              "模板内容用于材料准备说明并标明原型示例用途"
+            ]
+          }
+        ]
+      },
+      "node.endpoint": {
+        "reqId": "node.endpoint",
+        "featureName": "业务节点地址",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "至少一行；地址类型枚举必填默认空；服务地址字符串必填默认空，必须HTTPS；API地址可选HTTPS",
+          "支持添加和删除地址；至少保留一行；连接测试仅为交互模拟"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.endpoint"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "地址类型",
+            "type": "枚举",
+            "defaultValue": "",
+            "required": true,
+            "validation": "从地址类型选项中选择",
+            "message": ""
+          },
+          {
+            "name": "服务地址",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": true,
+            "validation": "必须使用 HTTPS",
+            "message": ""
+          },
+          {
+            "name": "API 地址",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": false,
+            "validation": "填写时必须使用 HTTPS",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "维护业务节点地址行",
+            "given": "新增接入注册表单已打开并默认显示一行地址",
+            "when": "用户添加地址后删除多余地址，并尝试删除最后一行",
+            "then": [
+              "可添加和删除地址行",
+              "最后一行不可删除并提示至少保留一个地址"
+            ]
+          },
+          {
+            "name": "校验地址必填项和协议",
+            "given": "地址类型或服务地址为空，或服务地址或已填写的API地址不是HTTPS",
+            "when": "用户提交登记",
+            "then": [
+              "系统提示对应必填或格式错误",
+              "不启动机器审核",
+              "API地址为空时不因非必填项阻止提交"
+            ]
+          },
+          {
+            "name": "模拟连接测试",
+            "given": "地址行已填写合法HTTPS服务地址",
+            "when": "用户点击连接测试",
+            "then": [
+              "显示测试中和测试完成的模拟交互",
+              "不将模拟结果作为真实网络连通性结论"
+            ]
+          }
+        ]
+      },
+      "node.field.name": {
+        "reqId": "node.field.name",
+        "featureName": "登记名称",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：是",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.name"
+          }
+        ],
+        "kind": "field",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "登记名称",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": true,
+            "validation": "必填项禁止空值；其他项目可为空",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": []
+      },
+      "node.field.operator": {
+        "reqId": "node.field.operator",
+        "featureName": "运营机构名称",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.operator"
+          }
+        ],
+        "kind": "field",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "运营机构名称",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": false,
+            "validation": "必填项禁止空值；其他项目可为空",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": []
+      },
+      "node.field.org": {
+        "reqId": "node.field.org",
+        "featureName": "所属组织",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：是",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.org"
+          }
+        ],
+        "kind": "field",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "所属组织",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": true,
+            "validation": "必填项禁止空值；其他项目可为空",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": []
+      },
+      "node.field.credit": {
+        "reqId": "node.field.credit",
+        "featureName": "统一社会信用代码",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.credit"
+          }
+        ],
+        "kind": "field",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "统一社会信用代码",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": false,
+            "validation": "必填项禁止空值；其他项目可为空",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": []
+      },
+      "node.field.service": {
+        "reqId": "node.field.service",
+        "featureName": "服务类型",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：枚举；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.service"
+          }
+        ],
+        "kind": "field",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "服务类型",
+            "type": "枚举",
+            "defaultValue": "",
+            "required": false,
+            "validation": "必填项禁止空值；其他项目可为空",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": []
+      },
+      "node.field.version": {
+        "reqId": "node.field.version",
+        "featureName": "版本号",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：是",
+          "校验：1.0.0 或 v1.0.0"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.version"
+          }
+        ],
+        "kind": "field",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "版本号",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": true,
+            "validation": "1.0.0 或 v1.0.0",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": []
+      },
+      "node.field.date": {
+        "reqId": "node.field.date",
+        "featureName": "经营时间",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：日期；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.date"
+          }
+        ],
+        "kind": "field",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "经营时间",
+            "type": "日期",
+            "defaultValue": "",
+            "required": false,
+            "validation": "必填项禁止空值；其他项目可为空",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": []
+      },
+      "node.field.legal": {
+        "reqId": "node.field.legal",
+        "featureName": "法人姓名",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.legal"
+          }
+        ],
+        "kind": "field",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "法人姓名",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": false,
+            "validation": "必填项禁止空值；其他项目可为空",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": []
+      },
+      "node.field.phone": {
+        "reqId": "node.field.phone",
+        "featureName": "法人联系方式",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.phone"
+          }
+        ],
+        "kind": "field",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "法人联系方式",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": false,
+            "validation": "必填项禁止空值；其他项目可为空",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": []
+      },
+      "node.field.idcard": {
+        "reqId": "node.field.idcard",
+        "featureName": "法人身份证号",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.idcard"
+          }
+        ],
+        "kind": "field",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "法人身份证号",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": false,
+            "validation": "必填项禁止空值；其他项目可为空",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": []
+      },
+      "node.field.address": {
+        "reqId": "node.field.address",
+        "featureName": "物理地址",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：最长100字符"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.address"
+          }
+        ],
+        "kind": "field",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "物理地址",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": false,
+            "validation": "最长100字符",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": []
+      },
+      "node.field.description": {
+        "reqId": "node.field.description",
+        "featureName": "业务简介",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：是",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.description"
+          }
+        ],
+        "kind": "field",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "业务简介",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": true,
+            "validation": "必填项禁止空值；其他项目可为空",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": []
+      },
+      "node.field.remark": {
+        "reqId": "node.field.remark",
+        "featureName": "备注",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "类型：字符串；默认值：空；必填：否",
+          "校验：必填项禁止空值；其他项目可为空"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.field.remark"
+          }
+        ],
+        "kind": "field",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "备注",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": false,
+            "validation": "必填项禁止空值；其他项目可为空",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": []
+      },
+      "node.riskPreview": {
+        "reqId": "node.riskPreview",
+        "featureName": "查看敏感词审核不通过页面",
+        "interactionSteps": [
+          "在页面设计空间体验交互",
+          "在功能需求空间点击对应元素查看说明"
+        ],
+        "businessRules": [
+          "提交后先进行机器审核；审核通过才创建待人工审核记录。",
+          "风险页按敏感词、涉黄、涉暴类型展示命中位置、证据、修改建议。",
+          "返回修改保留表单和材料，标红并聚焦相关字段。修改后必须重新机器审核。",
+          "展示申请未提交、未进入人工审核；模型异常不得绕过审核。",
+          "原型仅用安全测试标记模拟审核结果，不解析附件，不调用真实模型。"
+        ],
+        "fieldValidations": [],
+        "permissions": [],
+        "exceptionHandling": [
+          "失败保留已填写信息并提示重试"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "node.riskPreview"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "查看敏感词审核不通过结果",
+            "given": "登记内容包含安全测试标记或选择了风险演示场景",
+            "when": "用户提交登记或打开敏感词审核不通过页面",
+            "then": [
+              "按敏感词、涉黄或涉暴类型展示命中位置、证据和修改建议",
+              "明确提示申请未提交且未进入人工审核",
+              "不创建待人工审核记录"
+            ]
+          },
+          {
+            "name": "返回修改后重新审核",
+            "given": "敏感词审核不通过结果已展示",
+            "when": "用户点击返回修改，修改内容后重新提交",
+            "then": [
+              "原表单内容和已选材料保留",
+              "相关字段标红并获得焦点",
+              "重新提交必须再次经过机器审核，不直接沿用上次结果"
+            ]
+          }
+        ]
+      },
+      "catalog.browse": {
+        "reqId": "catalog.browse",
+        "featureName": "数据目录浏览",
+        "interactionSteps": [
+          "在页面设计体验交互，在功能需求空间点击定位模块"
+        ],
+        "businessRules": [
+          "侧栏仅保留数据目录；首页卡片进入目录，支持行业筛选。"
+        ],
+        "fieldValidations": [],
+        "permissions": [
+          "目录查询用户；审计和风险分析仅安全人员（原型未接真实权限）"
+        ],
+        "exceptionHandling": [
+          "阻断不执行查询，仍记录日志及关联预警"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "catalog.browse"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "进入并筛选数据目录",
+            "given": "目录查询用户位于系统首页或数据目录页面",
+            "when": "用户从首页卡片进入数据目录并选择行业分类",
+            "then": [
+              "进入数据目录列表且侧栏仅保留数据目录入口",
+              "目录按所选行业分类筛选",
+              "可使用行业关键字过滤分类选项"
+            ]
+          }
+        ]
+      },
+      "catalog.query": {
+        "reqId": "catalog.query",
+        "featureName": "目录查询与实时阻断",
+        "interactionSteps": [
+          "在页面设计体验交互，在功能需求空间点击定位模块"
+        ],
+        "businessRules": [
+          "连续60秒按用户统计查询请求，第51次阻断，冷却60秒；失败请求纳入计数。",
+          "演示为前端行为；生产环境必须在服务端共享计数，鉴权、令牌校验与查询前检测。"
+        ],
+        "fieldValidations": [
+          {
+            "field": "产品类型、交互方式、产品名称、产品唯一标识、提供方名称、敏感等级",
+            "rule": "选项或字符串；默认空；非必填；条件组合筛选",
+            "message": "无结果展示空态"
+          }
+        ],
+        "permissions": [
+          "目录查询用户；审计和风险分析仅安全人员（原型未接真实权限）"
+        ],
+        "exceptionHandling": [
+          "阻断不执行查询，仍记录日志及关联预警"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "catalog.query"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "产品类型",
+            "type": "枚举",
+            "defaultValue": "",
+            "required": false,
+            "validation": "条件组合筛选；无结果展示空态",
+            "message": ""
+          },
+          {
+            "name": "交互方式",
+            "type": "枚举",
+            "defaultValue": "",
+            "required": false,
+            "validation": "条件组合筛选；无结果展示空态",
+            "message": ""
+          },
+          {
+            "name": "产品名称",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": false,
+            "validation": "条件组合筛选；无结果展示空态",
+            "message": ""
+          },
+          {
+            "name": "产品唯一标识",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": false,
+            "validation": "条件组合筛选；无结果展示空态",
+            "message": ""
+          },
+          {
+            "name": "提供方名称",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": false,
+            "validation": "条件组合筛选；无结果展示空态",
+            "message": ""
+          },
+          {
+            "name": "敏感等级",
+            "type": "枚举",
+            "defaultValue": "",
+            "required": false,
+            "validation": "条件组合筛选；无结果展示空态",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "组合查询数据目录",
+            "given": "目录中存在不同产品类型、交互方式、名称、标识、提供方和敏感等级的产品",
+            "when": "目录查询用户填写一个或多个筛选条件并查询",
+            "then": [
+              "仅返回同时满足已填写条件的产品",
+              "未填写的条件不参与筛选",
+              "无匹配结果时展示空态"
+            ]
+          },
+          {
+            "name": "第五十一次查询实时阻断",
+            "given": "同一用户在连续60秒内已发起50次查询请求",
+            "when": "该用户发起第51次查询",
+            "then": [
+              "本次查询被阻断且不执行数据查询，返回条数为0",
+              "开始60秒冷却，冷却期内后续高频查询继续被阻断",
+              "阻断请求仍计入查询次数并记录审计日志和关联预警"
+            ]
+          },
+          {
+            "name": "冷却结束后恢复查询",
+            "given": "用户因高频查询进入60秒冷却期",
+            "when": "冷却期结束且连续60秒窗口内请求数未超过阈值",
+            "then": [
+              "允许重新执行目录查询",
+              "按实际查询结果记录新的审计日志"
+            ]
+          }
+        ]
+      },
+      "catalog.detail": {
+        "reqId": "catalog.detail",
+        "featureName": "目录基本信息",
+        "interactionSteps": [
+          "在页面设计体验交互，在功能需求空间点击定位模块"
+        ],
+        "businessRules": [
+          "查看详情显示对应产品信息；返回目录。"
+        ],
+        "fieldValidations": [],
+        "permissions": [
+          "目录查询用户；审计和风险分析仅安全人员（原型未接真实权限）"
+        ],
+        "exceptionHandling": [
+          "阻断不执行查询，仍记录日志及关联预警"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "catalog.detail"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "查看并返回目录详情",
+            "given": "目录查询用户位于数据目录列表",
+            "when": "用户点击某一产品的查看详情，随后点击返回",
+            "then": [
+              "详情页展示所选产品的基本信息而非其他产品信息",
+              "返回后回到数据目录列表"
+            ]
+          }
+        ]
+      },
+      "catalog.audit": {
+        "reqId": "catalog.audit",
+        "featureName": "全链路查询审计",
+        "interactionSteps": [
+          "在页面设计体验交互，在功能需求空间点击定位模块"
+        ],
+        "businessRules": [
+          "记录请求编号、时间、IP、用户及机构、场景、对象、令牌标识、ABAC策略、执行结果与返回条数。",
+          "原型日志在当前会话保存，可导出JSON；生产日志需服务端防篡改持久化。",
+          "不存储令牌原文及原始敏感返回结果。"
+        ],
+        "fieldValidations": [],
+        "permissions": [
+          "目录查询用户；审计和风险分析仅安全人员（原型未接真实权限）"
+        ],
+        "exceptionHandling": [
+          "阻断不执行查询，仍记录日志及关联预警"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "catalog.audit"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "用户 / IP / 请求编号",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": false,
+            "validation": "按当前会话日志中的用户、机构、IP和请求编号包含匹配",
+            "message": ""
+          },
+          {
+            "name": "查询结果",
+            "type": "枚举",
+            "defaultValue": "",
+            "required": false,
+            "validation": "空值表示全部；可选成功、已阻断",
+            "message": ""
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "记录成功查询全链路",
+            "given": "目录查询用户已完成一次成功查询",
+            "when": "安全人员打开该请求的审计详情",
+            "then": [
+              "可查看请求编号、时间、IP、用户及机构、场景、对象、令牌标识、ABAC策略、执行结果和返回条数",
+              "不展示或存储令牌原文及原始敏感返回结果"
+            ]
+          },
+          {
+            "name": "记录阻断查询和关联预警",
+            "given": "一次目录查询因高频、越权或令牌重放被阻断",
+            "when": "安全人员查询审计日志",
+            "then": [
+              "日志执行结果为已阻断且返回条数为0",
+              "日志记录对应风险原因并可追溯关联预警",
+              "不将被阻断请求记为查询执行完成"
+            ]
+          },
+          {
+            "name": "筛选并导出会话日志",
+            "given": "当前会话同时存在成功和已阻断的查询日志",
+            "when": "安全人员按用户、IP、请求编号或查询结果筛选并导出日志",
+            "then": [
+              "列表仅显示符合筛选条件的日志",
+              "导出JSON包含当前会话日志及预警，不包含令牌原文和原始敏感返回结果"
+            ]
+          }
+        ]
+      },
+      "catalog.alert": {
+        "reqId": "catalog.alert",
+        "featureName": "风险识别与预警",
+        "interactionSteps": [
+          "在页面设计体验交互，在功能需求空间点击定位模块"
+        ],
+        "businessRules": [
+          "高频、越权、令牌重放触发阻断及预警；安全人员可查看证据、填写研判依据并关闭。"
+        ],
+        "fieldValidations": [
+          {
+            "field": "研判依据",
+            "rule": "字符串，默认空，必填且去空格后非空",
+            "message": "请填写研判依据"
+          }
+        ],
+        "permissions": [
+          "目录查询用户；审计和风险分析仅安全人员（原型未接真实权限）"
+        ],
+        "exceptionHandling": [
+          "阻断不执行查询，仍记录日志及关联预警"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "catalog.alert"
+          }
+        ],
+        "kind": "function",
+        "scenarios": [],
+        "fields": [
+          {
+            "name": "研判结论",
+            "type": "枚举",
+            "defaultValue": "确认风险",
+            "required": false,
+            "validation": "可选确认风险、业务正常、规则误报",
+            "message": ""
+          },
+          {
+            "name": "研判依据",
+            "type": "字符串",
+            "defaultValue": "",
+            "required": true,
+            "validation": "去除首尾空格后不能为空",
+            "message": "请填写研判依据"
+          }
+        ],
+        "statistics": [],
+        "acceptanceCriteria": [
+          {
+            "name": "风险请求生成预警",
+            "given": "目录查询用户触发高频、越权或令牌重放策略",
+            "when": "系统阻断查询",
+            "then": [
+              "生成待研判预警并关联对应请求编号",
+              "安全人员可查看该预警的证据链",
+              "本次不执行数据查询"
+            ]
+          },
+          {
+            "name": "填写依据后关闭预警",
+            "given": "安全人员正在处置一条待研判预警",
+            "when": "用户选择研判结论并保存处置",
+            "then": [
+              "研判依据为空或仅包含空格时提示请填写研判依据且不关闭预警",
+              "填写有效研判依据后保存结论和依据，并将预警状态更新为已关闭"
+            ]
+          }
+        ]
+      },
+      "catalog.profile": {
+        "reqId": "catalog.profile",
+        "featureName": "风险行为画像",
+        "interactionSteps": [
+          "在页面设计体验交互，在功能需求空间点击定位模块"
+        ],
+        "businessRules": [
+          "当前会话按用户聚合查询数、异常数、返回条数、来源IP数和行为标签，每次查询刷新。",
+          "异常率=被阻断请求数/全部请求数；空样本显示0%。"
+        ],
+        "fieldValidations": [],
+        "permissions": [
+          "目录查询用户；审计和风险分析仅安全人员（原型未接真实权限）"
+        ],
+        "exceptionHandling": [
+          "阻断不执行查询，仍记录日志及关联预警"
+        ],
+        "bindings": [
+          {
+            "pageId": "home",
+            "elementId": "catalog.profile"
+          }
+        ],
+        "updatedAt": "2026-10-31T13:40:00.000Z",
+        "kind": "function",
+        "scenarios": [],
+        "fields": [],
+        "statistics": [
+          {
+            "name": "查询总数",
+            "formula": "当前会话该用户的查询日志数量",
+            "scope": "当前浏览器会话，按用户聚合；刷新页面重置",
+            "refresh": "每次查询后刷新"
+          },
+          {
+            "name": "异常查询",
+            "formula": "当前会话该用户命中风险原因的查询数量",
+            "scope": "当前浏览器会话，按用户聚合；刷新页面重置",
+            "refresh": "每次查询后刷新"
+          },
+          {
+            "name": "返回目录条数",
+            "formula": "当前会话该用户所有查询返回条数之和",
+            "scope": "当前浏览器会话，按用户聚合；刷新页面重置",
+            "refresh": "每次查询后刷新"
+          },
+          {
+            "name": "来源 IP 数",
+            "formula": "当前会话该用户查询来源IP的去重数量；现有模拟数据固定为单一IP",
+            "scope": "当前浏览器会话，按用户聚合；刷新页面重置",
+            "refresh": "每次查询后刷新"
+          },
+          {
+            "name": "异常率",
+            "formula": "被阻断查询数 / 全部查询数 × 100%；空样本显示0%",
+            "scope": "当前浏览器会话，按用户聚合；刷新页面重置",
+            "refresh": "每次查询后刷新"
+          }
+        ],
+        "acceptanceCriteria": [
+          {
+            "name": "查看当前会话风险画像",
+            "given": "安全人员已产生成功和已阻断的目录查询",
+            "when": "安全人员打开风险行为画像",
+            "then": [
+              "按当前用户展示查询总数、异常查询、返回目录条数、来源 IP 数和异常率",
+              "异常率按被阻断查询数 / 全部查询数计算",
+              "统计范围限定当前浏览器会话，并在每次查询后刷新"
+            ]
+          },
+          {
+            "name": "无查询时展示空样本",
+            "given": "当前会话尚未发生任何目录查询",
+            "when": "安全人员打开风险行为画像",
+            "then": [
+              "查询总数、异常查询和返回目录条数均显示 0",
+              "来源 IP 数显示 0",
+              "异常率显示 0%"
+            ]
+          }
+        ]
+      }
+    },
+    "modules": [
+      {
+        "id": "portal",
+        "name": "系统入口",
+        "reqIds": [
+          "node.enter",
+          "node.review",
+          "node.statistics"
+        ],
+        "children": []
+      },
+      {
+        "id": "registration",
+        "name": "接入登记审核",
+        "reqIds": [],
+        "children": [
+          {
+            "id": "query",
+            "name": "登记查询",
+            "reqIds": [
+              "node.query"
+            ],
+            "children": []
+          },
+          {
+            "id": "form",
+            "name": "登记信息与材料",
+            "reqIds": [
+              "node.create",
+              "node.material",
+              "node.templates",
+              "node.endpoint",
+              "node.field.name",
+              "node.field.operator",
+              "node.field.org",
+              "node.field.credit",
+              "node.field.service",
+              "node.field.version",
+              "node.field.date",
+              "node.field.legal",
+              "node.field.phone",
+              "node.field.idcard",
+              "node.field.address",
+              "node.field.description",
+              "node.field.remark"
+            ],
+            "children": []
+          },
+          {
+            "id": "audit",
+            "name": "机器审核与人工流转",
+            "reqIds": [
+              "node.submit",
+              "node.machineAudit",
+              "node.riskPreview"
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "catalog",
+        "name": "数据目录与查询安全",
+        "reqIds": [],
+        "children": [
+          {
+            "id": "catalog-browse",
+            "name": "数据目录浏览",
+            "reqIds": [
+              "catalog.browse"
+            ],
+            "children": []
+          },
+          {
+            "id": "catalog-query",
+            "name": "目录查询与实时阻断",
+            "reqIds": [
+              "catalog.query"
+            ],
+            "children": []
+          },
+          {
+            "id": "catalog-detail",
+            "name": "目录基本信息",
+            "reqIds": [
+              "catalog.detail"
+            ],
+            "children": []
+          },
+          {
+            "id": "catalog-audit",
+            "name": "全链路查询审计",
+            "reqIds": [
+              "catalog.audit"
+            ],
+            "children": []
+          },
+          {
+            "id": "catalog-alert",
+            "name": "风险识别与预警",
+            "reqIds": [
+              "catalog.alert"
+            ],
+            "children": []
+          },
+          {
+            "id": "catalog-profile",
+            "name": "风险行为画像",
+            "reqIds": [
+              "catalog.profile"
+            ],
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

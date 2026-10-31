@@ -4,15 +4,19 @@
   "activeChangeId": "import-existing-prototype",
   "changes": {
     "import-existing-prototype": {
-      "stage": "PREVIEW_READY",
+      "stage": "IN_REVIEW",
       "acceptedReviewId": null,
       "implementation": null,
       "productAcceptance": {
         "status": "reserved"
       },
       "importEvidence": "inputs/import-manifest.json",
-      "previewReviewId": "p-4cf72e7fc6b1c82fba34be9c"
+      "previewReviewId": "p-4cf72e7fc6b1c82fba34be9c",
+      "latestReviewId": "r-7e1201654c8a05e88323df2e",
+      "reviewIds": [
+        "r-7e1201654c8a05e88323df2e"
+      ]
     }
   },
-  "stateRevision": 2
+  "stateRevision": 3
 }
