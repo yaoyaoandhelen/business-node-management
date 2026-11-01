@@ -36,9 +36,10 @@ jobs:
           REVIEW_ID: ${{ inputs.review_id }}
         run: |
           node --input-type=module <<'JS'
-          import {cp, mkdir, readdir, writeFile, access} from 'node:fs/promises';
+          import {cp, mkdir, readdir, readFile, writeFile, access} from 'node:fs/promises';
           const ids=(await readdir('site-archive/review')).filter(id=>/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,99}$/.test(id)).sort();
-          const id=process.env.REVIEW_ID||ids.at(-1);
+          const dated=await Promise.all(ids.map(async id=>({id,createdAt:JSON.parse(await readFile('site-archive/review/'+id+'/manifest.json','utf8')).createdAt})));
+          const id=process.env.REVIEW_ID||dated.sort((a,b)=>a.createdAt.localeCompare(b.createdAt)).at(-1)?.id;
           if(!id||!ids.includes(id))throw Error('No saved review matches the requested ID');
           await access('site-archive/review/'+id+'/manifest.json');
           await mkdir('_site',{recursive:true});

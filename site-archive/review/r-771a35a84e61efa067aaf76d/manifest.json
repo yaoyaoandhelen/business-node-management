@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "projectId": "business-node-management",
+  "id": "r-771a35a84e61efa067aaf76d",
+  "reviewId": "r-771a35a84e61efa067aaf76d",
+  "kind": "review",
+  "createdAt": "2026-11-01T11:33:52.399889Z",
+  "requirementRevision": 19,
+  "requirementHash": "d358d2ed5e0f53e56f6741fe424f327cf7eb4d9a09c8fc21c490570ae14dd7ca",
+  "sourceCommit": "b922730c8130cf6b6f90d3185e2b1effc8a3169c",
+  "build": {
+    "prototypeConfig": "prototype/vite.config.mjs",
+    "studioSource": "/Users/luosiyao/Documents/Codex/2026-10-28/vue-3-web-codex-web-axure/outputs/ai-prototype-studio",
+    "studioConfig": "apps/studio/vite.config.js"
+  },
+  "sourceFiles": {
+    "prototype/app.js": "636e5c5696dbe0e2bd60abb8dd26a5c08455a10fd3586f83cab4c35d0ba7fab4",
+    "prototype/index.html": "92c05895f7414a81ce605113deef737fe46270607a3848340c5a75ea9a9e4f81",
+    "prototype/package-lock.json": "683aee7151966103ba1fcbd7ce7733631073eef3066e5e2c9621269410e8fbb7",
+    "prototype/package.json": "5e7d3e86f44386d4a17eaea0cc56915704976a8d2d7da184112946646f0d8a8e",
+    "prototype/public/inspector-config.js": "3c6a8f6aa2e3f2e15e09621c495c4e8a0a2f869318cbb045614b46eaa242415f",
+    "prototype/public/inspector.js": "f3268a59ceb11e59075973ebfe03f9e9de018519294c9d0e1afb2f4da0961ec0",
+    "prototype/style.css": "9850fe0a9c94e5acf5f20d0d16cc05116f9df018d45ce62183fe17899a718bba",
+    "prototype/template-0.txt": "74a9d41b8eda99a84c220c4d4e03a45d9a0fae1ece6e8e28c6b947cda8f5c9af",
+    "prototype/template-1.txt": "c8c74dc8b8bd138de2e89949227f560f90d419f5d8d2cd608cef24e3c060c649",
+    "prototype/template-2.txt": "004b14dfc48cef01546856b2de6c30ad68e7bcbf26429d09301f39c73012dcf8",
+    "prototype/vite.config.mjs": "ad920bd12ba14de6399044a5925a0ee5bdc98b4f781bf6283d6ea1f408affe68",
+    "project.config.yaml": "58f5556ce798198ee35781317cf170177845eb82683f60ff478eb29eff3a2e90",
+    "data/requirements/business-node-management.json": "d358d2ed5e0f53e56f6741fe424f327cf7eb4d9a09c8fc21c490570ae14dd7ca"
+  },
+  "files": {
+    "assets/index-cFmgOUJD.css": "b0b3ec4bded4d8d99d6046ddf162126848ca31a3e90715792ae58d7222cb4690",
+    "assets/index-ubKKgG95.js": "ae651c6bc85df133b17ec19400ab1acd3fcaf9f10b1f04e6bee7210a152c176e",
+    "index.html": "c3b213595e218b5778978795d26b3372ea32ffc8750bda1435e3284f274c6c09",
+    "prototype/app.js": "636e5c5696dbe0e2bd60abb8dd26a5c08455a10fd3586f83cab4c35d0ba7fab4",
+    "prototype/assets/index-C1fMBMxQ.css": "135be7dc7ec450a8161f70f4aebfa137fd5fc82eb3f0263c44f8c642d5440eeb",
+    "prototype/index.html": "65b65a01b452e25efad631340b066aaf278cfabb9afc364ee3a8d61da206b924",
+    "prototype/inspector-config.js": "3c6a8f6aa2e3f2e15e09621c495c4e8a0a2f869318cbb045614b46eaa242415f",
+    "prototype/inspector.js": "f3268a59ceb11e59075973ebfe03f9e9de018519294c9d0e1afb2f4da0961ec0",
+    "prototype/template-0.txt": "74a9d41b8eda99a84c220c4d4e03a45d9a0fae1ece6e8e28c6b947cda8f5c9af",
+    "prototype/template-1.txt": "c8c74dc8b8bd138de2e89949227f560f90d419f5d8d2cd608cef24e3c060c649",
+    "prototype/template-2.txt": "004b14dfc48cef01546856b2de6c30ad68e7bcbf26429d09301f39c73012dcf8",
+    "snapshot.json": "780857d701e4adfb6e36010a1eca015c63f7655ee2c6a3224ee19e67f7a1d625"
+  },
+  "manifestHash": "b96e1ce62e38e71ec20dbd8e47c96db162c0b786d281e727a6d5c3a2ac7f7213"
+}
