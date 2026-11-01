@@ -2,7 +2,6 @@ schemaVersion: 1
 projectId: business-node-management
 name: 业务节点管理系统
 projectType: business
-activeChangeId: import-existing-prototype
 pages:
   - id: home
     name: 首页与接入登记

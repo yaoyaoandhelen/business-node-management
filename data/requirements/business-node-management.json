@@ -1,22 +1,21 @@
 {
   "schemaVersion": 2,
   "projectId": "business-node-management",
-  "revision": 16,
+  "revision": 19,
   "requirements": {
     "node.enter": {
       "reqId": "node.enter",
       "featureName": "业务节点系统入口",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "点击业务节点管理系统入口，进入接入登记审核页面。"
       ],
       "businessRules": [
-        "点击进入业务节点管理系统首页；进入后显示接入登记审核菜单。"
+        "进入系统后显示接入登记审核菜单。"
       ],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "系统打开失败时停留在当前页面，提示重新进入。"
       ],
       "bindings": [
         {
@@ -45,16 +44,16 @@
       "reqId": "node.review",
       "featureName": "接入登记审核",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "点击接入登记审核菜单，查看登记列表。",
+        "点击新增填写登记，或从记录进入详情。"
       ],
       "businessRules": [
-        "点击菜单进入接入登记列表"
+        "列表展示登记信息及审核状态。"
       ],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "列表加载失败时提示重试；无记录时显示空态。"
       ],
       "bindings": [
         {
@@ -82,16 +81,18 @@
       "reqId": "node.create",
       "featureName": "新增接入注册",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "点击新增，打开接入注册表单。",
+        "填写登记信息、材料和业务节点地址，可保存草稿或提交审核。",
+        "取消或关闭表单时，确认后退出。"
       ],
       "businessRules": [
-        "打开完整表单；取消需二次确认；草稿使用当前浏览器会话存储，附件需重传"
+        "关闭前需确认未保存的修改；取消确认则继续填写。",
+        "重新打开时恢复已保存的文本草稿，附件需重新上传。"
       ],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "保存或提交失败时保留已填写内容并提示重试。"
       ],
       "bindings": [
         {
@@ -123,9 +124,9 @@
           ]
         },
         {
-          "name": "恢复会话草稿",
+          "name": "恢复登记草稿",
           "given": "用户已填写表单并保存草稿，且已选择附件",
-          "when": "用户在同一浏览器会话中重新打开登记表单",
+          "when": "用户重新打开登记表单",
           "then": [
             "已保存的文本字段恢复",
             "附件不随草稿恢复并需重新上传"
@@ -137,16 +138,17 @@
       "reqId": "node.query",
       "featureName": "登记查询",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "输入登记查询条件并点击查询，列表展示符合条件的记录。",
+        "点击重置，清空查询条件并恢复全部记录。"
       ],
       "businessRules": [
-        "登记名称为字符串，默认空，非必填，按名称包含匹配；审核状态枚举默认全部"
+        "已填写条件同时参与筛选，未填写条件不限制结果。",
+        "登记名称按包含关系匹配；审核状态默认查询全部。"
       ],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "无匹配记录时显示空态；查询失败时保留条件并提示重试。"
       ],
       "bindings": [
         {
@@ -170,7 +172,7 @@
           "type": "枚举",
           "defaultValue": "全部",
           "required": false,
-          "validation": "从现有原型提供的审核状态中选择",
+          "validation": "选择登记审核状态；默认全部",
           "message": ""
         }
       ],
@@ -200,18 +202,17 @@
       "reqId": "node.statistics",
       "featureName": "首页数据统计",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "进入首页，查看接入登记总数、待人工审核数和已完成审核数。",
+        "提交登记成功后更新统计。"
       ],
       "businessRules": [
-        "范围：当前浏览器页面内存中的登记记录；初始化为0，刷新页面重置",
-        "接入登记总数=成功通过机器审核的登记数量；待人工审核=未完成人工审核的登记数量；已完成审核=人工审核完成数量",
-        "刷新时机：进入首页与提交成功后；仅演示数据，不对应生产系统"
+        "统计范围为系统内接入登记记录。",
+        "接入登记总数统计机器审核通过的记录；待人工审核与已完成审核按人工审核状态分别计数。"
       ],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "统计获取失败时提示重新加载。"
       ],
       "bindings": [
         {
@@ -226,19 +227,19 @@
         {
           "name": "接入登记总数",
           "formula": "成功通过机器审核的登记数量",
-          "scope": "当前浏览器页面内存中的登记记录，初始化为0，刷新页面重置",
+          "scope": "系统内接入登记记录",
           "refresh": "进入首页与提交成功后刷新"
         },
         {
           "name": "待人工审核",
           "formula": "尚未完成人工审核的登记数量",
-          "scope": "当前浏览器页面内存中的登记记录，初始化为0，刷新页面重置",
+          "scope": "系统内接入登记记录",
           "refresh": "进入首页与提交成功后刷新"
         },
         {
           "name": "已完成审核",
-          "formula": "人工审核完成的登记数量；当前原型没有人工审核完成操作，显示0",
-          "scope": "当前浏览器页面内存中的登记记录，初始化为0，刷新页面重置",
+          "formula": "人工审核已完成的登记数量",
+          "scope": "系统内接入登记记录",
           "refresh": "进入首页与提交成功后刷新"
         }
       ],
@@ -248,19 +249,19 @@
       "reqId": "node.submit",
       "featureName": "提交与两阶段审核",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "点击提交审核，校验必填信息、版本号、材料和节点地址。",
+        "校验通过后执行机器审核，通过后创建待人工审核记录。",
+        "审核未通过或异常时返回表单修改后重新提交。"
       ],
       "businessRules": [
-        "先校验必填、版本号与HTTPS地址，然后启动机器审核",
-        "审核中不可重复提交；通过才创建待人工审核记录",
-        "命中风险展示字段和风险类别并保留表单；异常不得绕过机器审核进入人工审核",
-        "原型通过演示场景和测试词模拟结果，未接入真实模型；投产需后端模型审核、文件解析/OCR及幂等提交，禁止只依赖前端判断"
+        "先完成信息校验，再进行机器审核；通过后才能进入人工审核。",
+        "审核期间禁止重复提交，同一次申请只创建一条登记记录。"
       ],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "校验失败时提示对应字段，不启动审核。",
+        "命中风险或审核异常时不创建待人工审核记录，保留表单和材料。"
       ],
       "bindings": [
         {
@@ -318,26 +319,21 @@
       "reqId": "node.machineAudit",
       "featureName": "机器审核结果",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "提交登记后显示敏感词审核中，检查登记文本与材料内容。",
+        "审核完成后显示通过、未通过或审核未完成结果。",
+        "未通过时查看风险明细，点击返回修改后重新提交。"
       ],
       "businessRules": [
-        "内容审核字段：登记名称、运营机构名称、所属组织名称、物理地址、业务简介、证明材料文件名、备注。",
-        "材料范围：核心业务证明材料、营业执照、法人身份证、服务承诺书的文本与图像；原型不解析附件。",
-        "结构化信息进行格式校验；姓名、信用代码、身份证号不因单字命中敏感词直接拦截；URL不默认抓取网页正文。",
-        "敏感内容分类：色情低俗、暴力威胁、严重辱骂与仇恨、欺诈与非法招揽；结合上下文和经业务确认的策略判断。",
-        "命中则阻止提交，展示字段位置、证据与修改建议，保留数据；重新提交必须重新审核。",
-        "模型服务失败或文件无法解析属于审核未完成，不能当作通过或敏感词命中。",
-        "当前原型只用安全测试标记演示，没有真实模型审核。",
-        "风险弹窗不展示流程条、行内定位按钮、底部重复结果、下载按钮及审核范围和格式校验段落；底部仅保留返回修改。",
-        "弹窗只保留申请未提交提示、风险明细和返回修改；提示文案末尾包含请修改后重新提交审核；删除顶部标题区、提交帮助和分类说明。",
-        "保留顶部结果区：警示图标、内容安全审核结果、敏感词审核未通过及业务简介说明；其他已删减区域不恢复。",
-        "审核中明确显示敏感词审核中及登记文本与材料敏感词检查说明；业务页面不展示原型演示提示。风险弹窗删除标题下说明和请逐项检查并修改。真实模型未接入的事实保留在研发交付文档。"
+        "审核登记名称、运营机构、所属组织、物理地址、业务简介、材料文件名和备注，以及核心业务证明、营业执照、法人身份证和承诺书的文本与图像。",
+        "按内容安全策略识别色情低俗、暴力威胁、严重辱骂与仇恨、欺诈与非法招揽；姓名、信用代码、身份证号执行格式校验，不因单字命中直接拦截，URL不自动抓取正文。",
+        "未通过结果展示警示图标、“内容安全审核结果”“敏感词审核未通过”、申请未提交提示及风险明细；明细包含风险类型、位置、证据和修改建议，底部提供返回修改。",
+        "申请未提交提示以“请修改后重新提交审核”结尾；不展示重复结果、流程条、行内定位或下载入口。"
       ],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "审核服务失败或材料无法解析时显示审核未完成，不视为通过或风险命中，也不进入人工审核。",
+        "风险处理期间保留登记信息与材料，修改后必须重新审核。"
       ],
       "bindings": [
         {
@@ -387,17 +383,18 @@
       "reqId": "node.material",
       "featureName": "证明材料上传",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "在对应材料区域选择文件，校验通过后显示文件名。",
+        "更换文件时重新选择，提交登记时检查必需材料。"
       ],
       "businessRules": [
-        "核心业务证明材料必填，其他登记材料非必填；默认未选择",
-        "类型PDF/PNG/JPG/JPEG/DOC/DOCX；单文件上限20MB；演示只保存文件名，未上传服务器"
+        "核心业务证明材料必填，营业执照、法人身份证和服务承诺书选填，默认未选择。",
+        "支持PDF、PNG、JPG、JPEG、DOC和DOCX，单文件不超过20MB。"
       ],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "格式不支持或文件超过20MB时拒绝文件并提示原因。",
+        "缺少核心业务证明材料时阻止提交，保留其他已填内容。"
       ],
       "bindings": [
         {
@@ -413,7 +410,7 @@
           "type": "文件",
           "defaultValue": null,
           "required": true,
-          "validation": "PDF/PNG/JPG/JPEG/DOC/DOCX；单文件不超过20MB；原型仅保存文件名",
+          "validation": "PDF/PNG/JPG/JPEG/DOC/DOCX；单文件不超过20MB",
           "message": ""
         },
         {
@@ -421,7 +418,7 @@
           "type": "文件",
           "defaultValue": null,
           "required": false,
-          "validation": "PDF/PNG/JPG/JPEG/DOC/DOCX；单文件不超过20MB；原型仅保存文件名",
+          "validation": "PDF/PNG/JPG/JPEG/DOC/DOCX；单文件不超过20MB",
           "message": ""
         },
         {
@@ -429,7 +426,7 @@
           "type": "文件",
           "defaultValue": null,
           "required": false,
-          "validation": "PDF/PNG/JPG/JPEG/DOC/DOCX；单文件不超过20MB；原型仅保存文件名",
+          "validation": "PDF/PNG/JPG/JPEG/DOC/DOCX；单文件不超过20MB",
           "message": ""
         },
         {
@@ -437,7 +434,7 @@
           "type": "文件",
           "defaultValue": null,
           "required": false,
-          "validation": "PDF/PNG/JPG/JPEG/DOC/DOCX；单文件不超过20MB；原型仅保存文件名",
+          "validation": "PDF/PNG/JPG/JPEG/DOC/DOCX；单文件不超过20MB",
           "message": ""
         }
       ],
@@ -469,16 +466,15 @@
       "reqId": "node.templates",
       "featureName": "材料模板",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "点击相应模板下载，按模板准备材料后上传至对应区域。"
       ],
       "businessRules": [
-        "提供三个可下载文本模板，仅作原型材料准备说明"
+        "提供营业执照、身份证和服务承诺书三类模板。"
       ],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "下载失败时提示重新下载，不清空已填登记信息。"
       ],
       "bindings": [
         {
@@ -497,7 +493,7 @@
           "when": "用户分别下载营业执照、身份证和服务承诺书模板",
           "then": [
             "三个模板均可下载为文本文件",
-            "模板内容用于材料准备说明并标明原型示例用途"
+            "模板内容用于指导材料准备，包含材料格式、必备信息和签署要求"
           ]
         }
       ]
@@ -506,17 +502,18 @@
       "reqId": "node.endpoint",
       "featureName": "业务节点地址",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "选择地址类型并填写服务地址，可补充API地址。",
+        "添加或删除地址行，按需检测服务地址连通性。"
       ],
       "businessRules": [
-        "至少一行；地址类型枚举必填默认空；服务地址字符串必填默认空，必须HTTPS；API地址可选HTTPS",
-        "支持添加和删除地址；至少保留一行；连接测试仅为交互模拟"
+        "至少保留一行；每行地址类型和服务地址必填，API地址选填。",
+        "服务地址及已填写的API地址必须使用HTTPS。"
       ],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "删除最后一行时提示至少保留一个地址。",
+        "必填或协议校验失败时提示对应地址；连通性检测失败时显示失败结果并允许重试。"
       ],
       "bindings": [
         {
@@ -574,12 +571,12 @@
           ]
         },
         {
-          "name": "模拟连接测试",
+          "name": "检测服务地址连通性",
           "given": "地址行已填写合法HTTPS服务地址",
-          "when": "用户点击连接测试",
+          "when": "用户点击连通性检测",
           "then": [
-            "显示测试中和测试完成的模拟交互",
-            "不将模拟结果作为真实网络连通性结论"
+            "显示检测中状态，完成后反馈对应服务地址的检测结果",
+            "检测失败时允许重试，不将未完成的检测标记为通过"
           ]
         }
       ]
@@ -588,17 +585,13 @@
       "reqId": "node.field.name",
       "featureName": "登记名称",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "输入登记名称，提交时检查是否已填写。"
       ],
-      "businessRules": [
-        "类型：字符串；默认值：空；必填：是",
-        "校验：必填项禁止空值；其他项目可为空"
-      ],
+      "businessRules": [],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "未填写时提示补充，保留其他登记信息。"
       ],
       "bindings": [
         {
@@ -614,8 +607,8 @@
           "type": "字符串",
           "defaultValue": "",
           "required": true,
-          "validation": "必填项禁止空值；其他项目可为空",
-          "message": ""
+          "validation": "不能为空",
+          "message": "请填写登记名称"
         }
       ],
       "statistics": [],
@@ -625,18 +618,12 @@
       "reqId": "node.field.operator",
       "featureName": "运营机构名称",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "填写运营机构名称，可留空。"
       ],
-      "businessRules": [
-        "类型：字符串；默认值：空；必填：否",
-        "校验：必填项禁止空值；其他项目可为空"
-      ],
+      "businessRules": [],
       "fieldValidations": [],
       "permissions": [],
-      "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
-      ],
+      "exceptionHandling": [],
       "bindings": [
         {
           "pageId": "home",
@@ -651,7 +638,7 @@
           "type": "字符串",
           "defaultValue": "",
           "required": false,
-          "validation": "必填项禁止空值；其他项目可为空",
+          "validation": "可留空",
           "message": ""
         }
       ],
@@ -662,17 +649,13 @@
       "reqId": "node.field.org",
       "featureName": "所属组织",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "填写所属组织，提交时检查是否已填写。"
       ],
-      "businessRules": [
-        "类型：字符串；默认值：空；必填：是",
-        "校验：必填项禁止空值；其他项目可为空"
-      ],
+      "businessRules": [],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "未填写时提示补充，保留其他登记信息。"
       ],
       "bindings": [
         {
@@ -688,8 +671,8 @@
           "type": "字符串",
           "defaultValue": "",
           "required": true,
-          "validation": "必填项禁止空值；其他项目可为空",
-          "message": ""
+          "validation": "不能为空",
+          "message": "请填写所属组织"
         }
       ],
       "statistics": [],
@@ -699,18 +682,12 @@
       "reqId": "node.field.credit",
       "featureName": "统一社会信用代码",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "填写统一社会信用代码，可留空。"
       ],
-      "businessRules": [
-        "类型：字符串；默认值：空；必填：否",
-        "校验：必填项禁止空值；其他项目可为空"
-      ],
+      "businessRules": [],
       "fieldValidations": [],
       "permissions": [],
-      "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
-      ],
+      "exceptionHandling": [],
       "bindings": [
         {
           "pageId": "home",
@@ -725,7 +702,7 @@
           "type": "字符串",
           "defaultValue": "",
           "required": false,
-          "validation": "必填项禁止空值；其他项目可为空",
+          "validation": "可留空",
           "message": ""
         }
       ],
@@ -736,18 +713,12 @@
       "reqId": "node.field.service",
       "featureName": "服务类型",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "从服务类型选项中选择，可保持未选择。"
       ],
-      "businessRules": [
-        "类型：枚举；默认值：空；必填：否",
-        "校验：必填项禁止空值；其他项目可为空"
-      ],
+      "businessRules": [],
       "fieldValidations": [],
       "permissions": [],
-      "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
-      ],
+      "exceptionHandling": [],
       "bindings": [
         {
           "pageId": "home",
@@ -762,7 +733,7 @@
           "type": "枚举",
           "defaultValue": "",
           "required": false,
-          "validation": "必填项禁止空值；其他项目可为空",
+          "validation": "可选数据服务、应用服务或基础设施服务；可不选择",
           "message": ""
         }
       ],
@@ -773,17 +744,13 @@
       "reqId": "node.field.version",
       "featureName": "版本号",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "填写版本号，提交时检查是否符合1.0.0或v1.0.0格式。"
       ],
-      "businessRules": [
-        "类型：字符串；默认值：空；必填：是",
-        "校验：1.0.0 或 v1.0.0"
-      ],
+      "businessRules": [],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "未填写时提示补充，保留其他登记信息。"
       ],
       "bindings": [
         {
@@ -799,8 +766,8 @@
           "type": "字符串",
           "defaultValue": "",
           "required": true,
-          "validation": "1.0.0 或 v1.0.0",
-          "message": ""
+          "validation": "必填，格式为1.0.0或v1.0.0",
+          "message": "请填写1.0.0或v1.0.0格式的版本号"
         }
       ],
       "statistics": [],
@@ -810,18 +777,12 @@
       "reqId": "node.field.date",
       "featureName": "经营时间",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "选择经营日期，可留空。"
       ],
-      "businessRules": [
-        "类型：日期；默认值：空；必填：否",
-        "校验：必填项禁止空值；其他项目可为空"
-      ],
+      "businessRules": [],
       "fieldValidations": [],
       "permissions": [],
-      "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
-      ],
+      "exceptionHandling": [],
       "bindings": [
         {
           "pageId": "home",
@@ -836,7 +797,7 @@
           "type": "日期",
           "defaultValue": "",
           "required": false,
-          "validation": "必填项禁止空值；其他项目可为空",
+          "validation": "可留空",
           "message": ""
         }
       ],
@@ -847,18 +808,12 @@
       "reqId": "node.field.legal",
       "featureName": "法人姓名",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "填写法人姓名，可留空。"
       ],
-      "businessRules": [
-        "类型：字符串；默认值：空；必填：否",
-        "校验：必填项禁止空值；其他项目可为空"
-      ],
+      "businessRules": [],
       "fieldValidations": [],
       "permissions": [],
-      "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
-      ],
+      "exceptionHandling": [],
       "bindings": [
         {
           "pageId": "home",
@@ -873,7 +828,7 @@
           "type": "字符串",
           "defaultValue": "",
           "required": false,
-          "validation": "必填项禁止空值；其他项目可为空",
+          "validation": "可留空",
           "message": ""
         }
       ],
@@ -884,18 +839,12 @@
       "reqId": "node.field.phone",
       "featureName": "法人联系方式",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "填写法人联系方式，可留空。"
       ],
-      "businessRules": [
-        "类型：字符串；默认值：空；必填：否",
-        "校验：必填项禁止空值；其他项目可为空"
-      ],
+      "businessRules": [],
       "fieldValidations": [],
       "permissions": [],
-      "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
-      ],
+      "exceptionHandling": [],
       "bindings": [
         {
           "pageId": "home",
@@ -910,7 +859,7 @@
           "type": "字符串",
           "defaultValue": "",
           "required": false,
-          "validation": "必填项禁止空值；其他项目可为空",
+          "validation": "可留空",
           "message": ""
         }
       ],
@@ -921,18 +870,12 @@
       "reqId": "node.field.idcard",
       "featureName": "法人身份证号",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "填写法人身份证号，可留空。"
       ],
-      "businessRules": [
-        "类型：字符串；默认值：空；必填：否",
-        "校验：必填项禁止空值；其他项目可为空"
-      ],
+      "businessRules": [],
       "fieldValidations": [],
       "permissions": [],
-      "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
-      ],
+      "exceptionHandling": [],
       "bindings": [
         {
           "pageId": "home",
@@ -947,7 +890,7 @@
           "type": "字符串",
           "defaultValue": "",
           "required": false,
-          "validation": "必填项禁止空值；其他项目可为空",
+          "validation": "可留空",
           "message": ""
         }
       ],
@@ -958,18 +901,12 @@
       "reqId": "node.field.address",
       "featureName": "物理地址",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "填写物理地址，最多输入100个字符。"
       ],
-      "businessRules": [
-        "类型：字符串；默认值：空；必填：否",
-        "校验：最长100字符"
-      ],
+      "businessRules": [],
       "fieldValidations": [],
       "permissions": [],
-      "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
-      ],
+      "exceptionHandling": [],
       "bindings": [
         {
           "pageId": "home",
@@ -984,7 +921,7 @@
           "type": "字符串",
           "defaultValue": "",
           "required": false,
-          "validation": "最长100字符",
+          "validation": "最多100个字符，可留空",
           "message": ""
         }
       ],
@@ -995,17 +932,13 @@
       "reqId": "node.field.description",
       "featureName": "业务简介",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "填写业务简介，提交时检查是否已填写。"
       ],
-      "businessRules": [
-        "类型：字符串；默认值：空；必填：是",
-        "校验：必填项禁止空值；其他项目可为空"
-      ],
+      "businessRules": [],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "未填写时提示补充，保留其他登记信息。"
       ],
       "bindings": [
         {
@@ -1021,8 +954,8 @@
           "type": "字符串",
           "defaultValue": "",
           "required": true,
-          "validation": "必填项禁止空值；其他项目可为空",
-          "message": ""
+          "validation": "不能为空",
+          "message": "请填写业务简介"
         }
       ],
       "statistics": [],
@@ -1032,18 +965,12 @@
       "reqId": "node.field.remark",
       "featureName": "备注",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "填写补充说明，可留空。"
       ],
-      "businessRules": [
-        "类型：字符串；默认值：空；必填：否",
-        "校验：必填项禁止空值；其他项目可为空"
-      ],
+      "businessRules": [],
       "fieldValidations": [],
       "permissions": [],
-      "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
-      ],
+      "exceptionHandling": [],
       "bindings": [
         {
           "pageId": "home",
@@ -1058,7 +985,7 @@
           "type": "字符串",
           "defaultValue": "",
           "required": false,
-          "validation": "必填项禁止空值；其他项目可为空",
+          "validation": "可留空",
           "message": ""
         }
       ],
@@ -1067,22 +994,19 @@
     },
     "node.riskPreview": {
       "reqId": "node.riskPreview",
-      "featureName": "查看敏感词审核不通过页面",
+      "featureName": "敏感词审核风险明细",
       "interactionSteps": [
-        "在页面设计空间体验交互",
-        "在功能需求空间点击对应元素查看说明"
+        "机器审核未通过时，查看风险类型、命中位置、证据和修改建议。",
+        "点击返回修改，定位相关字段；修正后重新提交审核。"
       ],
       "businessRules": [
-        "提交后先进行机器审核；审核通过才创建待人工审核记录。",
-        "风险页按敏感词、涉黄、涉暴类型展示命中位置、证据、修改建议。",
-        "返回修改保留表单和材料，标红并聚焦相关字段。修改后必须重新机器审核。",
-        "展示申请未提交、未进入人工审核；模型异常不得绕过审核。",
-        "原型仅用安全测试标记模拟审核结果，不解析附件，不调用真实模型。"
+        "审核未通过的申请保持未提交，不进入人工审核。",
+        "返回修改保留表单和材料，标红并聚焦相关字段；再次提交必须重新审核。"
       ],
       "fieldValidations": [],
       "permissions": [],
       "exceptionHandling": [
-        "失败保留已填写信息并提示重试"
+        "审核结果无法获取时提示重试，不将申请标为审核通过。"
       ],
       "bindings": [
         {
@@ -1097,8 +1021,8 @@
       "acceptanceCriteria": [
         {
           "name": "查看敏感词审核不通过结果",
-          "given": "登记内容包含安全测试标记或选择了风险演示场景",
-          "when": "用户提交登记或打开敏感词审核不通过页面",
+          "given": "登记文本或材料命中内容安全审核策略",
+          "when": "系统返回机器审核未通过结果",
           "then": [
             "按敏感词、涉黄或涉暴类型展示命中位置、证据和修改建议",
             "明确提示申请未提交且未进入人工审核",
@@ -1121,17 +1045,19 @@
       "reqId": "catalog.browse",
       "featureName": "数据目录浏览",
       "interactionSteps": [
-        "在页面设计体验交互，在功能需求空间点击定位模块"
+        "进入数据目录，浏览产品列表。",
+        "输入行业关键字定位分类，选择分类筛选目录。",
+        "点击产品详情，查看对应产品信息。"
       ],
       "businessRules": [
-        "侧栏仅保留数据目录；首页卡片进入目录，支持行业筛选。"
+        "目录侧栏显示数据目录入口；行业关键字用于过滤分类选项，所选分类用于筛选产品。"
       ],
       "fieldValidations": [],
       "permissions": [
-        "目录查询用户；审计和风险分析仅安全人员（原型未接真实权限）"
+        "目录查询由目录查询用户执行；审计和风险分析仅安全人员执行"
       ],
       "exceptionHandling": [
-        "阻断不执行查询，仍记录日志及关联预警"
+        "无匹配目录时显示空态；加载失败时保留当前筛选条件并提示重试。"
       ],
       "bindings": [
         {
@@ -1160,11 +1086,13 @@
       "reqId": "catalog.query",
       "featureName": "目录查询与实时阻断",
       "interactionSteps": [
-        "在页面设计体验交互，在功能需求空间点击定位模块"
+        "填写产品筛选条件并点击查询，展示符合全部条件的目录。",
+        "点击重置清空条件；查询被阻断时查看原因并按提示处理。"
       ],
       "businessRules": [
-        "连续60秒按用户统计查询请求，第51次阻断，冷却60秒；失败请求纳入计数。",
-        "演示为前端行为；生产环境必须在服务端共享计数，鉴权、令牌校验与查询前检测。"
+        "查询执行前校验身份、资源权限和一次性令牌。",
+        "按用户统计连续60秒内的查询请求，失败请求计入次数；第51次起阻断，冷却60秒。",
+        "高频、越权或令牌重放请求不执行数据查询，仍记录审计日志和关联预警。"
       ],
       "fieldValidations": [
         {
@@ -1174,10 +1102,11 @@
         }
       ],
       "permissions": [
-        "目录查询用户；审计和风险分析仅安全人员（原型未接真实权限）"
+        "目录查询由目录查询用户执行；审计和风险分析仅安全人员执行"
       ],
       "exceptionHandling": [
-        "阻断不执行查询，仍记录日志及关联预警"
+        "无匹配结果时显示空态；查询失败时保留条件。",
+        "高频访问待冷却结束且请求数回落后重试；越权需核实授权，令牌重放需重新认证。"
       ],
       "bindings": [
         {
@@ -1274,17 +1203,18 @@
       "reqId": "catalog.detail",
       "featureName": "目录基本信息",
       "interactionSteps": [
-        "在页面设计体验交互，在功能需求空间点击定位模块"
+        "点击某产品的查看详情，展示该产品的基本信息。",
+        "点击返回，回到数据目录列表。"
       ],
       "businessRules": [
-        "查看详情显示对应产品信息；返回目录。"
+        "产品信息、提供方及材料声明须与所选产品对应。"
       ],
       "fieldValidations": [],
       "permissions": [
-        "目录查询用户；审计和风险分析仅安全人员（原型未接真实权限）"
+        "目录查询由目录查询用户执行；审计和风险分析仅安全人员执行"
       ],
       "exceptionHandling": [
-        "阻断不执行查询，仍记录日志及关联预警"
+        "详情获取失败时提示重试，并保留返回目录入口。"
       ],
       "bindings": [
         {
@@ -1312,19 +1242,20 @@
       "reqId": "catalog.audit",
       "featureName": "全链路查询审计",
       "interactionSteps": [
-        "在页面设计体验交互，在功能需求空间点击定位模块"
+        "按用户、机构、IP、请求编号和查询结果筛选日志。",
+        "打开全链路详情，查看各处理阶段及关联风险；点击导出获取日志文件。"
       ],
       "businessRules": [
-        "记录请求编号、时间、IP、用户及机构、场景、对象、令牌标识、ABAC策略、执行结果与返回条数。",
-        "原型日志在当前会话保存，可导出JSON；生产日志需服务端防篡改持久化。",
-        "不存储令牌原文及原始敏感返回结果。"
+        "记录请求编号、时间、IP、用户及机构、场景、对象、令牌标识、ABAC策略、执行结果和返回条数。",
+        "成功与被阻断请求均留存可追溯、防篡改的审计记录；阻断请求返回条数为0，并关联风险预警。",
+        "日志不保存令牌原文及原始敏感返回数据。"
       ],
       "fieldValidations": [],
       "permissions": [
-        "目录查询用户；审计和风险分析仅安全人员（原型未接真实权限）"
+        "目录查询由目录查询用户执行；审计和风险分析仅安全人员执行"
       ],
       "exceptionHandling": [
-        "阻断不执行查询，仍记录日志及关联预警"
+        "无匹配日志时显示空态；查询或导出失败时提示重试。"
       ],
       "bindings": [
         {
@@ -1340,7 +1271,7 @@
           "type": "字符串",
           "defaultValue": "",
           "required": false,
-          "validation": "按当前会话日志中的用户、机构、IP和请求编号包含匹配",
+          "validation": "按已记录日志中的用户、机构、IP和请求编号包含匹配",
           "message": ""
         },
         {
@@ -1374,12 +1305,12 @@
           ]
         },
         {
-          "name": "筛选并导出会话日志",
-          "given": "当前会话同时存在成功和已阻断的查询日志",
+          "name": "筛选并导出查询日志",
+          "given": "已存在成功和已阻断的查询日志",
           "when": "安全人员按用户、IP、请求编号或查询结果筛选并导出日志",
           "then": [
             "列表仅显示符合筛选条件的日志",
-            "导出JSON包含当前会话日志及预警，不包含令牌原文和原始敏感返回结果"
+            "导出JSON包含查询日志及关联预警，不包含令牌原文和原始敏感返回数据"
           ]
         }
       ]
@@ -1388,10 +1319,12 @@
       "reqId": "catalog.alert",
       "featureName": "风险识别与预警",
       "interactionSteps": [
-        "在页面设计体验交互，在功能需求空间点击定位模块"
+        "查看待研判预警，打开证据链了解风险。",
+        "选择研判结论并填写依据，保存后关闭预警。"
       ],
       "businessRules": [
-        "高频、越权、令牌重放触发阻断及预警；安全人员可查看证据、填写研判依据并关闭。"
+        "高频访问、越权访问及令牌重放触发阻断与预警，预警关联原始请求。",
+        "研判结论可选确认风险、业务正常或规则误报；研判依据去除首尾空格后不能为空。"
       ],
       "fieldValidations": [
         {
@@ -1401,10 +1334,10 @@
         }
       ],
       "permissions": [
-        "目录查询用户；审计和风险分析仅安全人员（原型未接真实权限）"
+        "目录查询由目录查询用户执行；审计和风险分析仅安全人员执行"
       ],
       "exceptionHandling": [
-        "阻断不执行查询，仍记录日志及关联预警"
+        "依据为空时提示补充且不关闭预警；保存失败时保留结论和依据。"
       ],
       "bindings": [
         {
@@ -1459,18 +1392,20 @@
       "reqId": "catalog.profile",
       "featureName": "风险行为画像",
       "interactionSteps": [
-        "在页面设计体验交互，在功能需求空间点击定位模块"
+        "打开风险行为画像，查看用户查询统计与行为标签。",
+        "点击关联查询证据，追溯对应审计记录。"
       ],
       "businessRules": [
-        "当前会话按用户聚合查询数、异常数、返回条数、来源IP数和行为标签，每次查询刷新。",
-        "异常率=被阻断请求数/全部请求数；空样本显示0%。"
+        "按所查看用户的查询审计记录聚合查询数、异常数、返回条数、来源IP数及行为标签，每次查询后更新。",
+        "异常率为被阻断查询数除以全部查询数；无查询记录时显示0%。",
+        "行为标签依据命中策略生成，风险结论需结合业务背景研判。"
       ],
       "fieldValidations": [],
       "permissions": [
-        "目录查询用户；审计和风险分析仅安全人员（原型未接真实权限）"
+        "目录查询由目录查询用户执行；审计和风险分析仅安全人员执行"
       ],
       "exceptionHandling": [
-        "阻断不执行查询，仍记录日志及关联预警"
+        "无查询记录时各统计显示0；统计获取失败时提示重新加载。"
       ],
       "bindings": [
         {
@@ -1485,49 +1420,49 @@
       "statistics": [
         {
           "name": "查询总数",
-          "formula": "当前会话该用户的查询日志数量",
-          "scope": "当前浏览器会话，按用户聚合；刷新页面重置",
+          "formula": "该用户的查询日志数量",
+          "scope": "所查看用户的查询审计记录",
           "refresh": "每次查询后刷新"
         },
         {
           "name": "异常查询",
-          "formula": "当前会话该用户命中风险原因的查询数量",
-          "scope": "当前浏览器会话，按用户聚合；刷新页面重置",
+          "formula": "该用户命中风险原因的查询数量",
+          "scope": "所查看用户的查询审计记录",
           "refresh": "每次查询后刷新"
         },
         {
           "name": "返回目录条数",
-          "formula": "当前会话该用户所有查询返回条数之和",
-          "scope": "当前浏览器会话，按用户聚合；刷新页面重置",
+          "formula": "该用户所有查询返回条数之和",
+          "scope": "所查看用户的查询审计记录",
           "refresh": "每次查询后刷新"
         },
         {
           "name": "来源 IP 数",
-          "formula": "当前会话该用户查询来源IP的去重数量；现有模拟数据固定为单一IP",
-          "scope": "当前浏览器会话，按用户聚合；刷新页面重置",
+          "formula": "该用户查询来源IP的去重数量",
+          "scope": "所查看用户的查询审计记录",
           "refresh": "每次查询后刷新"
         },
         {
           "name": "异常率",
           "formula": "被阻断查询数 / 全部查询数 × 100%；空样本显示0%",
-          "scope": "当前浏览器会话，按用户聚合；刷新页面重置",
+          "scope": "所查看用户的查询审计记录",
           "refresh": "每次查询后刷新"
         }
       ],
       "acceptanceCriteria": [
         {
-          "name": "查看当前会话风险画像",
+          "name": "查看用户风险行为画像",
           "given": "安全人员已产生成功和已阻断的目录查询",
           "when": "安全人员打开风险行为画像",
           "then": [
             "按当前用户展示查询总数、异常查询、返回目录条数、来源 IP 数和异常率",
             "异常率按被阻断查询数 / 全部查询数计算",
-            "统计范围限定当前浏览器会话，并在每次查询后刷新"
+            "统计范围为所查看用户的查询审计记录，每次查询后刷新"
           ]
         },
         {
           "name": "无查询时展示空样本",
-          "given": "当前会话尚未发生任何目录查询",
+          "given": "所查看用户尚无目录查询记录",
           "when": "安全人员打开风险行为画像",
           "then": [
             "查询总数、异常查询和返回目录条数均显示 0",
@@ -1653,5 +1588,203 @@
         }
       ]
     }
-  ]
+  ],
+  "pageNotes": {
+    "portal": {
+      "title": "快捷入口",
+      "interactionSteps": [
+        "选择业务子系统入口，进入对应系统并开展业务操作。"
+      ],
+      "businessRules": [
+        "首页展示各子系统入口，进入后使用该系统的业务菜单。"
+      ],
+      "exceptionHandling": [
+        "系统跳转失败时保留首页，并提示重新进入。"
+      ]
+    },
+    "registration.list": {
+      "title": "接入登记审核",
+      "interactionSteps": [
+        "查询登记记录，按需新增登记或查看记录详情。"
+      ],
+      "businessRules": [
+        "列表展示符合查询条件的登记信息及审核状态。"
+      ],
+      "exceptionHandling": [
+        "无匹配记录时显示空态；加载失败时保留查询条件并提示重试。"
+      ]
+    },
+    "registration.create": {
+      "title": "新增接入注册",
+      "interactionSteps": [
+        "填写登记信息、材料和节点地址，保存草稿或提交审核。"
+      ],
+      "businessRules": [
+        "关闭表单前确认未保存的修改。",
+        "登记申请完成机器审核后，才能进入人工审核。"
+      ],
+      "exceptionHandling": [
+        "校验失败或审核未通过时保留已填信息和材料，提示处理后重新提交。"
+      ]
+    },
+    "registration.detail": {
+      "title": "接入登记详情",
+      "interactionSteps": [
+        "打开登记详情，查看登记信息及当前审核状态；关闭后返回列表。"
+      ],
+      "businessRules": [
+        "详情始终对应所选登记记录。"
+      ],
+      "exceptionHandling": [
+        "详情获取失败时提示重试，并保留返回列表入口。"
+      ]
+    },
+    "registration.audit.loading": {
+      "title": "敏感词审核中",
+      "interactionSteps": [
+        "等待登记文本与材料审核，完成后展示审核结果。"
+      ],
+      "businessRules": [
+        "审核未结束前禁止重复提交，不进入人工审核。"
+      ],
+      "exceptionHandling": [
+        "审核超时或服务异常时提示审核未完成，允许返回重试。"
+      ]
+    },
+    "registration.audit.risk": {
+      "title": "敏感词审核未通过",
+      "interactionSteps": [
+        "查看风险明细，返回表单修改后重新提交。"
+      ],
+      "businessRules": [
+        "本次申请未提交，不进入人工审核；重新提交须再次完成机器审核。"
+      ],
+      "exceptionHandling": [
+        "返回修改时保留登记信息和材料，并定位需修改的字段。"
+      ]
+    },
+    "registration.audit.pass": {
+      "title": "提交审核成功",
+      "interactionSteps": [
+        "确认机器审核通过结果，完成后返回登记列表。"
+      ],
+      "businessRules": [
+        "本次申请进入待人工审核状态；机器审核通过不代表人工审核完成。",
+        "同一次提交仅创建一条登记记录。"
+      ],
+      "exceptionHandling": [
+        "结果获取异常时保留申请状态，避免重复创建登记记录。"
+      ]
+    },
+    "registration.audit.error": {
+      "title": "机器审核暂不可用",
+      "interactionSteps": [
+        "返回登记表单，保留内容后重试审核。"
+      ],
+      "businessRules": [
+        "审核未完成的申请保持未提交，不进入人工审核。"
+      ],
+      "exceptionHandling": [
+        "服务恢复前不将异常结果视为审核通过或敏感内容命中。"
+      ]
+    },
+    "catalog.list": {
+      "title": "数据目录",
+      "interactionSteps": [
+        "浏览或筛选数据目录，打开所选产品详情。"
+      ],
+      "businessRules": [
+        "查询结果与当前筛选条件一致，详情对应所选产品。"
+      ],
+      "exceptionHandling": [
+        "无匹配结果时显示空态；查询失败或被阻断时提示原因并保留条件。"
+      ]
+    },
+    "catalog.detail": {
+      "title": "数据目录详情",
+      "interactionSteps": [
+        "查看所选产品的基本信息、提供方和材料声明，返回目录继续浏览。"
+      ],
+      "businessRules": [
+        "页面各项信息均属于当前所选产品。"
+      ],
+      "exceptionHandling": [
+        "详情获取失败时提示重试，并保留返回目录入口。"
+      ]
+    },
+    "catalog.logs": {
+      "title": "查询日志",
+      "interactionSteps": [
+        "筛选查询日志，查看全链路详情或导出日志。"
+      ],
+      "businessRules": [
+        "成功与被阻断请求均可追溯，详情和关联预警使用同一请求编号。",
+        "审计信息不展示令牌原文和原始敏感返回数据。"
+      ],
+      "exceptionHandling": [
+        "无日志时显示空态；查询或导出失败时提示重试。"
+      ]
+    },
+    "catalog.alerts": {
+      "title": "风险识别与预警",
+      "interactionSteps": [
+        "查看预警与证据链，按需进入研判处置。"
+      ],
+      "businessRules": [
+        "每条预警关联触发请求；保存研判结果后更新处置状态。"
+      ],
+      "exceptionHandling": [
+        "预警或证据获取失败时提示重试，已有处置状态保持不变。"
+      ]
+    },
+    "catalog.profile": {
+      "title": "风险行为画像",
+      "interactionSteps": [
+        "查看用户行为统计和风险标签，追溯关联查询证据。"
+      ],
+      "businessRules": [
+        "画像与所查看用户的查询审计记录一致，查询发生后刷新。",
+        "风险标签需结合业务背景进行研判。"
+      ],
+      "exceptionHandling": [
+        "无查询记录时统计显示0；获取失败时提示重新加载。"
+      ]
+    },
+    "catalog.blocked": {
+      "title": "查询安全阻断",
+      "interactionSteps": [
+        "查看阻断原因，按提示处理后重新发起查询。"
+      ],
+      "businessRules": [
+        "本次不执行数据查询，并记录审计轨迹与关联预警。"
+      ],
+      "exceptionHandling": [
+        "高频访问需等待冷却，越权需核实授权，令牌重放需重新认证。"
+      ]
+    },
+    "catalog.trace": {
+      "title": "查询全链路详情",
+      "interactionSteps": [
+        "按处理顺序查看请求接入、校验、权限判定、行为检测、查询执行和结果返回。"
+      ],
+      "businessRules": [
+        "各阶段信息对应同一请求，未执行阶段不得显示为已完成。"
+      ],
+      "exceptionHandling": [
+        "链路详情获取失败时提示重试，不改变原请求结果。"
+      ]
+    },
+    "catalog.resolve": {
+      "title": "风险研判",
+      "interactionSteps": [
+        "选择研判结论并填写依据，保存后返回预警列表。"
+      ],
+      "businessRules": [
+        "保存成功后记录结论和依据，并将该预警更新为已关闭；取消不改变预警状态。"
+      ],
+      "exceptionHandling": [
+        "研判依据为空时提示补充；保存失败时保留已填内容。"
+      ]
+    }
+  }
 }

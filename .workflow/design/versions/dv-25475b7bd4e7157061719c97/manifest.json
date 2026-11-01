@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "kind": "design-version",
+  "projectId": "business-node-management",
+  "id": "dv-25475b7bd4e7157061719c97",
+  "name": "V1.6",
+  "createdAt": "2026-10-31T18:38:45.194Z",
+  "requirementRevision": 19,
+  "requirementHash": "89b6eae0333d6e7144ade90ceed2abc419cb953b4d58ef9ff8d40512f6cb2555",
+  "sourceHash": "29a4acf6ad5887779f96b4f3c1a370adb42f16301bbb08e7c14baab2de2e2d75",
+  "prototypeSourceHash": "83ef78479a0c934d531f13da953f4bb196b8a3c65be00e557a6d1fe9a77e0042",
+  "files": {
+    "prototype/app.js": "ba24569e9a38651a7a6d36e0903a695d27c1564e4b261d9e3200c74be8517444",
+    "prototype/assets/index-C1fMBMxQ.css": "135be7dc7ec450a8161f70f4aebfa137fd5fc82eb3f0263c44f8c642d5440eeb",
+    "prototype/index.html": "65b65a01b452e25efad631340b066aaf278cfabb9afc364ee3a8d61da206b924",
+    "prototype/inspector-config.js": "3c6a8f6aa2e3f2e15e09621c495c4e8a0a2f869318cbb045614b46eaa242415f",
+    "prototype/inspector.js": "f3268a59ceb11e59075973ebfe03f9e9de018519294c9d0e1afb2f4da0961ec0",
+    "prototype/template-0.txt": "74a9d41b8eda99a84c220c4d4e03a45d9a0fae1ece6e8e28c6b947cda8f5c9af",
+    "prototype/template-1.txt": "c8c74dc8b8bd138de2e89949227f560f90d419f5d8d2cd608cef24e3c060c649",
+    "prototype/template-2.txt": "004b14dfc48cef01546856b2de6c30ad68e7bcbf26429d09301f39c73012dcf8",
+    "snapshot.json": "c9f6e2929636c37ba78ac46e70af2e725d3ab5411be9b964617c1093dbe2d3f8"
+  },
+  "manifestHash": "da0036cfcf5ea108621e11df6ef88054cc7daa99e5138b68a930b34c0cff5060"
+}

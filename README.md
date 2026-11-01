@@ -1,19 +1,17 @@
-# 业务节点管理系统
+# 区域功能节点
 
-独立业务项目，迁入来源为区域功能节点。原页面、30 条需求、模块目录和历史资料保留在 `inputs/`；历史评审不属于本项目批准基线。
+当前设计包括系统入口、接入登记审核、数据目录与查询安全。
 
-## 本机使用
+- `prototype/`：页面与模拟交互。
+- `data/requirements/business-node-management.json`：现行功能、字段和页面说明。
+- `project.config.yaml`：页面、构建与外部目标。
 
-首次恢复或迁出后，在本目录运行：
+在本项目目录预览：
 
 ```sh
-node tooling/restore.mjs
-npm ci --prefix .local/workflow-kit --omit=dev
-node tooling/run.mjs workflow context --project project.config.yaml --intent prototype
+npm --prefix prototype run dev -- --host 127.0.0.1 --port 5205 --strictPort
 ```
 
-需要原型时再运行 `node tooling/run.mjs studio dev --project project.config.yaml`，统一入口以该次输出为准，不假设旧服务或端口仍有效。
+构建、独立 Studio、GitHub 和禅道用法见[工具索引](../../TOOLS.md)。
 
-功能规则只编辑 `data/requirements/business-node-management.json`。当前是原型迁入与本地预览，不代表生产实现、正式批准、禅道交接或产品验收；GitHub 和禅道目标尚未选定。
-
-迁入清单见 `inputs/import-manifest.json`，实际验证记录保存在 `.local/verification/`。按需命令见锁定版本的[使用手册](.local/workflow-kit/docs/user-guide.md)。
+当前为前端原型：业务数据、机器审核、文件处理与安全控制尚未接入真实后端。`inputs/` 是来源资料；已保存评审与设计版本保留，均不替代现行需求。

@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       review_id:
-        description: Existing immutable review ID; do not rebuild its baseline
+        description: Existing immutable review ID
         required: false
         type: string
       request_id:
@@ -31,23 +31,39 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Restore the project-locked workflow toolbox
-        run: node tooling/restore.mjs
-      - name: Install locked toolbox dependencies
-        run: npm ci --prefix .local/workflow-kit
-      - name: Check explicit project configuration
-        run: node .local/workflow-kit/bin/pwf.mjs project check --project project.config.yaml
-      - name: Assemble all immutable reviews
-        run: node .local/workflow-kit/bin/pwf.mjs review export --project project.config.yaml --output _site
+      - name: Assemble saved reviews
+        env:
+          REVIEW_ID: ${{ inputs.review_id }}
+        run: |
+          node --input-type=module <<'JS'
+          import {cp, mkdir, readdir, writeFile, access} from 'node:fs/promises';
+          const ids=(await readdir('site-archive/review')).filter(id=>/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,99}$/.test(id)).sort();
+          const id=process.env.REVIEW_ID||ids.at(-1);
+          if(!id||!ids.includes(id))throw Error('No saved review matches the requested ID');
+          await access('site-archive/review/'+id+'/manifest.json');
+          await mkdir('_site',{recursive:true});
+          await cp('site-archive/review','_site/review',{recursive:true});
+          await writeFile('_site/index.html','<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=./review/'+id+'/"><a href="./review/'+id+'/">打开原型与需求</a>');
+          JS
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
-      - name: Deploy full review history
+      - name: Deploy saved review history
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Verify the actual current and historical review content
+      - name: Verify deployed review files
         env:
           DEPLOYMENT_URL: ${{ steps.deployment.outputs.page_url }}
-          REVIEW_ID: ${{ inputs.review_id }}
-        run: node .local/workflow-kit/adapters/github-pages/verify-deployment.mjs --project project.config.yaml --url "$DEPLOYMENT_URL" --review "$REVIEW_ID"
+        run: |
+          node --input-type=module <<'JS'
+          import {readdir, readFile} from 'node:fs/promises';
+          import {createHash} from 'node:crypto';
+          const digest=data=>createHash('sha256').update(data).digest('hex');
+          for(const id of await readdir('_site/review')){
+            for(const file of ['manifest.json','snapshot.json','index.html']){
+              const response=await fetch(new URL('review/'+id+'/'+file,process.env.DEPLOYMENT_URL),{signal:AbortSignal.timeout(20000)});
+              if(!response.ok||digest(Buffer.from(await response.arrayBuffer()))!==digest(await readFile('_site/review/'+id+'/'+file)))throw Error('Deployed review differs: '+id+'/'+file);
+            }
+          }
+          JS
