@@ -10,6 +10,21 @@
       ],
       "pages": [
         {
+          "id": "portal-home",
+          "name": "业务节点门户首页",
+          "path": "./portal-standalone.html?user=enterprise"
+        },
+        {
+          "id": "portal-workbench",
+          "name": "门户工作台与身份续期",
+          "path": "./portal-standalone.html?user=enterprise&view=workbench"
+        },
+        {
+          "id": "portal-login",
+          "name": "门户登录与到期提醒",
+          "path": "./portal-standalone.html?view=login"
+        },
+        {
           "id": "home",
           "name": "首页与接入登记",
           "path": "./index.html"
@@ -33,6 +48,36 @@
           "id": "audit",
           "name": "查询日志与风险分析",
           "path": "./index.html?view=audit"
+        },
+        {
+          "id": "portal-person-home",
+          "name": "个人用户门户首页",
+          "path": "./portal-standalone.html?user=personal"
+        },
+        {
+          "id": "portal-person-workbench",
+          "name": "个人身份管理与续期",
+          "path": "./portal-standalone.html?user=personal&view=workbench"
+        },
+        {
+          "id": "portal-auth-entry",
+          "name": "主体身份待认证",
+          "path": "./portal-standalone.html?user=authentication&view=auth-entry"
+        },
+        {
+          "id": "portal-auth-types",
+          "name": "选择认证类型",
+          "path": "./portal-standalone.html?user=authentication&view=auth-types"
+        },
+        {
+          "id": "portal-auth-personal",
+          "name": "个人认证审核中",
+          "path": "./portal-standalone.html?user=authentication&view=auth-personal"
+        },
+        {
+          "id": "portal-auth-enterprise",
+          "name": "企业认证审核中",
+          "path": "./portal-standalone.html?user=authentication&view=auth-enterprise"
         }
       ],
       "versionPolicy": {

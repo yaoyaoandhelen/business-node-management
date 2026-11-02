@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "projectId": "business-node-management",
-  "revision": 92,
+  "revision": 150,
   "requirements": {
     "node.enter": {
       "reqId": "node.enter",
@@ -2122,6 +2122,858 @@
           "refresh": "打开画像或切换用户时重新计算；阅读详情期间不自动刷新。"
         }
       }
+    },
+    "portal.workbench": {
+      "reqId": "portal.workbench",
+      "featureName": "门户与工作台跳转",
+      "kind": "function",
+      "interactionSteps": [
+        "点击右上角工作台进入身份管理；点击返回门户回到门户首页。"
+      ],
+      "businessRules": [
+        "仅已登录用户可进入工作台。"
+      ],
+      "fieldValidations": [],
+      "permissions": [
+        "当前登录主体的有权操作用户。"
+      ],
+      "exceptionHandling": [
+        "校验失败时保留当前输入，提示修正；保存失败时不得展示提交成功。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-home",
+          "elementId": "portal.workbench"
+        },
+        {
+          "pageId": "portal-person-home",
+          "elementId": "portal.workbench"
+        }
+      ],
+      "fields": [],
+      "moduleId": "portal",
+      "updatedAt": "2026-11-02T09:27:29.200Z"
+    },
+    "portal.logout": {
+      "reqId": "portal.logout",
+      "featureName": "退出登录",
+      "kind": "function",
+      "interactionSteps": [
+        "点击退出，进入登录页。"
+      ],
+      "businessRules": [
+        "原型仅演示登录流程，不调用生产认证服务。"
+      ],
+      "fieldValidations": [],
+      "permissions": [
+        "当前登录主体的有权操作用户。"
+      ],
+      "exceptionHandling": [
+        "校验失败时保留当前输入，提示修正；保存失败时不得展示提交成功。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-home",
+          "elementId": "portal.logout"
+        },
+        {
+          "pageId": "portal-person-home",
+          "elementId": "portal.logout"
+        }
+      ],
+      "fields": [],
+      "moduleId": "portal",
+      "updatedAt": "2026-11-02T09:27:29.205Z"
+    },
+    "portal.statistics": {
+      "reqId": "portal.statistics",
+      "featureName": "门户业务统计",
+      "kind": "statistics",
+      "interactionSteps": [
+        "首页展示入驻主体、业务节点、数据资源、数据产品。"
+      ],
+      "businessRules": [
+        "范围：重庆区域功能节点。口径：入驻主体为认证有效主体去重数；业务节点为已接入且启用节点数；数据资源为已发布且可用的资源数；数据产品为已上架且可用产品数。",
+        "刷新：生产环境在首页加载或刷新时读取统计快照；本原型固定展示 11、3、42、291，不随续期提交变化。"
+      ],
+      "fieldValidations": [],
+      "permissions": [
+        "当前登录主体的有权操作用户。"
+      ],
+      "exceptionHandling": [
+        "校验失败时保留当前输入，提示修正；保存失败时不得展示提交成功。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-home",
+          "elementId": "portal.statistics"
+        },
+        {
+          "pageId": "portal-home",
+          "elementId": "portal.stats.entities"
+        },
+        {
+          "pageId": "portal-home",
+          "elementId": "portal.stats.nodes"
+        },
+        {
+          "pageId": "portal-home",
+          "elementId": "portal.stats.resources"
+        },
+        {
+          "pageId": "portal-home",
+          "elementId": "portal.stats.products"
+        },
+        {
+          "pageId": "portal-person-home",
+          "elementId": "portal.statistics"
+        },
+        {
+          "pageId": "portal-person-home",
+          "elementId": "portal.stats.entities"
+        },
+        {
+          "pageId": "portal-person-home",
+          "elementId": "portal.stats.nodes"
+        },
+        {
+          "pageId": "portal-person-home",
+          "elementId": "portal.stats.resources"
+        },
+        {
+          "pageId": "portal-person-home",
+          "elementId": "portal.stats.products"
+        }
+      ],
+      "fields": [],
+      "moduleId": "portal",
+      "updatedAt": "2026-11-02T09:27:29.209Z",
+      "statistics": [
+        {
+          "name": "入驻主体",
+          "calculation": "认证且有效的主体去重数，演示值 11 家",
+          "scope": "重庆区域功能节点（本原型固定演示值）",
+          "refresh": "首页加载或刷新时读取；原型固定值"
+        },
+        {
+          "name": "业务节点",
+          "calculation": "已接入且启用的业务节点数，演示值 3 个",
+          "scope": "重庆区域功能节点（本原型固定演示值）",
+          "refresh": "首页加载或刷新时读取；原型固定值"
+        },
+        {
+          "name": "数据资源",
+          "calculation": "已发布且可用的数据资源数，演示值 42 个",
+          "scope": "重庆区域功能节点（本原型固定演示值）",
+          "refresh": "首页加载或刷新时读取；原型固定值"
+        },
+        {
+          "name": "数据产品",
+          "calculation": "已上架且可用的数据产品数，演示值 291 个",
+          "scope": "重庆区域功能节点（本原型固定演示值）",
+          "refresh": "首页加载或刷新时读取；原型固定值"
+        }
+      ]
+    },
+    "portal.login": {
+      "reqId": "portal.login",
+      "featureName": "门户登录",
+      "kind": "function",
+      "interactionSteps": [
+        "账号下拉选择“个人”“企业”或“身份认证”，点击登录。",
+        "个人和企业进入原有对应门户；身份认证进入“主体身份认证”待认证入口，不触发身份续期提醒。",
+        "点击去主体认证，选择个人或企业认证后默认进入对应的“认证审核中”状态。"
+      ],
+      "businessRules": [
+        "账号下拉选项为“个人”“企业”“身份认证”，默认沿用当前账号类型；首次默认企业。",
+        "密码输入框、验证码输入框及验证码图片按钮置灰禁用，不可输入、点击刷新或通过键盘聚焦；登录不校验这些字段。",
+        "本页为演示身份切换，不调用真实认证服务，不自动保存密码。",
+        "个人与企业主体分别读取和保存续期状态；门户右下角登录演示入口只进入登录，不清空已有申请。",
+        "身份认证使用独立演示入口，不将“未认证”“认证审核中”等同于认证完成；不修改现有个人与企业的身份及续期申请。"
+      ],
+      "fieldValidations": [],
+      "permissions": [
+        "当前登录主体的有权操作用户。"
+      ],
+      "exceptionHandling": [
+        "校验失败时保留当前输入，提示修正；保存失败时不得展示提交成功。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-login",
+          "elementId": "portal.login"
+        },
+        {
+          "pageId": "portal-login",
+          "elementId": "login.accountType"
+        },
+        {
+          "pageId": "portal-login",
+          "elementId": "login.password"
+        },
+        {
+          "pageId": "portal-login",
+          "elementId": "login.captcha"
+        }
+      ],
+      "fields": [
+        {
+          "name": "账号",
+          "type": "下拉枚举：个人 / 企业 / 身份认证",
+          "required": true,
+          "defaultValue": "当前账号类型；首次企业",
+          "validation": "仅允许三个固定选项；身份认证进入待认证入口，其余进入对应门户。"
+        },
+        {
+          "name": "密码",
+          "type": "密码，只读禁用",
+          "required": false,
+          "defaultValue": "灰色掩码示意",
+          "validation": "不可编辑，不参与登录校验。"
+        },
+        {
+          "name": "验证码",
+          "type": "只读禁用",
+          "required": false,
+          "defaultValue": "27（灰色示意）",
+          "validation": "输入框及图片按钮均禁用，不参与登录校验。"
+        },
+        {
+          "name": "记住我",
+          "type": "布尔",
+          "required": false,
+          "defaultValue": "勾选",
+          "validation": "仅原型展示，不持久化密码。"
+        }
+      ],
+      "moduleId": "portal",
+      "updatedAt": "2026-11-02T09:48:56.664Z"
+    },
+    "identity.details": {
+      "reqId": "identity.details",
+      "featureName": "企业与个人主体身份信息",
+      "kind": "function",
+      "interactionSteps": [
+        "企业用户查看企业基本信息、法定代表人及注册信息；个人用户查看个人基本信息和证件信息。"
+      ],
+      "businessRules": [
+        "企业与个人主体身份默认有效期均为 180 天，均在注销后提供续期。",
+        "个人身份页展示主体身份标识、姓名、证件号码、证件起止日期、实名认证等级/时间/方式、身份状态、证件类型、手机号及凭证；证件图片为原型示意。",
+        "证件有效期、企业经营期限和主体身份有效期分别展示，续期仅影响主体身份。",
+        "当前账号类型、门户名称和身份管理详情保持一致，不能混用另一类型主体的信息。"
+      ],
+      "fieldValidations": [],
+      "permissions": [
+        "当前登录主体的有权操作用户。"
+      ],
+      "exceptionHandling": [
+        "校验失败时保留当前输入，提示修正；保存失败时不得展示提交成功。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-workbench",
+          "elementId": "identity.details"
+        },
+        {
+          "pageId": "portal-person-workbench",
+          "elementId": "identity.details"
+        }
+      ],
+      "fields": [],
+      "moduleId": "identity-renewal",
+      "updatedAt": "2026-11-02T09:27:29.211Z"
+    },
+    "identity.renew": {
+      "reqId": "identity.renew",
+      "featureName": "主体身份续期申请",
+      "kind": "function",
+      "interactionSteps": [
+        "在注销后点击续期打开申请弹窗。",
+        "查看首次续期时间及当前到期时间，选择续期天数，实时计算预计新到期时间。",
+        "提交后进入待审核，展示成功反馈；再次续期显示申请详情并阻止重复提交。"
+      ],
+      "businessRules": [
+        "首次续期时间：首次审核通过的生效日期，无历史续期时展示“暂无（首次申请）”；提交申请不产生首次生效时间。",
+        "单次申请 1–360 天整数，默认 180 天，提供 180 天和 360 天快捷选择。",
+        "未到期从原到期日顺延；已到期从审核通过日计算。预计日期已到期时暂以当前日期计算，以审核结果为准。",
+        "提交后保留当前到期时间，审核通过后再更新；本原型不包含审批系统，以本地模拟待审核状态展示。",
+        "提交记录保存在当前浏览器，仅为原型状态；业务正式接入需由服务端校验身份、时长和幂等性。",
+        "适用主体：企业用户与个人用户，均默认 180 天、每次最长 360 天；弹窗展示当前主体姓名或企业名称。",
+        "个人与企业申请分别保存，切换账号不得串用到期时间、首次续期时间或待审核申请。"
+      ],
+      "fieldValidations": [
+        {
+          "field": "申请续期时长",
+          "rule": "必填，1–360 整数，默认 180",
+          "message": "请输入 1–360 的整数。"
+        }
+      ],
+      "permissions": [
+        "当前登录主体的有权操作用户。"
+      ],
+      "exceptionHandling": [
+        "校验失败时保留当前输入，提示修正；保存失败时不得展示提交成功。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-workbench",
+          "elementId": "identity.renew"
+        },
+        {
+          "pageId": "portal-workbench",
+          "elementId": "identity.validity"
+        },
+        {
+          "pageId": "portal-workbench",
+          "elementId": "renew.duration"
+        },
+        {
+          "pageId": "portal-workbench",
+          "elementId": "renew.estimate"
+        },
+        {
+          "pageId": "portal-workbench",
+          "elementId": "renew.submit"
+        },
+        {
+          "pageId": "portal-person-workbench",
+          "elementId": "identity.renew"
+        },
+        {
+          "pageId": "portal-person-workbench",
+          "elementId": "identity.validity"
+        },
+        {
+          "pageId": "portal-person-workbench",
+          "elementId": "renew.duration"
+        },
+        {
+          "pageId": "portal-person-workbench",
+          "elementId": "renew.estimate"
+        },
+        {
+          "pageId": "portal-person-workbench",
+          "elementId": "renew.submit"
+        }
+      ],
+      "fields": [
+        {
+          "name": "首次续期时间",
+          "type": "日期，只读",
+          "required": false,
+          "defaultValue": "暂无（首次申请）",
+          "validation": "仅首次审核通过后记录，后续续期不覆盖。"
+        },
+        {
+          "name": "当前到期时间",
+          "type": "日期，只读",
+          "required": true,
+          "defaultValue": "当前主体身份到期日",
+          "validation": "读取服务端有效期，与工作台一致。"
+        },
+        {
+          "name": "申请续期时长",
+          "type": "整数（天）",
+          "required": true,
+          "defaultValue": "180",
+          "validation": "1–360 的整数，必填，不允许小数、0、负数及超过 360。"
+        },
+        {
+          "name": "预计新到期时间",
+          "type": "日期，只读",
+          "required": false,
+          "defaultValue": "当前到期日 + 180 天",
+          "validation": "时长变更实时计算，非法输入展示 —；审核结果为准。"
+        }
+      ],
+      "moduleId": "identity-renewal",
+      "updatedAt": "2026-11-02T09:27:29.213Z",
+      "acceptanceCriteria": [
+        {
+          "name": "续期时长边界",
+          "given": "已打开续期申请弹窗",
+          "when": "输入 0、361 或小数并提交",
+          "then": [
+            "阻止提交并保留输入",
+            "输入 360 可提交一次，状态为待审核，当前到期时间不变"
+          ]
+        }
+      ]
+    },
+    "identity.reminder": {
+      "reqId": "identity.reminder",
+      "featureName": "登录成功后的续期提醒",
+      "kind": "function",
+      "interactionSteps": [
+        "登录成功进入门户首页后计算当前身份剩余有效天数。",
+        "到期前 7 天内（含第 7 天及到期日）显示提醒弹窗，展示主体名称、到期时间、剩余天数和续期上限。",
+        "点击立即申请续期，直接打开续期申请弹窗；稍后提醒关闭弹窗，下次登录继续判断。"
+      ],
+      "businessRules": [
+        "按 Asia/Shanghai 的自然日计算剩余天数；超过 7 天不提醒，已过期单独提示进入工作台办理。",
+        "已有待审核申请时不重复展示申请提醒，工作台可查看申请详情。",
+        "企业及个人演示账号初始均剩余 6 天。已有待审核申请时不清除、不重复提醒。",
+        "个人提醒显示姓名王三，企业提醒显示企业主体名称；快捷申请沿用当前身份。"
+      ],
+      "fieldValidations": [],
+      "permissions": [
+        "当前登录主体的有权操作用户。"
+      ],
+      "exceptionHandling": [
+        "校验失败时保留当前输入，提示修正；保存失败时不得展示提交成功。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-home",
+          "elementId": "identity.reminder"
+        },
+        {
+          "pageId": "portal-home",
+          "elementId": "reminder.apply"
+        },
+        {
+          "pageId": "portal-person-home",
+          "elementId": "identity.reminder"
+        },
+        {
+          "pageId": "portal-person-home",
+          "elementId": "reminder.apply"
+        }
+      ],
+      "fields": [],
+      "moduleId": "identity-renewal",
+      "updatedAt": "2026-11-02T09:27:29.215Z",
+      "acceptanceCriteria": [
+        {
+          "name": "登录成功触发提醒",
+          "given": "主体剩余 0–7 天且无待审申请",
+          "when": "用户登录成功",
+          "then": [
+            "进入门户首页并展示到期提醒",
+            "点击立即申请续期直接打开申请弹窗"
+          ]
+        }
+      ]
+    },
+    "identity.personal.documents": {
+      "reqId": "identity.personal.documents",
+      "featureName": "个人证件信息",
+      "kind": "function",
+      "interactionSteps": [
+        "个人身份管理下方展示证件正面和反面示意。"
+      ],
+      "businessRules": [
+        "仅个人用户展示证件信息，不显示企业法定代表人及注册信息。",
+        "证件图片为原型示意，不进行真实证件上传或识别。"
+      ],
+      "fieldValidations": [],
+      "fields": [],
+      "permissions": [
+        "当前个人主体。"
+      ],
+      "exceptionHandling": [
+        "证件未提供时展示占位，不影响续期申请。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-person-workbench",
+          "elementId": "identity.personal.documents"
+        }
+      ],
+      "updatedAt": "2026-11-02T09:27:29.217Z"
+    },
+    "portal.auth.entry": {
+      "reqId": "portal.auth.entry",
+      "featureName": "主体身份待认证入口",
+      "kind": "function",
+      "interactionSteps": [
+        "身份认证账号登录成功后展示主体身份认证卡片。",
+        "点击“去主体认证”进入认证类型选择；返回登录可切换账号类型。"
+      ],
+      "businessRules": [
+        "未完成认证不展示有效主体身份凭证，不进入已有个人或企业用户的续期流程。"
+      ],
+      "fields": [],
+      "fieldValidations": [],
+      "permissions": [
+        "身份认证演示账号可查看当前申请。"
+      ],
+      "exceptionHandling": [
+        "状态或材料加载异常时保留当前申请信息，提示重试，不按审核通过处理。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-auth-entry",
+          "elementId": "portal.auth.entry"
+        }
+      ],
+      "acceptanceCriteria": [],
+      "updatedAt": "2026-11-02T09:48:56.666Z"
+    },
+    "portal.auth.types": {
+      "reqId": "portal.auth.types",
+      "featureName": "选择身份认证类型",
+      "kind": "function",
+      "interactionSteps": [
+        "显示个人认证和企业认证两张类型卡片。",
+        "选择个人默认进入个人认证审核中；选择企业默认进入企业认证审核中。",
+        "从审核页返回类型选择后，可重新选择演示分支。"
+      ],
+      "businessRules": [
+        "个人适用个人身份信息认证；企业适用工商及法定代表人或经办人身份认证。",
+        "本轮企业演示申请采用法定代表人认证，选择类型不新建或重复提交真实申请。"
+      ],
+      "fields": [],
+      "fieldValidations": [],
+      "permissions": [
+        "身份认证演示账号可查看当前申请。"
+      ],
+      "exceptionHandling": [
+        "状态或材料加载异常时保留当前申请信息，提示重试，不按审核通过处理。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-auth-types",
+          "elementId": "portal.auth.types"
+        }
+      ],
+      "acceptanceCriteria": [],
+      "updatedAt": "2026-11-02T09:48:56.668Z"
+    },
+    "portal.auth.personal.review": {
+      "reqId": "portal.auth.personal.review",
+      "featureName": "个人身份认证审核中",
+      "kind": "function",
+      "interactionSteps": [
+        "默认选中认证审核中，展示审核状态、申请编号、提交时间与认证类型。",
+        "已提交认证信息直接展示在当前页面，材料可只读查看；不再通过按钮切换基本信息。",
+        "顶部已完成步骤不可点击，审核卡片不展示额外的三阶段进度与提示条。"
+      ],
+      "businessRules": [
+        "审核中信息与材料仅可查看，禁用真实修改、替换、删除和重复提交。",
+        "本原型为演示认证申请；认证信息、申请编号和材料示意不表示真实提交或审核通过。",
+        "个人展示两步：基本信息、认证审核中。",
+        "不承诺未经确认的审核完成时限。",
+        "删除审核卡片右上角的重复状态标签及页面右上角的演示认证申请标签。",
+        "删除底部返回认证类型和刷新审核状态按钮；顶部返回认证类型入口保留。",
+        "当前审核中状态保持不变，不自动通过或发放凭证。",
+        "删除审核卡片下方的三阶段进度及提示条，删除“查看已提交信息”按钮；已提交资料直接在当前页展示。"
+      ],
+      "fields": [],
+      "fieldValidations": [],
+      "permissions": [
+        "身份认证演示账号可查看当前申请。"
+      ],
+      "exceptionHandling": [
+        "状态或材料加载异常时保留当前申请信息，提示重试，不按审核通过处理。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-auth-personal",
+          "elementId": "portal.auth.personal.review"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "name": "默认审核中且信息只读",
+          "given": "用户从认证类型页选择个人认证",
+          "when": "页面首次打开或刷新",
+          "then": [
+            "认证审核中步骤高亮",
+            "展示当前申请编号、提交时间、认证类型及认证信息",
+            "不显示提交、替换或删除入口"
+          ]
+        }
+      ],
+      "updatedAt": "2026-11-02T10:20:50.190Z"
+    },
+    "portal.auth.personal.info": {
+      "reqId": "portal.auth.personal.info",
+      "featureName": "个人已提交认证信息",
+      "kind": "function",
+      "interactionSteps": [
+        "在审核中页面直接查看已提交的认证信息及材料；不提供“查看已提交信息”按钮或基本信息切换。"
+      ],
+      "businessRules": [
+        "仅呈现本类型认证申请的信息，不混用个人与企业资料。",
+        "字段说明集中于本子模块，不为每个只读字段建立导航。"
+      ],
+      "fields": [
+        {
+          "name": "姓名",
+          "type": "字符串，只读",
+          "defaultValue": "王三",
+          "required": true,
+          "validation": "读取已提交姓名，审核中不可修改。"
+        },
+        {
+          "name": "证件类型",
+          "type": "枚举，只读",
+          "defaultValue": "中华人民共和国居民身份证",
+          "required": true,
+          "validation": "与提交材料保持一致。"
+        },
+        {
+          "name": "证件号码",
+          "type": "字符串，只读",
+          "defaultValue": "演示证件号码",
+          "required": true,
+          "validation": "提交前须满足证件类型规则；本页仅读取。"
+        },
+        {
+          "name": "证件有效期起始/截止",
+          "type": "日期，只读",
+          "defaultValue": "2019-07-02 / 2035-07-02",
+          "required": true,
+          "validation": "起始不得晚于截止；本页不可修改。"
+        },
+        {
+          "name": "证书请求文件 CSR",
+          "type": "枚举及文件，只读",
+          "defaultValue": "客户端生成 / personal-identity.csr",
+          "required": true,
+          "validation": "生成方式和已提交文件保持一致。"
+        },
+        {
+          "name": "证件正面/反面",
+          "type": "图片文件，只读",
+          "defaultValue": "已提交材料示意",
+          "required": true,
+          "validation": "提交时支持 PNG/JPG，单文件不超过 5MB；审核中仅查看。"
+        }
+      ],
+      "fieldValidations": [],
+      "permissions": [
+        "身份认证演示账号可查看当前申请。"
+      ],
+      "exceptionHandling": [
+        "状态或材料加载异常时保留当前申请信息，提示重试，不按审核通过处理。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-auth-personal",
+          "elementId": "portal.auth.personal.info"
+        }
+      ],
+      "acceptanceCriteria": [],
+      "updatedAt": "2026-11-02T10:20:50.194Z"
+    },
+    "portal.auth.enterprise.review": {
+      "reqId": "portal.auth.enterprise.review",
+      "featureName": "企业身份认证审核中",
+      "kind": "function",
+      "interactionSteps": [
+        "默认选中认证审核中，展示审核状态、申请编号、提交时间与认证类型。",
+        "已提交认证信息直接展示在当前页面，材料可只读查看；不再通过按钮切换基本信息。",
+        "顶部已完成步骤不可点击，审核卡片不展示额外的三阶段进度与提示条。"
+      ],
+      "businessRules": [
+        "审核中信息与材料仅可查看，禁用真实修改、替换、删除和重复提交。",
+        "本原型为演示认证申请；认证信息、申请编号和材料示意不表示真实提交或审核通过。",
+        "企业展示三步：选择类型、基本信息、认证审核中。",
+        "不承诺未经确认的审核完成时限。",
+        "删除审核卡片右上角的重复状态标签及页面右上角的演示认证申请标签。",
+        "删除底部返回认证类型和刷新审核状态按钮；顶部返回认证类型入口保留。",
+        "当前审核中状态保持不变，不自动通过或发放凭证。",
+        "删除审核卡片下方的三阶段进度及提示条，删除“查看已提交信息”按钮；已提交资料直接在当前页展示。"
+      ],
+      "fields": [],
+      "fieldValidations": [],
+      "permissions": [
+        "身份认证演示账号可查看当前申请。"
+      ],
+      "exceptionHandling": [
+        "状态或材料加载异常时保留当前申请信息，提示重试，不按审核通过处理。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-auth-enterprise",
+          "elementId": "portal.auth.enterprise.review"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "name": "默认审核中且信息只读",
+          "given": "用户从认证类型页选择企业认证",
+          "when": "页面首次打开或刷新",
+          "then": [
+            "认证审核中步骤高亮",
+            "展示当前申请编号、提交时间、认证类型及认证信息",
+            "不显示提交、替换或删除入口"
+          ]
+        }
+      ],
+      "updatedAt": "2026-11-02T10:20:50.201Z"
+    },
+    "portal.auth.enterprise.info": {
+      "reqId": "portal.auth.enterprise.info",
+      "featureName": "企业已提交认证信息",
+      "kind": "function",
+      "interactionSteps": [
+        "在审核中页面直接查看已提交的认证信息及材料；不提供“查看已提交信息”按钮或基本信息切换。"
+      ],
+      "businessRules": [
+        "仅呈现本类型认证申请的信息，不混用个人与企业资料。",
+        "字段说明集中于本子模块，不为每个只读字段建立导航。"
+      ],
+      "fields": [
+        {
+          "name": "企业全称",
+          "type": "字符串，只读",
+          "defaultValue": "重庆壹弘科技有限公司",
+          "required": true,
+          "validation": "读取已提交营业执照对应企业名称。"
+        },
+        {
+          "name": "法人或其他组织类型",
+          "type": "枚举，只读",
+          "defaultValue": "企事业单位法人",
+          "required": true,
+          "validation": "审核期间不可切换。"
+        },
+        {
+          "name": "统一社会信用代码",
+          "type": "字符串，只读",
+          "defaultValue": "91500103MAE2CF7R62",
+          "required": true,
+          "validation": "提交时 18 位；审核中保持原值。"
+        },
+        {
+          "name": "电子营业执照",
+          "type": "图片文件，只读",
+          "defaultValue": "business-license.jpg",
+          "required": true,
+          "validation": "提交时 PNG/JPG，不超过 5MB；审核中仅查看。"
+        },
+        {
+          "name": "经营期限起始/截止",
+          "type": "日期或长期，只读",
+          "defaultValue": "2024-10-30 / 长期",
+          "required": true,
+          "validation": "起始不得晚于截止；长期单独显示。"
+        },
+        {
+          "name": "注册地址",
+          "type": "字符串，只读",
+          "defaultValue": "演示注册地址",
+          "required": false,
+          "validation": "未提供展示未提供；只读。"
+        },
+        {
+          "name": "注册金额",
+          "type": "金额，只读",
+          "defaultValue": "1,000,000.00 元",
+          "required": false,
+          "validation": "提交时非负数字；审核中不可修改。"
+        },
+        {
+          "name": "注册日期",
+          "type": "日期，只读",
+          "defaultValue": "2024-10-30",
+          "required": false,
+          "validation": "读取已提交日期。"
+        },
+        {
+          "name": "行业类型",
+          "type": "枚举，只读",
+          "defaultValue": "软件和信息技术服务业",
+          "required": false,
+          "validation": "读取已提交行业。"
+        },
+        {
+          "name": "经营范围",
+          "type": "长文本，只读",
+          "defaultValue": "已提交经营范围",
+          "required": false,
+          "validation": "按提交内容展示。"
+        },
+        {
+          "name": "法人姓名/身份证号/邮箱",
+          "type": "字符串，只读",
+          "defaultValue": "已提交法定代表人信息",
+          "required": true,
+          "validation": "法人姓名、身份证号必填，邮箱选填；提交时校验格式。"
+        },
+        {
+          "name": "主体资质/业务对接/主体授权信息",
+          "type": "长文本，只读",
+          "defaultValue": "已提交补充信息",
+          "required": false,
+          "validation": "无内容展示未提供，不新增编辑入口。"
+        },
+        {
+          "name": "法人身份证正面/反面",
+          "type": "图片文件，只读",
+          "defaultValue": "已提交材料示意",
+          "required": false,
+          "validation": "提交时 PNG/JPG，不超过 5MB；审核中仅查看。"
+        },
+        {
+          "name": "授权文件/资质证书",
+          "type": "图片或 PDF 文件，只读",
+          "defaultValue": "authorization.pdf / qualification.pdf",
+          "required": false,
+          "validation": "提交时 JPG/PNG/PDF，不超过 5MB；审核中仅查看。"
+        },
+        {
+          "name": "证书请求文件 CSR",
+          "type": "枚举及文件，只读",
+          "defaultValue": "客户端生成 / enterprise-identity.csr",
+          "required": true,
+          "validation": "读取已提交生成方式与文件。"
+        }
+      ],
+      "fieldValidations": [],
+      "permissions": [
+        "身份认证演示账号可查看当前申请。"
+      ],
+      "exceptionHandling": [
+        "状态或材料加载异常时保留当前申请信息，提示重试，不按审核通过处理。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-auth-enterprise",
+          "elementId": "portal.auth.enterprise.info"
+        }
+      ],
+      "acceptanceCriteria": [],
+      "updatedAt": "2026-11-02T10:20:50.203Z"
+    },
+    "portal.auth.materials": {
+      "reqId": "portal.auth.materials",
+      "featureName": "认证材料查看",
+      "kind": "function",
+      "interactionSteps": [
+        "点击材料查看按钮，弹出当前材料名称和文件名的查看示意。",
+        "关闭弹窗回到原认证申请，保留当前步骤。"
+      ],
+      "businessRules": [
+        "审核中信息与材料仅可查看，禁用真实修改、替换、删除和重复提交。",
+        "本原型为演示认证申请；认证信息、申请编号和材料示意不表示真实提交或审核通过。",
+        "刷新状态保持审核中，并提示当前进度；不自动模拟审核通过，不发放数字凭证。",
+        "个人展示证件正反面及 CSR；企业展示电子营业执照、法人身份证正反面、补充材料及 CSR。",
+        "本原型不读取本机真实证件文件，不连接真实上传、下载或认证接口。"
+      ],
+      "fields": [],
+      "fieldValidations": [],
+      "permissions": [
+        "身份认证演示账号可查看当前申请。"
+      ],
+      "exceptionHandling": [
+        "状态或材料加载异常时保留当前申请信息，提示重试，不按审核通过处理。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-auth-personal",
+          "elementId": "portal.auth.materials"
+        },
+        {
+          "pageId": "portal-auth-enterprise",
+          "elementId": "portal.auth.materials"
+        }
+      ],
+      "acceptanceCriteria": [],
+      "updatedAt": "2026-11-02T09:48:56.684Z"
     }
   },
   "modules": [
@@ -2472,18 +3324,197 @@
       "exceptionHandling": [
         "依据为空或超过500字时禁止保存。"
       ]
+    },
+    "portal.home": {
+      "title": "业务节点门户首页",
+      "interactionSteps": [
+        "点击右上角工作台进入身份管理；点击退出进入登录页。",
+        "使用右下角演示入口查看登录后的到期提醒。"
+      ],
+      "businessRules": [
+        "门户展示重庆区域功能节点业务概况；统计为演示固定值。"
+      ],
+      "exceptionHandling": [
+        "异常时保留当前页面及输入并允许重试。"
+      ]
+    },
+    "portal.identity": {
+      "title": "工作台 · 身份管理",
+      "interactionSteps": [
+        "点击基本信息栏“注销”后的“续期”，打开主体身份续期申请弹窗。"
+      ],
+      "businessRules": [
+        "有效期默认 180 天；不改变经营期限。"
+      ],
+      "exceptionHandling": [
+        "异常时保留当前页面及输入并允许重试。"
+      ]
+    },
+    "portal.login": {
+      "title": "门户登录",
+      "interactionSteps": [
+        "下拉选择个人、企业或身份认证，点击登录。"
+      ],
+      "businessRules": [
+        "个人/企业进入对应门户；身份认证进入待认证入口。",
+        "密码和验证码继续置灰禁用，不参与校验。"
+      ],
+      "exceptionHandling": [
+        "加载异常保留当前申请状态，提示重试。"
+      ]
+    },
+    "identity.renew": {
+      "title": "主体身份续期申请",
+      "interactionSteps": [
+        "查看首次续期时间、当前到期时间，填写续期天数并提交。"
+      ],
+      "businessRules": [
+        "默认 180 天，最长 360 天；提交后待审核，审核通过后生效。"
+      ],
+      "exceptionHandling": [
+        "异常时保留当前页面及输入并允许重试。"
+      ]
+    },
+    "identity.reminder": {
+      "title": "主体身份即将到期",
+      "interactionSteps": [
+        "点击立即申请续期打开申请弹窗；稍后提醒关闭。"
+      ],
+      "businessRules": [
+        "剩余 0–7 天登录成功提醒，已有待审申请不重复提醒。"
+      ],
+      "exceptionHandling": [
+        "异常时保留当前页面及输入并允许重试。"
+      ]
+    },
+    "identity.renew.result": {
+      "title": "续期申请已提交",
+      "interactionSteps": [
+        "查看申请天数、预计新到期时间和待审核状态。"
+      ],
+      "businessRules": [
+        "本原型展示提交成功，不模拟审核通过。"
+      ],
+      "exceptionHandling": [
+        "异常时保留当前页面及输入并允许重试。"
+      ]
+    },
+    "portal.personal.home": {
+      "title": "个人用户门户首页",
+      "interactionSteps": [
+        "个人登录成功进入门户，右上角显示王三与个人标识。",
+        "点击工作台进入个人身份管理；到期前 7 天内无待审申请时弹出续期提醒。"
+      ],
+      "businessRules": [
+        "门户统计与企业一致，个人操作不改变区域统计。"
+      ],
+      "exceptionHandling": [
+        "异常时保留当前页面、账号类型与输入，允许重试。"
+      ]
+    },
+    "portal.personal.identity": {
+      "title": "个人身份管理",
+      "interactionSteps": [
+        "查看个人基本信息和证件信息。",
+        "点击注销后的续期，填写 1–360 天整数并申请续期。"
+      ],
+      "businessRules": [
+        "主体身份默认有效期 180 天；证件有效期单独展示，不随身份续期改变。",
+        "申请提交后待审核，当前到期日保持不变；和企业账号的申请独立。"
+      ],
+      "exceptionHandling": [
+        "异常时保留当前页面、账号类型与输入，允许重试。"
+      ]
+    },
+    "portal.auth.entry": {
+      "title": "主体身份认证",
+      "interactionSteps": [
+        "身份认证账号登录后展示待认证卡片，点击去主体认证进入类型选择。"
+      ],
+      "businessRules": [
+        "未认证状态不等于认证通过，不进入续期流程。"
+      ],
+      "exceptionHandling": [
+        "加载异常保留当前申请状态，提示重试。"
+      ]
+    },
+    "portal.auth.types": {
+      "title": "选择身份认证类型",
+      "interactionSteps": [
+        "选择个人或企业认证，默认打开对应认证审核中页。"
+      ],
+      "businessRules": [
+        "个人与企业演示申请互不混用，不重复新建真实认证申请。"
+      ],
+      "exceptionHandling": [
+        "加载异常保留当前申请状态，提示重试。"
+      ]
+    },
+    "portal.auth.personal.review": {
+      "title": "个人认证审核中",
+      "interactionSteps": [
+        "默认展示认证审核中及申请信息；下方直接展示已提交认证资料和材料。",
+        "顶部已完成步骤不可点击；不再提供查看已提交信息、底部返回或刷新按钮。"
+      ],
+      "businessRules": [
+        "审核中信息与材料仅可查看，禁用真实修改、替换、删除和重复提交。",
+        "本原型为演示认证申请；认证信息、申请编号和材料示意不表示真实提交或审核通过。",
+        "个人认证保留基本信息和认证审核中两个步骤。",
+        "审核卡片不显示右上角重复状态标签，页面不显示演示认证申请标签；删除底部返回和刷新按钮。",
+        "审核卡片删除额外三阶段进度、底部提示条和重复状态标签；页面删除演示认证申请标签。"
+      ],
+      "exceptionHandling": [
+        "加载异常保留当前申请状态，提示重试。"
+      ]
+    },
+    "portal.auth.enterprise.review": {
+      "title": "企业认证审核中",
+      "interactionSteps": [
+        "默认展示认证审核中及申请信息；下方直接展示已提交认证资料和材料。",
+        "顶部已完成步骤不可点击；不再提供查看已提交信息、底部返回或刷新按钮。"
+      ],
+      "businessRules": [
+        "审核中信息与材料仅可查看，禁用真实修改、替换、删除和重复提交。",
+        "本原型为演示认证申请；认证信息、申请编号和材料示意不表示真实提交或审核通过。",
+        "企业认证保留选择类型、基本信息和认证审核中三个步骤。",
+        "审核卡片不显示右上角重复状态标签，页面不显示演示认证申请标签；删除底部返回和刷新按钮。",
+        "审核卡片删除额外三阶段进度、底部提示条和重复状态标签；页面删除演示认证申请标签。"
+      ],
+      "exceptionHandling": [
+        "加载异常保留当前申请状态，提示重试。"
+      ]
+    },
+    "portal.auth.material.preview": {
+      "title": "认证材料查看",
+      "interactionSteps": [
+        "查看已提交材料名称、文件名及状态，关闭后回到当前认证申请。"
+      ],
+      "businessRules": [
+        "当前展示材料示意，不表示读取真实证件文件；审核期间不可替换或删除。"
+      ],
+      "exceptionHandling": [
+        "加载异常保留当前申请状态，提示重试。"
+      ]
     }
   },
   "reviewScope": {
-    "name": "机器审核与查询安全",
+    "name": "门户身份认证与个人企业续期工作稿",
     "reqIds": [
-      "node.submit",
-      "node.machineAudit",
-      "node.riskPreview",
-      "catalog.audit",
-      "catalog.alert",
-      "catalog.profile",
-      "catalog.query"
+      "portal.workbench",
+      "portal.logout",
+      "portal.statistics",
+      "portal.login",
+      "identity.details",
+      "identity.renew",
+      "identity.reminder",
+      "identity.personal.documents",
+      "portal.auth.entry",
+      "portal.auth.types",
+      "portal.auth.personal.review",
+      "portal.auth.personal.info",
+      "portal.auth.enterprise.review",
+      "portal.auth.enterprise.info",
+      "portal.auth.materials"
     ]
   }
 }
