@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "projectId": "business-node-management",
-  "revision": 33,
+  "revision": 88,
   "requirements": {
     "node.enter": {
       "reqId": "node.enter",
@@ -196,7 +196,52 @@
             "重置后登记名称为空且审核状态恢复全部"
           ]
         }
-      ]
+      ],
+      "elementDefinitions": {
+        "node.query.name": {
+          "name": "业务节点登记名称",
+          "meaning": "用于识别业务节点的登记名称；按名称包含匹配查询。",
+          "calculation": "多个已填写条件同时生效；默认留空，不限制对应条件。",
+          "scope": "",
+          "refresh": ""
+        },
+        "node.query.identifier": {
+          "name": "业务节点标识",
+          "meaning": "系统分配给业务节点的标识；可按标识片段筛选。",
+          "calculation": "多个已填写条件同时生效；默认留空，不限制对应条件。",
+          "scope": "",
+          "refresh": ""
+        },
+        "node.query.state": {
+          "name": "审核状态",
+          "meaning": "申请所处的审核状态；未选择时不限制状态。",
+          "calculation": "多个已填写条件同时生效；默认留空，不限制对应条件。",
+          "scope": "",
+          "refresh": ""
+        },
+        "node.query.credit": {
+          "name": "统一社会信用代码",
+          "meaning": "用于识别登记主体的统一社会信用代码。",
+          "calculation": "多个已填写条件同时生效；默认留空，不限制对应条件。",
+          "scope": "",
+          "refresh": ""
+        },
+        "node.query.organization": {
+          "name": "所属法人或组织名称",
+          "meaning": "业务节点登记主体的法人或组织名称。",
+          "calculation": "多个已填写条件同时生效；默认留空，不限制对应条件。",
+          "scope": "",
+          "refresh": ""
+        },
+        "node.query.legalId": {
+          "name": "所属法人身份标识",
+          "meaning": "登记主体的法人身份标识，与业务节点标识分别表示主体和节点。",
+          "calculation": "多个已填写条件同时生效；默认留空，不限制对应条件。",
+          "scope": "",
+          "refresh": ""
+        }
+      },
+      "updatedAt": "2026-11-02T02:37:50.798Z"
     },
     "node.statistics": {
       "reqId": "node.statistics",
@@ -408,7 +453,7 @@
           "保留填写内容，服务恢复后重新提交。"
         ]
       },
-      "updatedAt": "2026-11-01T17:08:59.018768Z",
+      "updatedAt": "2026-11-02T02:37:50.796Z",
       "sensitiveWordPolicy": {
         "status": "draft",
         "categories": [
@@ -447,6 +492,43 @@
           }
         ],
         "matching": "匹配规则：按上述完整词项及上下文判定，识别插入空格或常见分隔符的规避写法；不得仅凭“色情”“暴力”“诈骗”等通用词或单字拦截，反诈、禁毒等合规业务描述不按风险命中。"
+      },
+      "elementDefinitions": {
+        "node.machineAudit.sequence": {
+          "name": "序号",
+          "meaning": "当前风险明细的展示顺序，从 1 开始；不表示风险等级。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "node.machineAudit.riskType": {
+          "name": "风险类型",
+          "meaning": "本条内容命中的风险分类，如敏感词、色情招揽或暴力威胁。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "node.machineAudit.hitLocation": {
+          "name": "命中位置",
+          "meaning": "发生文字风险的表单字段，供用户定位并修改。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "node.machineAudit.hitContent": {
+          "name": "命中内容 / 证据",
+          "meaning": "展示命中的文字片段并突出风险内容。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "node.machineAudit.suggestion": {
+          "name": "修改建议",
+          "meaning": "针对本条命中内容给出的修改指引；修改后仍需重新审核。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        }
       }
     },
     "node.material": {
@@ -695,7 +777,15 @@
         }
       ],
       "statistics": [],
-      "acceptanceCriteria": []
+      "acceptanceCriteria": [],
+      "elementDefinitions": {
+        "node.field.name": {
+          "name": "登记名称",
+          "meaning": "业务节点的登记展示名称，用于识别和查询本次接入的节点。",
+          "calculation": "类型：字符串；默认：空；必填；不能为空。"
+        }
+      },
+      "updatedAt": "2026-11-02T02:39:20.247Z"
     },
     "node.field.operator": {
       "reqId": "node.field.operator",
@@ -726,7 +816,15 @@
         }
       ],
       "statistics": [],
-      "acceptanceCriteria": []
+      "acceptanceCriteria": [],
+      "elementDefinitions": {
+        "node.field.operator": {
+          "name": "运营机构名称",
+          "meaning": "负责该业务节点运营的机构名称。",
+          "calculation": "类型：字符串；默认：空；选填；可留空。"
+        }
+      },
+      "updatedAt": "2026-11-02T02:39:20.249Z"
     },
     "node.field.org": {
       "reqId": "node.field.org",
@@ -759,7 +857,15 @@
         }
       ],
       "statistics": [],
-      "acceptanceCriteria": []
+      "acceptanceCriteria": [],
+      "elementDefinitions": {
+        "node.field.org": {
+          "name": "所属组织",
+          "meaning": "本次业务节点接入登记归属的组织。",
+          "calculation": "类型：字符串；默认：空；必填；不能为空。"
+        }
+      },
+      "updatedAt": "2026-11-02T02:39:20.252Z"
     },
     "node.field.credit": {
       "reqId": "node.field.credit",
@@ -790,7 +896,15 @@
         }
       ],
       "statistics": [],
-      "acceptanceCriteria": []
+      "acceptanceCriteria": [],
+      "elementDefinitions": {
+        "node.field.credit": {
+          "name": "统一社会信用代码",
+          "meaning": "登记主体的统一社会信用代码，用于识别法人或其他组织。",
+          "calculation": "类型：字符串；默认：空；选填；可留空。"
+        }
+      },
+      "updatedAt": "2026-11-02T02:39:20.253Z"
     },
     "node.field.service": {
       "reqId": "node.field.service",
@@ -821,7 +935,15 @@
         }
       ],
       "statistics": [],
-      "acceptanceCriteria": []
+      "acceptanceCriteria": [],
+      "elementDefinitions": {
+        "node.field.service": {
+          "name": "服务类型",
+          "meaning": "该节点提供服务的类别。",
+          "calculation": "类型：枚举；默认：空；选填；可选数据服务、应用服务或基础设施服务；可不选择。"
+        }
+      },
+      "updatedAt": "2026-11-02T02:39:20.255Z"
     },
     "node.field.version": {
       "reqId": "node.field.version",
@@ -854,7 +976,15 @@
         }
       ],
       "statistics": [],
-      "acceptanceCriteria": []
+      "acceptanceCriteria": [],
+      "elementDefinitions": {
+        "node.field.version": {
+          "name": "版本号",
+          "meaning": "本次登记的业务节点服务版本。",
+          "calculation": "类型：字符串；默认：空；必填；必填，格式为1.0.0或v1.0.0。"
+        }
+      },
+      "updatedAt": "2026-11-02T02:39:20.257Z"
     },
     "node.field.date": {
       "reqId": "node.field.date",
@@ -885,7 +1015,15 @@
         }
       ],
       "statistics": [],
-      "acceptanceCriteria": []
+      "acceptanceCriteria": [],
+      "elementDefinitions": {
+        "node.field.date": {
+          "name": "经营时间",
+          "meaning": "登记主体填写的经营相关日期；本字段是单个日期。",
+          "calculation": "类型：日期；默认：空；选填；可留空。"
+        }
+      },
+      "updatedAt": "2026-11-02T02:39:20.258Z"
     },
     "node.field.legal": {
       "reqId": "node.field.legal",
@@ -916,7 +1054,15 @@
         }
       ],
       "statistics": [],
-      "acceptanceCriteria": []
+      "acceptanceCriteria": [],
+      "elementDefinitions": {
+        "node.field.legal": {
+          "name": "法人姓名",
+          "meaning": "登记主体的法定代表人姓名。",
+          "calculation": "类型：字符串；默认：空；选填；可留空。"
+        }
+      },
+      "updatedAt": "2026-11-02T02:39:20.260Z"
     },
     "node.field.phone": {
       "reqId": "node.field.phone",
@@ -947,7 +1093,15 @@
         }
       ],
       "statistics": [],
-      "acceptanceCriteria": []
+      "acceptanceCriteria": [],
+      "elementDefinitions": {
+        "node.field.phone": {
+          "name": "法人联系方式",
+          "meaning": "联系法定代表人所使用的联系方式。",
+          "calculation": "类型：字符串；默认：空；选填；可留空。"
+        }
+      },
+      "updatedAt": "2026-11-02T02:39:20.262Z"
     },
     "node.field.idcard": {
       "reqId": "node.field.idcard",
@@ -978,7 +1132,15 @@
         }
       ],
       "statistics": [],
-      "acceptanceCriteria": []
+      "acceptanceCriteria": [],
+      "elementDefinitions": {
+        "node.field.idcard": {
+          "name": "法人身份证号",
+          "meaning": "登记主体法定代表人的身份证件号码。",
+          "calculation": "类型：字符串；默认：空；选填；可留空。"
+        }
+      },
+      "updatedAt": "2026-11-02T02:39:20.263Z"
     },
     "node.field.address": {
       "reqId": "node.field.address",
@@ -1009,7 +1171,15 @@
         }
       ],
       "statistics": [],
-      "acceptanceCriteria": []
+      "acceptanceCriteria": [],
+      "elementDefinitions": {
+        "node.field.address": {
+          "name": "物理地址",
+          "meaning": "业务节点所在的实际物理地址，区别于服务 URL。",
+          "calculation": "类型：字符串；默认：空；选填；最多100个字符，可留空。"
+        }
+      },
+      "updatedAt": "2026-11-02T02:39:20.265Z"
     },
     "node.field.description": {
       "reqId": "node.field.description",
@@ -1042,7 +1212,15 @@
         }
       ],
       "statistics": [],
-      "acceptanceCriteria": []
+      "acceptanceCriteria": [],
+      "elementDefinitions": {
+        "node.field.description": {
+          "name": "业务简介",
+          "meaning": "说明节点提供的业务功能、服务内容与使用场景；该文字纳入本期敏感词审核。",
+          "calculation": "类型：字符串；默认：空；必填；不能为空。"
+        }
+      },
+      "updatedAt": "2026-11-02T02:39:20.267Z"
     },
     "node.field.remark": {
       "reqId": "node.field.remark",
@@ -1073,7 +1251,15 @@
         }
       ],
       "statistics": [],
-      "acceptanceCriteria": []
+      "acceptanceCriteria": [],
+      "elementDefinitions": {
+        "node.field.remark": {
+          "name": "备注",
+          "meaning": "补充登记信息中未覆盖的业务说明；该文字纳入本期敏感词审核。",
+          "calculation": "类型：字符串；默认：空；选填；可留空。"
+        }
+      },
+      "updatedAt": "2026-11-02T02:39:20.268Z"
     },
     "node.riskPreview": {
       "reqId": "node.riskPreview",
@@ -1174,9 +1360,7 @@
         "点击重置清空条件；查询被阻断时查看原因并按提示处理。"
       ],
       "businessRules": [
-        "查询执行前校验身份、资源权限和一次性令牌。",
-        "按用户统计连续60秒内的查询请求，失败请求计入次数；第51次起阻断，冷却60秒。",
-        "高频、越权或令牌重放请求不执行数据查询，仍记录审计日志和关联预警。"
+        "本地查询和跨域调用须在服务端使用统一认证用户ID执行滚动60秒限流，达到50次第50次起拒绝，记录审计并产生风险提醒。"
       ],
       "fieldValidations": [
         {
@@ -1195,6 +1379,10 @@
       "bindings": [
         {
           "pageId": "home",
+          "elementId": "catalog.query"
+        },
+        {
+          "pageId": "audit",
           "elementId": "catalog.query"
         }
       ],
@@ -1263,9 +1451,9 @@
           ]
         },
         {
-          "name": "第五十一次查询实时阻断",
-          "given": "同一用户在连续60秒内已发起50次查询请求",
-          "when": "该用户发起第51次查询",
+          "name": "第五十次查询实时阻断",
+          "given": "同一用户在连续60秒内已发起49次查询请求",
+          "when": "该用户发起第50次查询",
           "then": [
             "本次查询被阻断且不执行数据查询，返回条数为0",
             "开始60秒冷却，冷却期内后续高频查询继续被阻断",
@@ -1275,13 +1463,15 @@
         {
           "name": "冷却结束后恢复查询",
           "given": "用户因高频查询进入60秒冷却期",
-          "when": "冷却期结束且连续60秒窗口内请求数未超过阈值",
+          "when": "冷却期结束且连续60秒窗口内请求数低于50次",
           "then": [
             "允许重新执行目录查询",
             "按实际查询结果记录新的审计日志"
           ]
         }
-      ]
+      ],
+      "updatedAt": "2026-11-02T02:58:36.828Z",
+      "surfaceSummaries": {}
     },
     "catalog.detail": {
       "reqId": "catalog.detail",
@@ -1324,15 +1514,22 @@
     },
     "catalog.audit": {
       "reqId": "catalog.audit",
-      "featureName": "全链路查询审计",
+      "featureName": "查询日志与统计联动",
       "interactionSteps": [
-        "按用户、机构、IP、请求编号和查询结果筛选日志。",
-        "打开全链路详情，查看各处理阶段及关联风险；点击导出获取日志文件。"
+        "按日期、关键词、调用方式、返回状态查询，统一更新统计、趋势、风险事件及日志。",
+        "选择5分钟、30分钟或1小时统计粒度；悬浮查看成功及阻断数，点击时段联动筛选，再次点击或清除时段恢复。",
+        "点击审计详情，在右侧同一面板切换查询链路、关联风险、用户画像；关闭后保留筛选、页码及所选时段。",
+        "支持手动刷新；页面默认每分钟自动刷新；导出仅包含当前查询范围的日志与关联风险。"
       ],
       "businessRules": [
-        "记录请求编号、时间、IP、用户及机构、场景、对象、令牌标识、ABAC策略、执行结果和返回条数。",
-        "成功与被阻断请求均留存可追溯、防篡改的审计记录；阻断请求返回条数为0，并关联风险预警。",
-        "日志不保存令牌原文及原始敏感返回数据。"
+        "查询日志是唯一审计入口，风险事件与用户画像作为该页面的关联能力，不另设独立导航页。",
+        "所有统计均由查询结果计算，成功和阻断请求均计入；采用北京时间，零分母的占比为0。",
+        "图表按当前查询条件聚合；点击时段后进一步筛选指标、风险及明细。趋势保留全范围，选中时段高亮，便于清除选择。",
+        "统计更新指本次统计计算时间；自动刷新默认启用，每1分钟重算已有查询记录，不随机生成请求或改变数值。",
+        "需求说明模式、标签页不可见、详情面板打开、输入框处于编辑状态时暂停自动刷新；刷新保留筛选与页码。",
+        "日志包含请求编号、时间、认证用户身份、机构、可信来源IP、调用方式、源目标节点、查询参数、策略版本、执行结果、返回条数与脱敏摘要。",
+        "请求被拦截后，不执行数据查询，并提示原因：请求过于频繁返回 HTTP 429，无访问权限返回 HTTP 403。",
+        "页面只展示业务信息、操作结果与必要统计口径。敏感正文、凭据原文不进入审计明细。"
       ],
       "fieldValidations": [],
       "permissions": [
@@ -1345,70 +1542,238 @@
         {
           "pageId": "home",
           "elementId": "catalog.audit"
+        },
+        {
+          "pageId": "audit",
+          "elementId": "catalog.audit"
         }
       ],
       "kind": "function",
       "scenarios": [],
       "fields": [
         {
-          "name": "用户 / IP / 请求编号",
+          "name": "查询日期",
+          "type": "日期",
+          "defaultValue": "2026-11-02",
+          "required": false,
+          "validation": "按北京时间日期匹配；清空表示全部"
+        },
+        {
+          "name": "关键词",
           "type": "字符串",
           "defaultValue": "",
           "required": false,
-          "validation": "按已记录日志中的用户、机构、IP和请求编号包含匹配",
-          "message": ""
+          "validation": "按用户、用户ID、IP、机构、请求编号、产品名包含匹配"
         },
         {
-          "name": "查询结果",
+          "name": "调用方式",
           "type": "枚举",
           "defaultValue": "",
           "required": false,
-          "validation": "空值表示全部；可选成功、已阻断",
-          "message": ""
+          "validation": "全部、本地查询、跨域调用"
+        },
+        {
+          "name": "返回状态",
+          "type": "枚举",
+          "defaultValue": "",
+          "required": false,
+          "validation": "全部、成功、已阻断"
+        },
+        {
+          "name": "统计粒度",
+          "type": "枚举",
+          "defaultValue": "30分钟",
+          "required": false,
+          "validation": "5分钟、30分钟、1小时；切换时清除时段选择"
+        },
+        {
+          "name": "仅看待研判",
+          "type": "布尔",
+          "defaultValue": "关闭",
+          "required": false,
+          "validation": "开启后只显示关联待研判事件的请求"
         }
       ],
-      "statistics": [],
+      "statistics": [
+        {
+          "name": "查询总量",
+          "formula": "成功与阻断请求总数",
+          "scope": "当前查询条件与所选时段；待研判筛选同步生效",
+          "refresh": "查询、重置、手动刷新、粒度与时段切换；默认每1分钟计算"
+        },
+        {
+          "name": "活跃用户",
+          "formula": "按认证用户ID去重",
+          "scope": "当前查询条件与所选时段；待研判筛选同步生效",
+          "refresh": "查询、重置、手动刷新、粒度与时段切换；默认每1分钟计算"
+        },
+        {
+          "name": "跨域调用",
+          "formula": "跨域调用请求数；占比=跨域请求数/查询总量",
+          "scope": "当前查询条件与所选时段；待研判筛选同步生效",
+          "refresh": "查询、重置、手动刷新、粒度与时段切换；默认每1分钟计算"
+        },
+        {
+          "name": "已阻断请求",
+          "formula": "被拒绝请求数；阻断率=阻断数/查询总量",
+          "scope": "当前查询条件与所选时段；待研判筛选同步生效",
+          "refresh": "查询、重置、手动刷新、粒度与时段切换；默认每1分钟计算"
+        },
+        {
+          "name": "关联风险事件",
+          "formula": "按事件去重，关联当前结果中任一请求的风险事件",
+          "scope": "当前查询条件与所选时段；待研判筛选同步生效",
+          "refresh": "查询、重置、手动刷新、粒度与时段切换；默认每1分钟计算"
+        },
+        {
+          "name": "查询访问趋势",
+          "formula": "按统计粒度聚合查询条件内的成功与阻断请求，时段筛选不裁剪趋势图",
+          "scope": "当前查询条件与所选时段；待研判筛选同步生效",
+          "refresh": "查询、重置、手动刷新、粒度与时段切换；默认每1分钟计算"
+        }
+      ],
       "acceptanceCriteria": [
         {
-          "name": "记录成功查询全链路",
-          "given": "目录查询用户已完成一次成功查询",
-          "when": "安全人员打开该请求的审计详情",
+          "name": "审计统一入口",
+          "given": "安全人员打开查询日志",
+          "when": "点击日志、风险事件或用户名",
           "then": [
-            "可查看请求编号、时间、IP、用户及机构、场景、对象、令牌标识、ABAC策略、执行结果和返回条数",
-            "不展示或存储令牌原文及原始敏感返回结果"
+            "在当前页打开详情侧栏",
+            "侧栏提供查询链路、关联风险、用户画像",
+            "关闭后保留筛选、时段及页码"
           ]
         },
         {
-          "name": "记录阻断查询和关联预警",
-          "given": "一次目录查询因高频、越权或令牌重放被阻断",
-          "when": "安全人员查询审计日志",
+          "name": "时段与统计联动",
+          "given": "存在多时段查询记录",
+          "when": "切换统计粒度并点击某个时段",
           "then": [
-            "日志执行结果为已阻断且返回条数为0",
-            "日志记录对应风险原因并可追溯关联预警",
-            "不将被阻断请求记为查询执行完成"
+            "全部请求恰好归入一个统计桶，不截断记录",
+            "指标、风险事件、日志按时段更新",
+            "清除选择恢复原查询范围"
           ]
         },
         {
-          "name": "筛选并导出查询日志",
-          "given": "已存在成功和已阻断的查询日志",
-          "when": "安全人员按用户、IP、请求编号或查询结果筛选并导出日志",
+          "name": "自动刷新保护编辑",
+          "given": "已默认每分钟自动刷新",
+          "when": "打开详情或进入需求说明空间",
           "then": [
-            "列表仅显示符合筛选条件的日志",
-            "导出JSON包含查询日志及关联预警，不包含令牌原文和原始敏感返回数据"
+            "暂停刷新，不覆盖输入、不关闭详情",
+            "恢复正常预览后继续按开启状态刷新"
           ]
         }
-      ]
+      ],
+      "surfaceSummaries": {
+        "catalog.logs": [
+          "筛选条件、统计图、关联风险及日志在查询日志中统一联动。",
+          "点击时段缩小范围；打开审计详情查看链路、风险与画像，关闭后保留页面状态。"
+        ],
+        "catalog.trace": [
+          "在审计详情中查看同一请求的处理阶段、参数与返回摘要。",
+          "切换关联风险或用户画像，不离开查询日志。"
+        ]
+      },
+      "updatedAt": "2026-11-02T03:24:50.272Z",
+      "elementDefinitions": {
+        "catalog.audit.total": {
+          "name": "查询总量",
+          "meaning": "当前范围内成功与被阻断的查询请求总次数。",
+          "calculation": "成功与阻断请求总数",
+          "scope": "当前查询条件与所选时段；待研判筛选同步生效",
+          "refresh": "查询、重置、手动刷新、粒度与时段切换；默认每1分钟计算"
+        },
+        "catalog.audit.users": {
+          "name": "活跃用户",
+          "meaning": "当前范围发起过请求的不同认证用户数量。",
+          "calculation": "按认证用户ID去重",
+          "scope": "当前查询条件与所选时段；待研判筛选同步生效",
+          "refresh": "查询、重置、手动刷新、粒度与时段切换；默认每1分钟计算"
+        },
+        "catalog.audit.cross": {
+          "name": "跨域调用",
+          "meaning": "当前范围标记为跨域调用的请求次数，包含成功和阻断。",
+          "calculation": "跨域调用请求数；占比=跨域请求数/查询总量",
+          "scope": "当前查询条件与所选时段；待研判筛选同步生效",
+          "refresh": "查询、重置、手动刷新、粒度与时段切换；默认每1分钟计算"
+        },
+        "catalog.audit.blocked": {
+          "name": "已阻断请求",
+          "meaning": "当前范围被安全策略拒绝的请求次数，不等于确认风险事件数。",
+          "calculation": "被拒绝请求数；阻断率=阻断数/查询总量",
+          "scope": "当前查询条件与所选时段；待研判筛选同步生效",
+          "refresh": "查询、重置、手动刷新、粒度与时段切换；默认每1分钟计算"
+        },
+        "catalog.audit.date": {
+          "name": "查询日期",
+          "meaning": "按北京时间日期匹配；清空表示全部",
+          "calculation": "类型：日期；默认：2026-11-02；选填。",
+          "scope": "查询日志、统计数据和关联风险同步按条件筛选。"
+        },
+        "catalog.audit.keyword": {
+          "name": "关键词",
+          "meaning": "按用户、用户ID、IP、机构、请求编号、产品名包含匹配",
+          "calculation": "类型：字符串；默认：全部 / 空；选填。",
+          "scope": "查询日志、统计数据和关联风险同步按条件筛选。"
+        },
+        "catalog.audit.mode": {
+          "name": "调用方式",
+          "meaning": "全部、本地查询、跨域调用",
+          "calculation": "类型：枚举；默认：全部 / 空；选填。",
+          "scope": "查询日志、统计数据和关联风险同步按条件筛选。"
+        },
+        "catalog.audit.status": {
+          "name": "返回状态",
+          "meaning": "全部、成功、已阻断",
+          "calculation": "类型：枚举；默认：全部 / 空；选填。",
+          "scope": "查询日志、统计数据和关联风险同步按条件筛选。"
+        },
+        "catalog.audit.refreshButton": {
+          "name": "刷新图标",
+          "meaning": "按当前查询条件重新计算统计与日志，并更新统计更新时间。"
+        },
+        "catalog.audit.autoRefresh": {
+          "name": "1 分钟自动刷新",
+          "meaning": "页面默认每 60 秒自动刷新，无需勾选；进入需求说明、页面不可见、阅读详情或编辑输入内容时暂停。",
+          "refresh": "每 60 秒刷新一次；保留查询条件与页码。"
+        },
+        "catalog.audit.table": {
+          "kind": "module",
+          "name": "查询日志明细",
+          "meaning": "逐条展示当前查询范围内的请求记录，包含成功与被阻断请求。",
+          "interactionSteps": [
+            "按查询条件和已选时段更新日志，最新请求优先展示；每页默认 10 条，可切换上一页、下一页。",
+            "点击用户名查看用户画像；点击审计详情查看本次请求的查询链路。",
+            "待研判请求显示研判入口；关闭详情后保留查询条件、页码和时段。",
+            "点击导出日志，导出当前范围的全部匹配日志与关联风险，不限于当前页。"
+          ],
+          "businessRules": [
+            "展示查询时间、请求编号、用户身份与机构、来源 IP、调用方式、查询对象、返回结果和研判状态。",
+            "HTTP 429 表示高频限流，HTTP 403 表示访问被拒绝；阻断请求保留审计记录，不执行数据查询。",
+            "敏感正文和凭据原文不进入明细；请求编号关联同一请求的链路与证据。"
+          ],
+          "exceptionHandling": [
+            "无匹配记录时展示空态，可调整条件。",
+            "查询或导出失败时提示重试，保留当前条件。"
+          ]
+        }
+      }
     },
     "catalog.alert": {
       "reqId": "catalog.alert",
-      "featureName": "风险识别与预警",
+      "featureName": "关联风险与研判",
       "interactionSteps": [
-        "查看待研判预警，打开证据链了解风险。",
-        "选择研判结论并填写依据，保存后关闭预警。"
+        "在查询日志的关联风险区或日志中点击研判，打开同页详情面板的关联风险页签。",
+        "查看触发依据、阻断动作、关联请求；选择结论并填写依据后保存。",
+        "保存后在同一面板展示处置结论，列表状态和待研判数量同步更新。"
       ],
       "businessRules": [
-        "高频访问、越权访问及令牌重放触发阻断与预警，预警关联原始请求。",
-        "研判结论可选确认风险、业务正常或规则误报；研判依据去除首尾空格后不能为空。"
+        "高频访问：同一认证用户在连续 60 秒内累计发起查询达到 50 次，即命中风险；本地查询与跨域调用合并计数，成功及被阻断请求均计入。第 50 次起拒绝执行查询，返回 HTTP 429，并开始 60 秒冷却；冷却结束且窗口内请求少于 50 次时恢复。",
+        "越权访问：请求的查询对象或操作超出当前用户的有效授权范围，即命中风险；拒绝本次请求，返回 HTTP 403，不执行后续数据查询。用户类型本身不作为越权判定依据。",
+        "令牌重放：同一一次性令牌标识已被使用，再次用于发起查询，即命中风险；拒绝重复请求，当前原型返回 HTTP 403，不执行后续数据查询。正常使用可复用访问令牌不按此规则认定为重放。",
+        "单个用户同规则的风险命中聚合为事件，每次请求保留独立审计轨迹。",
+        "关联风险区继承查询条件、时段及待研判筛选；事件详情展示该事件的完整关联请求。",
+        "研判仅关闭风险事件，不解除访问控制策略；记录处理人、处理时间、结论与依据。",
+        "命中风险规则不等同于恶意行为结论。"
       ],
       "fieldValidations": [
         {
@@ -1427,6 +1792,10 @@
         {
           "pageId": "home",
           "elementId": "catalog.alert"
+        },
+        {
+          "pageId": "audit",
+          "elementId": "catalog.alert"
         }
       ],
       "kind": "function",
@@ -1436,53 +1805,77 @@
           "name": "研判结论",
           "type": "枚举",
           "defaultValue": "确认风险",
-          "required": false,
-          "validation": "可选确认风险、业务正常、规则误报",
-          "message": ""
+          "required": true,
+          "validation": "确认风险、业务正常、规则误报"
         },
         {
           "name": "研判依据",
-          "type": "字符串",
+          "type": "多行文本",
           "defaultValue": "",
           "required": true,
-          "validation": "去除首尾空格后不能为空",
-          "message": "请填写研判依据"
+          "validation": "去除首尾空格后非空，最多500字"
         }
       ],
       "statistics": [],
       "acceptanceCriteria": [
         {
-          "name": "风险请求生成预警",
-          "given": "目录查询用户触发高频、越权或令牌重放策略",
-          "when": "系统阻断查询",
+          "name": "同页完成风险研判",
+          "given": "存在待研判风险",
+          "when": "填写有效结论及依据并保存",
           "then": [
-            "生成待研判预警并关联对应请求编号",
-            "安全人员可查看该预警的证据链",
-            "本次不执行数据查询"
-          ]
-        },
-        {
-          "name": "填写依据后关闭预警",
-          "given": "安全人员正在处置一条待研判预警",
-          "when": "用户选择研判结论并保存处置",
-          "then": [
-            "研判依据为空或仅包含空格时提示请填写研判依据且不关闭预警",
-            "填写有效研判依据后保存结论和依据，并将预警状态更新为已关闭"
+            "侧栏显示已关闭状态及处置依据",
+            "主页面待研判数量与日志状态同步变化",
+            "不自动解除限流或访问权限"
           ]
         }
-      ]
+      ],
+      "updatedAt": "2026-11-02T03:13:15.876Z",
+      "surfaceSummaries": {
+        "catalog.logs": [
+          "在同一审计页面查看关联风险与待研判数量，点击事件或研判打开详情。"
+        ],
+        "catalog.resolve": [
+          "核对检测依据与关联请求，填写研判结论和依据后保存。"
+        ]
+      },
+      "elementDefinitions": {
+        "catalog.alert.events": {
+          "kind": "module",
+          "name": "关联风险事件",
+          "meaning": "展示与当前查询结果关联的风险事件及待研判数量。",
+          "interactionSteps": [
+            "点击事件查看触发依据、阻断动作和关联请求。",
+            "点击仅看待研判联动筛选统计、日志和事件；点击查看全部恢复。",
+            "填写研判结论和依据并保存，事件状态和待研判数量同步更新。"
+          ],
+          "businessRules": [
+            "高频访问：同一认证用户在连续 60 秒内累计发起查询达到 50 次，即命中风险；本地查询与跨域调用合并计数，成功及被阻断请求均计入。第 50 次起拒绝执行查询，返回 HTTP 429，并开始 60 秒冷却；冷却结束且窗口内请求少于 50 次时恢复。",
+            "越权访问：请求的查询对象或操作超出当前用户的有效授权范围，即命中风险；拒绝本次请求，返回 HTTP 403，不执行后续数据查询。用户类型本身不作为越权判定依据。",
+            "令牌重放：同一一次性令牌标识已被使用，再次用于发起查询，即命中风险；拒绝重复请求，当前原型返回 HTTP 403，不执行后续数据查询。正常使用可复用访问令牌不按此规则认定为重放。",
+            "单个用户同规则的风险命中聚合为事件，每次请求保留独立审计轨迹。",
+            "关联风险区继承查询条件、时段及待研判筛选；事件详情展示该事件的完整关联请求。",
+            "研判仅关闭风险事件，不解除访问控制策略；记录处理人、处理时间、结论与依据。",
+            "命中风险规则不等同于恶意行为结论。"
+          ],
+          "exceptionHandling": [
+            "依据为空时提示补充且不关闭预警；保存失败时保留结论和依据。"
+          ]
+        }
+      }
     },
     "catalog.profile": {
       "reqId": "catalog.profile",
-      "featureName": "风险行为画像",
+      "featureName": "审计关联用户画像",
       "interactionSteps": [
-        "打开风险行为画像，查看用户查询统计与行为标签。",
-        "点击关联查询证据，追溯对应审计记录。"
+        "点击查询日志中的用户名，或在审计详情切换用户画像页签。",
+        "查看该用户在当前查询条件内的访问统计、风险标签、来源IP及关联事件。",
+        "点击画像中的风险事件切换到同一面板的关联风险页签。"
       ],
       "businessRules": [
-        "按所查看用户的查询审计记录聚合查询数、异常数、返回条数、来源IP数及行为标签，每次查询后更新。",
-        "异常率为被阻断查询数除以全部查询数；无查询记录时显示0%。",
-        "行为标签依据命中策略生成，风险结论需结合业务背景研判。"
+        "画像继承当前查询条件、所选时段及待研判过滤，与主页面口径一致。",
+        "累计查询为当前结果内该用户的请求数；异常率=阻断数/请求数；分母为0时为0。",
+        "60S请求总数取匹配请求携带的滚动60秒用户计数最大值；来源IP去重计算。",
+        "不再单独设用户画像菜单。风险标签仅表达规则命中事实，需结合业务背景复核。"
       ],
       "fieldValidations": [],
       "permissions": [
@@ -1495,66 +1888,248 @@
         {
           "pageId": "home",
           "elementId": "catalog.profile"
+        },
+        {
+          "pageId": "audit",
+          "elementId": "catalog.profile"
         }
       ],
-      "updatedAt": "2026-10-31T13:40:00.000Z",
+      "updatedAt": "2026-11-02T03:24:50.275Z",
       "kind": "function",
       "scenarios": [],
       "fields": [],
       "statistics": [
         {
-          "name": "查询总数",
-          "formula": "该用户的查询日志数量",
-          "scope": "所查看用户的查询审计记录",
-          "refresh": "每次查询后刷新"
+          "name": "查询总量",
+          "formula": "所选用户请求数",
+          "scope": "当前查询条件中选中用户的请求",
+          "refresh": "打开或切换用户画像时计算"
         },
         {
-          "name": "异常查询",
-          "formula": "该用户命中风险原因的查询数量",
-          "scope": "所查看用户的查询审计记录",
-          "refresh": "每次查询后刷新"
+          "name": "阻断请求",
+          "formula": "所选用户被拒绝的请求数",
+          "scope": "当前查询条件中选中用户的请求",
+          "refresh": "打开或切换用户画像时计算"
         },
         {
-          "name": "返回目录条数",
-          "formula": "该用户所有查询返回条数之和",
-          "scope": "所查看用户的查询审计记录",
-          "refresh": "每次查询后刷新"
+          "name": "60S请求总数",
+          "formula": "匹配请求携带的滚动60秒计数最大值",
+          "scope": "当前查询条件中选中用户的请求",
+          "refresh": "打开或切换用户画像时计算"
         },
         {
-          "name": "来源 IP 数",
-          "formula": "该用户查询来源IP的去重数量",
-          "scope": "所查看用户的查询审计记录",
-          "refresh": "每次查询后刷新"
-        },
-        {
-          "name": "异常率",
-          "formula": "被阻断查询数 / 全部查询数 × 100%；空样本显示0%",
-          "scope": "所查看用户的查询审计记录",
-          "refresh": "每次查询后刷新"
+          "name": "来源IP",
+          "formula": "按所选用户来源IP去重",
+          "scope": "当前查询条件中选中用户的请求",
+          "refresh": "打开或切换用户画像时计算"
         }
       ],
       "acceptanceCriteria": [
         {
-          "name": "查看用户风险行为画像",
-          "given": "安全人员已产生成功和已阻断的目录查询",
-          "when": "安全人员打开风险行为画像",
+          "name": "画像继承审计范围",
+          "given": "查询日志已设置条件与时段",
+          "when": "点击用户名打开画像",
           "then": [
-            "按当前用户展示查询总数、异常查询、返回目录条数、来源 IP 数和异常率",
-            "异常率按被阻断查询数 / 全部查询数计算",
-            "统计范围为所查看用户的查询审计记录，每次查询后刷新"
-          ]
-        },
-        {
-          "name": "无查询时展示空样本",
-          "given": "所查看用户尚无目录查询记录",
-          "when": "安全人员打开风险行为画像",
-          "then": [
-            "查询总数、异常查询和返回目录条数均显示 0",
-            "来源 IP 数显示 0",
-            "异常率显示 0%"
+            "仅统计当前结果内该用户的记录",
+            "关闭面板后查询状态保持不变"
           ]
         }
-      ]
+      ],
+      "surfaceSummaries": {
+        "catalog.logs": [
+          "点击用户名打开同一审计侧栏中的用户画像。"
+        ],
+        "catalog.profile": [
+          "画像统计继承当前查询条件；关联风险可在侧栏内继续追踪。"
+        ]
+      },
+      "elementDefinitions": {
+        "catalog.profile.identity": {
+          "name": "用户身份信息",
+          "meaning": "依次展示用户 ID、用户类型和所属机构，用于确认当前画像对应的访问主体。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.uid": {
+          "name": "用户 ID",
+          "meaning": "审计记录中的认证用户唯一标识，用于关联同一用户的请求与风险事件；不是企业统一社会信用代码。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.role": {
+          "name": "用户类型",
+          "meaning": "访问主体的认证身份分类，例如政府用户或企业用户；不代表风险等级。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.organization": {
+          "name": "所属机构",
+          "meaning": "该用户在认证身份中归属的组织或单位，用于核对访问主体的业务背景。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.name": {
+          "name": "用户名称",
+          "meaning": "当前画像对应用户的展示名称；用户关联与统计以用户 ID 为准。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.avatar": {
+          "name": "用户类型图标",
+          "meaning": "“政”代表政府用户，“企”代表企业用户；辅助识别用户类型，不表示风险。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.riskStatus": {
+          "name": "风险规则命中状态",
+          "meaning": "当前范围存在被阻断请求时显示“命中风险规则”；否则显示“未命中风险规则”。规则命中需人工研判，不等同于确认恶意。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.scope": {
+          "name": "统计范围与最近访问",
+          "meaning": "说明当前画像继承的筛选范围；最近访问取该用户匹配记录中的最新查询时间。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.close": {
+          "name": "关闭图标",
+          "meaning": "关闭审计详情侧栏，保留主页面的查询条件和已选时段。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.event": {
+          "name": "关联风险事件入口",
+          "meaning": "展示该用户在当前范围关联的风险事件及研判状态；点击切换到同一侧栏的关联风险页签。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.pending": {
+          "name": "待研判风险",
+          "meaning": "当前用户关联风险事件中尚未完成研判的事件数量；按事件去重，不等于阻断请求次数。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.ips": {
+          "name": "来源 IP 明细",
+          "meaning": "列出当前用户匹配请求使用过的来源 IP，去重展示；不据此直接认定真实所在地。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.targets": {
+          "name": "查询对象",
+          "meaning": "列出当前用户匹配请求访问的资源名称，按名称去重展示。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.traceTab": {
+          "name": "查询链路页签",
+          "meaning": "切换查看当前请求经过的认证、权限、频率检查和查询执行阶段。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.riskTab": {
+          "name": "关联风险页签",
+          "meaning": "切换查看当前请求关联的风险证据与研判记录。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.profileTab": {
+          "name": "用户画像页签",
+          "meaning": "查看当前请求所属用户在当前筛选范围内的访问统计和风险标签。",
+          "calculation": "",
+          "scope": "",
+          "refresh": ""
+        },
+        "catalog.profile.total": {
+          "name": "查询总量",
+          "meaning": "该用户在当前范围发起的查询请求总数。",
+          "calculation": "成功请求数 + 被阻断请求数；每条请求计 1 次。",
+          "scope": "当前查询条件、所选时段及待研判筛选中，选中用户的请求。",
+          "refresh": "打开画像或切换用户时重新计算；阅读详情期间不自动刷新。"
+        },
+        "catalog.profile.blocked": {
+          "name": "阻断请求",
+          "meaning": "该用户被安全策略拒绝的请求次数，不代表已确认的风险事件数。",
+          "calculation": "匹配记录中存在阻断原因的请求数量。",
+          "scope": "当前查询条件、所选时段及待研判筛选中，选中用户的请求。",
+          "refresh": "打开画像或切换用户时重新计算；阅读详情期间不自动刷新。"
+        },
+        "catalog.profile.peak": {
+          "name": "60S最高请求数",
+          "meaning": "该用户连续 1 分钟内查询请求数的最高记录值，包含成功与被阻断请求；达到 50 次即触发高频风险，第 50 次起拦截。",
+          "calculation": "取匹配请求记录携带的滚动 60 秒计数最大值；该计数窗口可包含所选时段开始前的请求，不是所选范围总数。",
+          "scope": "当前查询条件、所选时段及待研判筛选中，选中用户的请求。",
+          "refresh": "打开画像或切换用户时重新计算；阅读详情期间不自动刷新。",
+          "interactionSteps": [],
+          "businessRules": [],
+          "exceptionHandling": []
+        },
+        "catalog.profile.ipCount": {
+          "name": "来源 IP 数",
+          "meaning": "该用户在当前范围使用过的不同来源 IP 数量。",
+          "calculation": "按来源 IP 去重计数。",
+          "scope": "当前查询条件、所选时段及待研判筛选中，选中用户的请求。",
+          "refresh": "打开画像或切换用户时重新计算；阅读详情期间不自动刷新。"
+        },
+        "catalog.profile.localCount": {
+          "name": "本地查询次数",
+          "meaning": "调用当前目录节点完成的查询请求数量。",
+          "calculation": "调用方式为“本地查询”的请求数，包含成功与阻断请求。",
+          "scope": "当前查询条件、所选时段及待研判筛选中，选中用户的请求。",
+          "refresh": "打开画像或切换用户时重新计算；阅读详情期间不自动刷新。"
+        },
+        "catalog.profile.crossCount": {
+          "name": "跨域调用次数",
+          "meaning": "涉及跨域目录调用的查询请求数量。",
+          "calculation": "调用方式为“跨域调用”的请求数，包含成功与阻断请求。",
+          "scope": "当前查询条件、所选时段及待研判筛选中，选中用户的请求。",
+          "refresh": "打开画像或切换用户时重新计算；阅读详情期间不自动刷新。"
+        },
+        "catalog.profile.abnormalRate": {
+          "name": "异常率",
+          "meaning": "当前范围内该用户被阻断请求占全部请求的比例，不表示已确认恶意的比例。",
+          "calculation": "阻断请求数 ÷ 查询总量 × 100%，保留 1 位小数；分母为 0 时显示 0.0%。",
+          "scope": "当前查询条件、所选时段及待研判筛选中，选中用户的请求。",
+          "refresh": "打开画像或切换用户时重新计算；阅读详情期间不自动刷新。"
+        },
+        "catalog.profile.frequencyRisk": {
+          "name": "高频访问标签",
+          "meaning": "高频访问规则的命中请求次数；零次为灰色，存在命中时高亮，不代表人工确认风险。",
+          "calculation": "匹配该用户访问记录中阻断原因为该风险类型的请求数；按请求计数。",
+          "scope": "当前查询条件、所选时段及待研判筛选中，选中用户的请求。",
+          "refresh": "打开画像或切换用户时重新计算；阅读详情期间不自动刷新。"
+        },
+        "catalog.profile.permissionRisk": {
+          "name": "越权访问标签",
+          "meaning": "越权访问规则的命中请求次数；零次为灰色，存在命中时高亮，不代表人工确认风险。",
+          "calculation": "匹配记录中阻断原因包含该风险类型的请求数；按请求计数。",
+          "scope": "当前查询条件、所选时段及待研判筛选中，选中用户的请求。",
+          "refresh": "打开画像或切换用户时重新计算；阅读详情期间不自动刷新。"
+        },
+        "catalog.profile.replayRisk": {
+          "name": "令牌重放标签",
+          "meaning": "令牌重放规则的命中请求次数；零次为灰色，存在命中时高亮，不代表人工确认风险。",
+          "calculation": "匹配记录中阻断原因包含该风险类型的请求数；按请求计数。",
+          "scope": "当前查询条件、所选时段及待研判筛选中，选中用户的请求。",
+          "refresh": "打开画像或切换用户时重新计算；阅读详情期间不自动刷新。"
+        }
+      }
     }
   },
   "modules": [
@@ -1825,14 +2400,18 @@
     "catalog.logs": {
       "title": "查询日志",
       "interactionSteps": [
-        "筛选查询日志，查看全链路详情或导出日志。"
+        "设置查询条件，查看访问统计、趋势、关联风险与日志。",
+        "点击时段联动筛选；点击审计详情、用户名或风险事件进入同一侧栏。",
+        "在侧栏切换查询链路、关联风险与用户画像，完成研判后关闭返回原位置。"
       ],
       "businessRules": [
-        "成功与被阻断请求均可追溯，详情和关联预警使用同一请求编号。",
-        "审计信息不展示令牌原文和原始敏感返回数据。"
+        "审计、风险事件、用户画像共用查询上下文，统一按北京时间统计。",
+        "自动刷新默认关闭；开启后每1分钟更新统计，输入、详情阅读及需求编辑期间暂停。",
+        "高频规则按同一认证用户滚动60秒达到50次判定，本地与跨域合并计数，第50次起阻断。"
       ],
       "exceptionHandling": [
-        "无日志时显示空态；查询或导出失败时提示重试。"
+        "无匹配请求时统计为0，图表与列表显示空态。",
+        "刷新保留筛选和页码；关闭侧栏不清除查询上下文。"
       ]
     },
     "catalog.alerts": {
@@ -1841,6 +2420,9 @@
         "查看预警与证据链，按需进入研判处置。"
       ],
       "businessRules": [
+        "高频访问：同一认证用户在连续 60 秒内累计发起查询达到 50 次，即命中风险；本地查询与跨域调用合并计数，成功及被阻断请求均计入。第 50 次起拒绝执行查询，返回 HTTP 429，并开始 60 秒冷却；冷却结束且窗口内请求少于 50 次时恢复。",
+        "越权访问：请求的查询对象或操作超出当前用户的有效授权范围，即命中风险；拒绝本次请求，返回 HTTP 403，不执行后续数据查询。用户类型本身不作为越权判定依据。",
+        "令牌重放：同一一次性令牌标识已被使用，再次用于发起查询，即命中风险；拒绝重复请求，当前原型返回 HTTP 403，不执行后续数据查询。正常使用可复用访问令牌不按此规则认定为重放。",
         "每条预警关联触发请求；保存研判结果后更新处置状态。"
       ],
       "exceptionHandling": [
@@ -1848,16 +2430,15 @@
       ]
     },
     "catalog.profile": {
-      "title": "风险行为画像",
+      "title": "审计详情 · 用户画像",
       "interactionSteps": [
-        "查看用户行为统计和风险标签，追溯关联查询证据。"
+        "查看当前用户的访问统计、风险标签和关联事件。"
       ],
       "businessRules": [
-        "画像与所查看用户的查询审计记录一致，查询发生后刷新。",
-        "风险标签需结合业务背景进行研判。"
+        "继承当前查询条件、时段及待研判筛选；规则标签需结合业务背景研判。"
       ],
       "exceptionHandling": [
-        "无查询记录时统计显示0；获取失败时提示重新加载。"
+        "无匹配记录时统计为0。"
       ]
     },
     "catalog.blocked": {
@@ -1873,36 +2454,44 @@
       ]
     },
     "catalog.trace": {
-      "title": "查询全链路详情",
+      "title": "审计详情 · 查询链路",
       "interactionSteps": [
-        "按处理顺序查看请求接入、校验、权限判定、行为检测、查询执行和结果返回。"
+        "按顺序核对请求接入、身份校验、权限、行为检测、查询执行与返回结果。",
+        "可切换关联风险或用户画像，关闭后返回查询日志。"
       ],
       "businessRules": [
-        "各阶段信息对应同一请求，未执行阶段不得显示为已完成。"
+        "所有阶段关联同一请求编号，阻断后的下游阶段显示未执行。"
       ],
       "exceptionHandling": [
-        "链路详情获取失败时提示重试，不改变原请求结果。"
+        "请求不存在时提示未找到，不跳转到无关记录。"
       ]
     },
     "catalog.resolve": {
-      "title": "风险研判",
+      "title": "审计详情 · 关联风险",
       "interactionSteps": [
-        "选择研判结论并填写依据，保存后返回预警列表。"
+        "查看触发依据与关联请求，选择结论、填写依据并保存。"
       ],
       "businessRules": [
-        "保存成功后记录结论和依据，并将该预警更新为已关闭；取消不改变预警状态。"
+        "高频访问：同一认证用户在连续 60 秒内累计发起查询达到 50 次，即命中风险；本地查询与跨域调用合并计数，成功及被阻断请求均计入。第 50 次起拒绝执行查询，返回 HTTP 429，并开始 60 秒冷却；冷却结束且窗口内请求少于 50 次时恢复。",
+        "越权访问：请求的查询对象或操作超出当前用户的有效授权范围，即命中风险；拒绝本次请求，返回 HTTP 403，不执行后续数据查询。用户类型本身不作为越权判定依据。",
+        "令牌重放：同一一次性令牌标识已被使用，再次用于发起查询，即命中风险；拒绝重复请求，当前原型返回 HTTP 403，不执行后续数据查询。正常使用可复用访问令牌不按此规则认定为重放。",
+        "保存后同步更新研判状态及待研判数量，不解除访问控制。"
       ],
       "exceptionHandling": [
-        "研判依据为空时提示补充；保存失败时保留已填内容。"
+        "依据为空或超过500字时禁止保存。"
       ]
     }
   },
   "reviewScope": {
-    "name": "机器文字敏感词审核",
+    "name": "机器审核与查询安全",
     "reqIds": [
       "node.submit",
       "node.machineAudit",
-      "node.riskPreview"
+      "node.riskPreview",
+      "catalog.audit",
+      "catalog.alert",
+      "catalog.profile",
+      "catalog.query"
     ]
   }
 }

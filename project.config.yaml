@@ -15,6 +15,9 @@ pages:
   - id: catalog
     name: 数据目录与查询安全
     path: ./index.html?view=catalog
+  - id: audit
+    name: 查询日志与风险分析
+    path: ./index.html?view=audit
 build:
   adapter: vite
   root: prototype
