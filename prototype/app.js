@@ -80,7 +80,7 @@ function render() {
   }
   if (section === 'home') {
     $('#main').innerHTML =
-      `<div class="workspace"><div class="crumb">业务节点管理系统 / 系统首页</div><div class="pageheading"><div><h1>业务节点管理系统</h1><span class="muted">统一管理业务节点接入，保障服务合规运行</span></div><span class="muted"></span></div><div class="summary panel" ${req('node.statistics')}><article>接入登记总数<strong>${rows.length}</strong><span class="muted">登记记录</span></article><article>待人工审核<strong>${rows.length}</strong><span class="muted">机器审核通过后进入</span></article><article>已完成审核<strong>0</strong><span class="muted">人工审核完成的登记</span></article></div><div class="panel"><h3>快捷操作</h3><p class="muted">发起业务节点接入登记，完成材料填报与审核</p><button class="btn primary" ${req('node.review')} onclick="section='review';render()">接入登记审核 →</button></div><div class="panel"><h3>接入审核流程</h3><div class="auditsteps">① 填写登记与上传材料　 →　 ② 机器内容审核　 →　 ③ 提交成功　 →　 ④ 人工审核</div><p class="muted">内容安全检查覆盖登记文本及上传材料。模型异常时保留草稿，禁止直接进入人工审核。</p></div></div>`;
+      `<div class="workspace"><div class="crumb">业务节点管理系统 / 系统首页</div><div class="pageheading"><div><h1>业务节点管理系统</h1><span class="muted">统一管理业务节点接入，保障服务合规运行</span></div><span class="muted"></span></div><div class="summary panel" ${req('node.statistics')}><article>接入登记总数<strong>${rows.length}</strong><span class="muted">登记记录</span></article><article>待人工审核<strong>${rows.length}</strong><span class="muted">机器审核通过后进入</span></article><article>已完成审核<strong>0</strong><span class="muted">人工审核完成的登记</span></article></div><div class="panel"><h3>快捷操作</h3><p class="muted">发起业务节点接入登记，完成材料填报与审核</p><button class="btn primary" ${req('node.review')} onclick="section='review';render()">接入登记审核 →</button></div><div class="panel"><h3>接入审核流程</h3><div class="auditsteps">① 填写登记与上传材料　 →　 ② 机器内容审核　 →　 ③ 提交成功　 →　 ④ 人工审核</div><p class="muted">内容安全检查覆盖登记文本及上传材料。模型异常时保留当前表单，禁止直接进入人工审核。</p></div></div>`;
     return;
   }
   $('#main').innerHTML =
@@ -126,16 +126,9 @@ function upload(label, key, required = false) {
 function openForm() {
   uploads = {};
   $('#overlay').innerHTML =
-    `<div class="veil"><section class="modal"><div class="modalhead">新增接入注册<button class="close" onclick="closeForm()">×</button></div><div class="modalbody"><div class="notice">ⓘ 点击提交审核后，系统先对填写的文字进行敏感词审核，通过后进入人工审核。</div><form id="registration" onsubmit="submitRegistration(event)"><div class="formgrid"><h3 class="form-section-heading">基本信息</h3>${fields.slice(0,7).map(field).join('')}<h3 class="form-section-heading">法人信息</h3>${fields.slice(7,10).map(field).join('')}<h3 class="form-section-heading">业务信息</h3>${fields.slice(10).map(field).join('')}<div class="field full" ${req('node.field.description')}><label class="required">业务简介</label><textarea name="description" required placeholder="请输入业务功能简介"></textarea></div><h3 class="form-section-heading">证明材料</h3><div class="field full" ${req('node.material')}><label class="required">核心业务证明材料</label><div class="content">${upload('上传证明材料', 'core')}</div></div><div class="field full" ${req('node.material', 'node.material.filename')}><label>证明材料文件名</label><input name="filename" placeholder="请输入业务功能证明材料文件名"></div><div class="field full" ${req('node.material')}><label>登记材料</label><div class="content" style="display:flex;justify-content:space-between"><div>${upload('上传营业执照', 'license')}</div><div>${upload('上传法人身份证', 'identity')}</div><div>${upload('上传服务承诺书', 'promise')}</div></div></div><div class="field full" ${req('node.templates')} style="align-items:flex-start"><label style="padding-top:15px">登记材料模板</label><div class="content"><div class="templates">${['营业执照模板', '身份证模板', '服务承诺书模板'].map((n, i) => `<div class="template"><h3><span>${['▤', '♙', '♧'][i]}</span>${n}<a href="./template-${i}.txt" download>↓ 下载模板</a></h3><p>${['请下载营业执照模板，按格式准备企业营业执照副本扫描件或复印件，确保统一社会信用代码、企业名称、法定代表人等信息清晰可辨。', '请下载身份证模板，按格式准备法定代表人身份证正反面扫描件或照片，确保姓名、身份证号码、有效期等关键信息完整清晰。', '请下载服务承诺书模板，按照模板填写并加盖企业公章后上传，承诺书内容应包含服务内容、服务期限、责任义务等相关条款。'][i]}</p></div>`).join('')}</div><div class="tip">🟠 请下载模板后按要求填写，填写完成后将扫描件或照片上传至对应登记材料区域。模板仅供参考。</div></div></div><div class="field full" ${req('node.field.remark')}><label>备注</label><textarea name="remark" placeholder="请输入备注说明"></textarea></div><h3 class="form-section-heading">服务地址</h3><div class="field full" ${req('node.endpoint')} style="align-items:flex-start"><label class="required" style="padding-top:12px">业务节点地址</label><div class="content"><div id="addresses"></div><button type="button" class="link" onclick="addAddress()">＋ 添加地址</button></div></div></div></form></div><div class="modalfoot"><button class="btn" onclick="closeForm()">取消</button><button type="button" class="btn riskpreview" ${req('node.machineAudit', 'node.machineAudit.preview')} onclick="previewCurrentRisk()">测试机机器审核不通过页面</button><button class="btn" onclick="saveDraft()">保存草稿</button><button class="btn primary" form="registration" type="submit" ${req('node.submit')}>提交审核</button></div></section></div>`;
+    `<div class="veil"><section class="modal"><div class="modalhead">新增接入注册<button class="close" onclick="closeForm()">×</button></div><div class="modalbody"><div class="notice">ⓘ 点击提交审核后，系统先对填写的文字进行敏感词审核，通过后进入人工审核。</div><form id="registration" onsubmit="submitRegistration(event)"><div class="formgrid"><h3 class="form-section-heading">基本信息</h3>${fields.slice(0,7).map(field).join('')}<h3 class="form-section-heading">法人信息</h3>${fields.slice(7,10).map(field).join('')}<h3 class="form-section-heading">业务信息</h3>${fields.slice(10).map(field).join('')}<div class="field full" ${req('node.field.description')}><label class="required">业务简介</label><textarea name="description" required placeholder="请输入业务功能简介"></textarea></div><h3 class="form-section-heading">证明材料</h3><div class="field full" ${req('node.material')}><label class="required">核心业务证明材料</label><div class="content">${upload('上传证明材料', 'core')}</div></div><div class="field full" ${req('node.material', 'node.material.filename')}><label>证明材料文件名</label><input name="filename" placeholder="请输入业务功能证明材料文件名"></div><div class="field full" ${req('node.material')}><label>登记材料</label><div class="content" style="display:flex;justify-content:space-between"><div>${upload('上传营业执照', 'license')}</div><div>${upload('上传法人身份证', 'identity')}</div><div>${upload('上传服务承诺书', 'promise')}</div></div></div><div class="field full" ${req('node.templates')} style="align-items:flex-start"><label style="padding-top:15px">登记材料模板</label><div class="content"><div class="templates">${['营业执照模板', '身份证模板', '服务承诺书模板'].map((n, i) => `<div class="template"><h3><span>${['▤', '♙', '♧'][i]}</span>${n}<a href="./template-${i}.txt" download>↓ 下载模板</a></h3><p>${['请下载营业执照模板，按格式准备企业营业执照副本扫描件或复印件，确保统一社会信用代码、企业名称、法定代表人等信息清晰可辨。', '请下载身份证模板，按格式准备法定代表人身份证正反面扫描件或照片，确保姓名、身份证号码、有效期等关键信息完整清晰。', '请下载服务承诺书模板，按照模板填写并加盖企业公章后上传，承诺书内容应包含服务内容、服务期限、责任义务等相关条款。'][i]}</p></div>`).join('')}</div><div class="tip">🟠 请下载模板后按要求填写，填写完成后将扫描件或照片上传至对应登记材料区域。模板仅供参考。</div></div></div><div class="field full" ${req('node.field.remark')}><label>备注</label><textarea name="remark" placeholder="请输入备注说明"></textarea></div><h3 class="form-section-heading">服务地址</h3><div class="field full" ${req('node.endpoint')} style="align-items:flex-start"><label class="required" style="padding-top:12px">业务节点地址</label><div class="content"><div id="addresses"></div><button type="button" class="link" onclick="addAddress()">＋ 添加地址</button></div></div></div></form></div><div class="modalfoot"><button class="btn" onclick="closeForm()">取消</button><button type="button" class="btn riskpreview" ${req('node.machineAudit', 'node.machineAudit.preview')} onclick="previewCurrentRisk()">测试机机器审核不通过页面</button><button class="btn primary" form="registration" type="submit" ${req('node.submit')}>提交审核</button></div></section></div>`;
   addAddress();
-  const draft = sessionStorage.getItem('node-draft');
-  if (draft) {
-    const d = JSON.parse(draft);
-    for (const [k, v] of Object.entries(d)) {
-      const el = $(`[name="${k}"]`);
-      if (el) el.value = v;
-    }
-  }
+
 }
 function addAddress() {
   const div = document.createElement('div');
@@ -176,13 +169,6 @@ function onFile(input, key) {
 }
 function closeForm() {
   if (confirm('关闭后未保存的修改将丢失，确认关闭？')) $('#overlay').innerHTML = '';
-}
-function saveDraft() {
-  sessionStorage.setItem(
-    'node-draft',
-    JSON.stringify(Object.fromEntries(new FormData($('#registration'))))
-  );
-  toast('草稿已保存，重新打开时请补充上传证明材料。');
 }
 function fillDemo() {
   const d = {
@@ -290,7 +276,6 @@ function showAudit(state) {
   layer.innerHTML = `<div class="auditbox" ${req('node.machineAudit')}>${state === 'loading' ? '<div class="loader"></div>' : `<div class="auditmark" style="color:${state === 'pass' ? '#2e9f82' : '#d69b3c'}">${state === 'pass' ? '✓' : '!'}</div>`}<h2>${info[0]}</h2><p>${info[1]}</p><div class="auditsteps"><span>① 机器审核 ${state === 'pass' ? '✓' : ''}</span><span>→</span><span>② 人工审核 ${state === 'pass' ? '待处理' : '未进入'}</span></div>${state === 'risk' ? '<div class="error">风险位置：登记文字<br>风险类型：敏感词、涉黄或涉暴内容<br>请修改相关文字后重新提交。</div>' : state === 'pass' ? '<div class="success">机器审核：通过　｜　人工审核：待审核</div>' : ''}${state !== 'loading' ? `<p><button class="btn primary" onclick="finishAudit('${state}')">${state === 'pass' ? '完成' : state === 'risk' ? '返回修改' : '返回重试'}</button></p>` : ''}</div>`;
   if (state === 'pass') {
     rows.unshift({ ...pending });
-    sessionStorage.removeItem('node-draft');
     $('#overlay').innerHTML = '';
     section = 'review';
     render();
@@ -417,15 +402,20 @@ function locateRisk() {
 function previewCurrentRisk() {
   if (submitting) return;
   pending = { ...Object.fromEntries(new FormData($('#registration'))), uploads: { ...uploads } };
-  showAudit('risk', { preview: true });
+  setSubmitting(true);
+  showAudit('loading');
+  clearTimeout(auditTimer);
+  auditTimer = setTimeout(() => {
+    showAudit('risk', { preview: true });
+    setSubmitting(false);
+  }, 1600);
 }
 function previewRisk() {
   openForm();
   fillDemo();
   $('[name=description]').value = '提供区域数据交换服务，登记内容包含需复核的风险表述。';
   auditScenario = 'risk';
-  pending = Object.fromEntries(new FormData($('#registration')));
-  showAudit('risk');
+  previewCurrentRisk();
 }
 function downloadRiskReport() {
   const text =
