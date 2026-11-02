@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "projectId": "business-node-management",
+  "id": "r-273dcc6d8ae9db317db62799",
+  "reviewId": "r-273dcc6d8ae9db317db62799",
+  "kind": "review",
+  "status": "unreviewed-draft",
+  "createdAt": "2026-11-02T07:55:40.561014Z",
+  "requirementRevision": 92,
+  "requirementHash": "e058368dea0e66bb942775e798b5791516045a53e321db26f64e0ce783a73ce9",
+  "sourceCommit": "bc4d1fcd3cd91e3b8b21737a9c9f478e65eea54c",
+  "build": {
+    "prototypeConfig": "prototype/vite.config.mjs",
+    "studioSource": "/Users/luosiyao/Documents/Codex/2026-10-28/vue-3-web-codex-web-axure/outputs/ai-prototype-studio",
+    "studioConfig": "apps/studio/vite.config.js"
+  },
+  "sourceFiles": {
+    "prototype/app.js": "6d64234d09253ea82dbdcf5c9511ad132977d0704e9ae704c78bb4b72017bdd9",
+    "prototype/index.html": "92c05895f7414a81ce605113deef737fe46270607a3848340c5a75ea9a9e4f81",
+    "prototype/package-lock.json": "683aee7151966103ba1fcbd7ce7733631073eef3066e5e2c9621269410e8fbb7",
+    "prototype/package.json": "5e7d3e86f44386d4a17eaea0cc56915704976a8d2d7da184112946646f0d8a8e",
+    "prototype/public/inspector-config.js": "283d693d4bd7d9090435e22284e74d0ac8cdbb810cfd1113c989022e22a455f3",
+    "prototype/public/inspector.js": "d3caaf68164a4fcdfde904c0be98dcf756164d9e2c10ea0c7101dccfcc01aa56",
+    "prototype/style.css": "127f8ba1024c1cd0409f391753646d8077684b600d98345e12aa5dbb1d772d7b",
+    "prototype/template-0.txt": "74a9d41b8eda99a84c220c4d4e03a45d9a0fae1ece6e8e28c6b947cda8f5c9af",
+    "prototype/template-1.txt": "c8c74dc8b8bd138de2e89949227f560f90d419f5d8d2cd608cef24e3c060c649",
+    "prototype/template-2.txt": "004b14dfc48cef01546856b2de6c30ad68e7bcbf26429d09301f39c73012dcf8",
+    "prototype/vite.config.mjs": "591cbd1268251cfa4451ac6ee4e34e848150b9e003cd3e040edfdc0a4996284b",
+    "data/requirements/business-node-management.json": "e058368dea0e66bb942775e798b5791516045a53e321db26f64e0ce783a73ce9",
+    "project.config.yaml": "5bb5740b38faab245669a45b6c9c89cbe9913dc036e13a58fc17b6fa5cd6aa45"
+  },
+  "files": {
+    "assets/index-DSE_k5_9.css": "83b0dc16649c077e4a194b1c53200272e808dc95ac20e280d852b4909bbb7913",
+    "assets/index-DVRQhlx0.js": "3f86f3a7a9c235b6e1f3ff074d8784dfd71ac0ab1919693bb5152e6250229944",
+    "index.html": "98ac8923f0a986878cb3be443e80dec7c64777f96ed9eb15ea53f13dba119fbf",
+    "prototype/app.js": "6d64234d09253ea82dbdcf5c9511ad132977d0704e9ae704c78bb4b72017bdd9",
+    "prototype/assets/index-D-XDSTTd.css": "a6bb68740c4cfb79b035d7c1fb01ff3ef9e0f55d770857bd53310545d4355b17",
+    "prototype/index.html": "e7eeba5693d2bac13a3144a6f7718d00e35c98916e1e81129980d9d5611b2bda",
+    "prototype/inspector-config.js": "3c6a8f6aa2e3f2e15e09621c495c4e8a0a2f869318cbb045614b46eaa242415f",
+    "prototype/inspector.js": "d3caaf68164a4fcdfde904c0be98dcf756164d9e2c10ea0c7101dccfcc01aa56",
+    "prototype/template-0.txt": "74a9d41b8eda99a84c220c4d4e03a45d9a0fae1ece6e8e28c6b947cda8f5c9af",
+    "prototype/template-1.txt": "c8c74dc8b8bd138de2e89949227f560f90d419f5d8d2cd608cef24e3c060c649",
+    "prototype/template-2.txt": "004b14dfc48cef01546856b2de6c30ad68e7bcbf26429d09301f39c73012dcf8",
+    "snapshot.json": "86a778cd9cf55db8f8a8a4fd9385f79dd2815bf9604b8f6645882bf9dfb0b3ce"
+  },
+  "manifestHash": "d4b4d8dcf224776dd23a7baafddade63851062408e1b68229060a5e70001c7da"
+}
