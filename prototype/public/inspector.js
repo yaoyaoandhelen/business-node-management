@@ -69,7 +69,7 @@
  window.addEventListener('pointerout',e=>{if(!e.relatedTarget){hovered=null;redraw()}},true);
  const blocked=['pointerdown','pointerup','mousedown','mouseup','click','dblclick','auxclick','contextmenu','touchstart','touchend','keydown','keyup','keypress','submit','beforeinput','input','change','dragstart','drop'];
  for(const type of blocked)window.addEventListener(type,e=>{
-  if(mode!=='edit')return;e.preventDefault();e.stopImmediatePropagation();
+  if(mode!=='edit')return;if(type.startsWith('key')&&e.key==='Tab')return;e.preventDefault();e.stopImmediatePropagation();
   if(type==='click'){selected=target(e.target);redraw();emit('ELEMENT_SELECTED',description(selected));schedule(true)}
  },{capture:true,passive:false});
  window.addEventListener('scroll',()=>schedule(),true);window.addEventListener('resize',()=>schedule());

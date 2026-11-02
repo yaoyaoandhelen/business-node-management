@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "projects": [
+    {
+      "id": "business-node-management",
+      "name": "业务节点管理系统",
+      "baseUrl": "http://127.0.0.1:5205/",
+      "allowedOrigins": [
+        "http://127.0.0.1:5205"
+      ],
+      "pages": [
+        {
+          "id": "home",
+          "name": "首页与接入登记",
+          "path": "./index.html"
+        },
+        {
+          "id": "risk",
+          "name": "敏感词审核不通过",
+          "path": "./index.html?view=risk"
+        },
+        {
+          "id": "loading",
+          "name": "敏感词审核中",
+          "path": "./index.html?view=loading"
+        },
+        {
+          "id": "catalog",
+          "name": "数据目录与查询安全",
+          "path": "./index.html?view=catalog"
+        }
+      ],
+      "versionPolicy": {
+        "mode": "reviewed-only",
+        "reviewedVersionIds": []
+      }
+    }
+  ]
+}
