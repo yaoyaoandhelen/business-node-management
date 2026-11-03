@@ -78,6 +78,11 @@
           "id": "portal-auth-enterprise",
           "name": "企业认证审核中",
           "path": "./portal-standalone.html?user=authentication&view=auth-enterprise"
+        },
+        {
+          "id": "portal-frozen-home",
+          "name": "冻结身份与解冻申诉",
+          "path": "./portal-standalone.html?user=frozen&view=home"
         }
       ],
       "versionPolicy": {

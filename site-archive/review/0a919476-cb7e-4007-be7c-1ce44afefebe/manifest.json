@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "projectId": "business-node-management",
+  "id": "0a919476-cb7e-4007-be7c-1ce44afefebe",
+  "reviewId": "0a919476-cb7e-4007-be7c-1ce44afefebe",
+  "kind": "working",
+  "createdAt": "2026-11-03T01:23:11.153Z",
+  "requirementRevision": 160,
+  "requirementHash": "9cc77d13ed4eb599b96e7f6bccdbe46ab0b939dc87825a215bf90786ddec315a",
+  "files": {
+    "README.txt": "ab5831339195b401dcfce4ebc69cc96e26bb53edf391caf2b035ca64afd25996",
+    "assets/index-BzDqkTgS.js": "d5ec0a9026f770fdc9945b565c2b54819e8ddbe438c27708db2b985ab0fd361a",
+    "assets/index-tzzCh6dd.css": "86aa1cb9b7bff7c91e03d302694f2f32851f3064f5a128e7d01bf22c6fcdb66c",
+    "index.html": "e85df19c67b6c7e50ebf5877b3335ab4e9ee9dd0a93b625ca170b2dcc161d599",
+    "prototype/app.js": "6d64234d09253ea82dbdcf5c9511ad132977d0704e9ae704c78bb4b72017bdd9",
+    "prototype/assets/main-D-XDSTTd.css": "a6bb68740c4cfb79b035d7c1fb01ff3ef9e0f55d770857bd53310545d4355b17",
+    "prototype/assets/portal-CNi2XRrM.js": "5f7dbdc7e41cc0279a399272f50fdc7220923877e2aab384168cc849ae068d54",
+    "prototype/assets/portal-fNTNYvbP.css": "4e35a490dd548fd775add8285c27211b70ec3d7cb0e86d3ed283c10da6094b34",
+    "prototype/index.html": "b43670103c5681f72c01749c901fc8044c0a8479b6a6f359f171c0aad3d165ab",
+    "prototype/inspector-config.js": "3c6a8f6aa2e3f2e15e09621c495c4e8a0a2f869318cbb045614b46eaa242415f",
+    "prototype/inspector.js": "d3caaf68164a4fcdfde904c0be98dcf756164d9e2c10ea0c7101dccfcc01aa56",
+    "prototype/portal-assets/chongqing.jpg": "b34bc56c65f6cc431bd832e98c03676e8fa11024686830f554d68494b1c17276",
+    "prototype/portal-standalone.html": "72711a6d1b60e5ef8a85146bf3e9bd66694065e73854a778bcde9619c2eb0447",
+    "prototype/portal.html": "7724c14c5f5d885a0c667be109b1efe5f54c8b7d7ef13361da511f87211eaa1e",
+    "prototype/template-0.txt": "74a9d41b8eda99a84c220c4d4e03a45d9a0fae1ece6e8e28c6b947cda8f5c9af",
+    "prototype/template-1.txt": "c8c74dc8b8bd138de2e89949227f560f90d419f5d8d2cd608cef24e3c060c649",
+    "prototype/template-2.txt": "004b14dfc48cef01546856b2de6c30ad68e7bcbf26429d09301f39c73012dcf8",
+    "snapshot.json": "3b508b918cc71d2c1d98d1064adfd324097e901b9abc8db241e5c38395a2c94e"
+  }
+}

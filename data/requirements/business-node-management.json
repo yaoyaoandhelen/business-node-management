@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "projectId": "business-node-management",
-  "revision": 150,
+  "revision": 160,
   "requirements": {
     "node.enter": {
       "reqId": "node.enter",
@@ -2280,16 +2280,17 @@
       "featureName": "门户登录",
       "kind": "function",
       "interactionSteps": [
-        "账号下拉选择“个人”“企业”或“身份认证”，点击登录。",
-        "个人和企业进入原有对应门户；身份认证进入“主体身份认证”待认证入口，不触发身份续期提醒。",
-        "点击去主体认证，选择个人或企业认证后默认进入对应的“认证审核中”状态。"
+        "账号下拉选择“个人”“企业”“身份认证”或“冻结身份”，点击登录。",
+        "个人和企业进入原有对应门户；身份认证进入待认证入口。",
+        "冻结身份登录成功后进入门户首页，立即显示不可关闭的解冻申诉弹窗，不触发续期提醒。"
       ],
       "businessRules": [
-        "账号下拉选项为“个人”“企业”“身份认证”，默认沿用当前账号类型；首次默认企业。",
+        "账号下拉选项为“个人”“企业”“身份认证”“冻结身份”，默认沿用当前账号类型；首次默认企业。",
         "密码输入框、验证码输入框及验证码图片按钮置灰禁用，不可输入、点击刷新或通过键盘聚焦；登录不校验这些字段。",
         "本页为演示身份切换，不调用真实认证服务，不自动保存密码。",
         "个人与企业主体分别读取和保存续期状态；门户右下角登录演示入口只进入登录，不清空已有申请。",
-        "身份认证使用独立演示入口，不将“未认证”“认证审核中”等同于认证完成；不修改现有个人与企业的身份及续期申请。"
+        "身份认证使用独立演示入口，不将“未认证”“认证审核中”等同于认证完成；不修改现有个人与企业的身份及续期申请。",
+        "冻结身份的申诉状态独立保存，不覆盖个人、企业的续期申请或身份认证演示资料。"
       ],
       "fieldValidations": [],
       "permissions": [
@@ -2319,10 +2320,10 @@
       "fields": [
         {
           "name": "账号",
-          "type": "下拉枚举：个人 / 企业 / 身份认证",
+          "type": "下拉枚举：个人 / 企业 / 身份认证 / 冻结身份",
           "required": true,
           "defaultValue": "当前账号类型；首次企业",
-          "validation": "仅允许三个固定选项；身份认证进入待认证入口，其余进入对应门户。"
+          "validation": "仅允许四个固定选项；冻结身份进入门户首页并强制申诉，其他选项沿用原流程。"
         },
         {
           "name": "密码",
@@ -2347,7 +2348,7 @@
         }
       ],
       "moduleId": "portal",
-      "updatedAt": "2026-11-02T09:48:56.664Z"
+      "updatedAt": "2026-11-03T01:18:16.536Z"
     },
     "identity.details": {
       "reqId": "identity.details",
@@ -2974,6 +2975,171 @@
       ],
       "acceptanceCriteria": [],
       "updatedAt": "2026-11-02T09:48:56.684Z"
+    },
+    "portal.frozen.blocked": {
+      "reqId": "portal.frozen.blocked",
+      "featureName": "冻结身份强制申诉提醒",
+      "kind": "function",
+      "interactionSteps": [
+        "冻结身份登录成功后，在门户首页立即展示身份冻结提示。",
+        "点击去申诉解冻，在同一弹窗进入申诉表单。"
+      ],
+      "businessRules": [
+        "弹窗不提供关闭图标、取消或稍后处理；点击遮罩和 Esc 均不能关闭。",
+        "背景首页设置 inert 和 aria-hidden，禁止点击或通过键盘进入工作台、导航及其他业务。",
+        "焦点限制在当前弹窗内；通过浏览器历史或刷新返回首页时重新展示阻断弹窗。",
+        "冻结身份不能进入续期或身份认证演示流程；恢复使用需待实际解冻完成，本原型不模拟解冻通过。"
+      ],
+      "fields": [],
+      "fieldValidations": [],
+      "permissions": [
+        "仅当前冻结身份主体。"
+      ],
+      "exceptionHandling": [
+        "保存失败时保留申诉输入并提示重试，不进入申诉中。",
+        "申诉数据异常时重新展示冻结身份提示，不自动解除冻结。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-frozen-home",
+          "elementId": "portal.frozen.blocked"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "name": "强制申诉弹窗不能绕过",
+          "given": "已选择冻结身份登录",
+          "when": "尝试点击遮罩、按Esc或操作背景工作台",
+          "then": [
+            "弹窗持续显示",
+            "背景业务不可操作",
+            "焦点留在弹窗内"
+          ]
+        }
+      ],
+      "updatedAt": "2026-11-03T01:18:16.541Z"
+    },
+    "portal.frozen.appeal": {
+      "reqId": "portal.frozen.appeal",
+      "featureName": "提交主体身份解冻申诉",
+      "kind": "function",
+      "interactionSteps": [
+        "点击去申诉解冻，填写申诉说明及联系电话。",
+        "校验通过后保存一条当前主体申诉，弹窗立即切换为申诉中。"
+      ],
+      "businessRules": [
+        "申诉状态与个人/企业的续期数据隔离；同一冻结主体不重复提交。",
+        "本原型在浏览器保存模拟申诉记录，正式业务需服务端完成主体校验、幂等和审核流转。",
+        "不上传真实材料，不调用真实认证或解冻接口。"
+      ],
+      "fields": [
+        {
+          "name": "主体名称/主体身份标识",
+          "type": "字符串，只读",
+          "required": true,
+          "defaultValue": "当前冻结主体",
+          "validation": "绑定当前主体，不可编辑或替换。"
+        },
+        {
+          "name": "申诉说明",
+          "type": "多行文本",
+          "required": true,
+          "defaultValue": "空",
+          "validation": "去除首尾空白后 1–500 字，不允许纯空白；展示时转义 HTML。"
+        },
+        {
+          "name": "联系电话",
+          "type": "手机号码字符串",
+          "required": true,
+          "defaultValue": "18611740968（演示）",
+          "validation": "必须为 1[3-9] 开头的 11 位数字，不接受空值、字母或不完整号码。"
+        }
+      ],
+      "fieldValidations": [
+        {
+          "field": "申诉说明",
+          "rule": "必填，去除首尾空白后1–500字",
+          "message": "请填写 1–500 字的申诉说明。"
+        },
+        {
+          "field": "联系电话",
+          "rule": "1[3-9]开头11位手机号",
+          "message": "请填写正确的 11 位手机号码。"
+        }
+      ],
+      "permissions": [
+        "仅当前冻结身份主体。"
+      ],
+      "exceptionHandling": [
+        "保存失败时保留申诉输入并提示重试，不进入申诉中。",
+        "申诉数据异常时重新展示冻结身份提示，不自动解除冻结。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-frozen-home",
+          "elementId": "portal.frozen.appeal"
+        },
+        {
+          "pageId": "portal-frozen-home",
+          "elementId": "frozen.appeal.start"
+        },
+        {
+          "pageId": "portal-frozen-home",
+          "elementId": "frozen.appeal.reason"
+        },
+        {
+          "pageId": "portal-frozen-home",
+          "elementId": "frozen.appeal.phone"
+        },
+        {
+          "pageId": "portal-frozen-home",
+          "elementId": "frozen.appeal.submit"
+        }
+      ],
+      "acceptanceCriteria": [],
+      "updatedAt": "2026-11-03T01:18:16.547Z"
+    },
+    "portal.frozen.pending": {
+      "reqId": "portal.frozen.pending",
+      "featureName": "解冻申诉中状态",
+      "kind": "function",
+      "interactionSteps": [
+        "提交成功后展示申诉中、申诉编号、提交时间、联系电话及申诉说明。",
+        "刷新或再次登录同一冻结身份时，恢复申诉中弹窗。"
+      ],
+      "businessRules": [
+        "申诉中弹窗保持不可关闭，不提供完成或返回业务入口；背景首页继续不可操作。",
+        "申诉中按钮禁用，不允许重复提交，不自动模拟审核通过。",
+        "提交成功不等于解冻；审核期间主体身份仍为冻结状态。"
+      ],
+      "fields": [],
+      "fieldValidations": [],
+      "permissions": [
+        "仅当前冻结身份主体。"
+      ],
+      "exceptionHandling": [
+        "保存失败时保留申诉输入并提示重试，不进入申诉中。",
+        "申诉数据异常时重新展示冻结身份提示，不自动解除冻结。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-frozen-home",
+          "elementId": "portal.frozen.pending"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "name": "申诉状态恢复且不重复提交",
+          "given": "当前冻结身份已提交有效申诉",
+          "when": "刷新或再次登录",
+          "then": [
+            "自动显示申诉中",
+            "显示同一申诉编号",
+            "不创建第二条申诉"
+          ]
+        }
+      ],
+      "updatedAt": "2026-11-03T01:18:16.551Z"
     }
   },
   "modules": [
@@ -3353,14 +3519,14 @@
     "portal.login": {
       "title": "门户登录",
       "interactionSteps": [
-        "下拉选择个人、企业或身份认证，点击登录。"
+        "选择个人、企业、身份认证或冻结身份，点击登录。"
       ],
       "businessRules": [
-        "个人/企业进入对应门户；身份认证进入待认证入口。",
-        "密码和验证码继续置灰禁用，不参与校验。"
+        "冻结身份进入首页并强制申请解冻；其他三种账号沿用原流程。",
+        "密码和验证码保持置灰禁用。"
       ],
       "exceptionHandling": [
-        "加载异常保留当前申请状态，提示重试。"
+        "异常时保留当前主体状态和输入，允许重试，不解除冻结。"
       ]
     },
     "identity.renew": {
@@ -3495,10 +3661,61 @@
       "exceptionHandling": [
         "加载异常保留当前申请状态，提示重试。"
       ]
+    },
+    "portal.frozen.home": {
+      "title": "冻结身份门户首页",
+      "interactionSteps": [
+        "登录后立即显示不可关闭的解冻申诉弹窗。"
+      ],
+      "businessRules": [
+        "背景首页不允许业务操作，必须先提交申诉；提交后仍保持冻结，等待审核。"
+      ],
+      "exceptionHandling": [
+        "异常时保留当前主体状态和输入，允许重试，不解除冻结。"
+      ]
+    },
+    "portal.frozen.blocked": {
+      "title": "主体身份已冻结",
+      "interactionSteps": [
+        "点击去申诉解冻进入同一弹窗内的申诉表单。"
+      ],
+      "businessRules": [
+        "不可关闭：无关闭、取消或稍后处理；Esc、遮罩点击无效。",
+        "首页背景不可点击或通过键盘激活；焦点限制在弹窗。"
+      ],
+      "exceptionHandling": [
+        "异常时保留当前主体状态和输入，允许重试，不解除冻结。"
+      ]
+    },
+    "portal.frozen.appeal": {
+      "title": "申请解冻主体身份",
+      "interactionSteps": [
+        "填写申诉说明及联系电话，提交后切换为申诉中。"
+      ],
+      "businessRules": [
+        "说明必填1–500字，手机号必填且为11位数字。",
+        "保存失败保留输入，成功后不允许重复提交。"
+      ],
+      "exceptionHandling": [
+        "异常时保留当前主体状态和输入，允许重试，不解除冻结。"
+      ]
+    },
+    "portal.frozen.pending": {
+      "title": "解冻申诉中",
+      "interactionSteps": [
+        "展示已提交申诉的信息，刷新或再次登录恢复同一申诉。"
+      ],
+      "businessRules": [
+        "弹窗继续不可关闭，背景业务仍不可操作。",
+        "申诉中不等于解冻，不自动模拟审核通过。"
+      ],
+      "exceptionHandling": [
+        "异常时保留当前主体状态和输入，允许重试，不解除冻结。"
+      ]
     }
   },
   "reviewScope": {
-    "name": "门户身份认证与个人企业续期工作稿",
+    "name": "门户身份管理、认证与冻结申诉工作稿",
     "reqIds": [
       "portal.workbench",
       "portal.logout",
@@ -3514,7 +3731,10 @@
       "portal.auth.personal.info",
       "portal.auth.enterprise.review",
       "portal.auth.enterprise.info",
-      "portal.auth.materials"
+      "portal.auth.materials",
+      "portal.frozen.blocked",
+      "portal.frozen.appeal",
+      "portal.frozen.pending"
     ]
   }
 }
