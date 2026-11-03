@@ -14,7 +14,7 @@ pages:
     path: ./portal-standalone.html?view=login
   - id: home
     name: 首页与接入登记
-    path: ./index.html
+    path: ./index.html?system=management
   - id: risk
     name: 敏感词审核不通过
     path: ./index.html?view=risk

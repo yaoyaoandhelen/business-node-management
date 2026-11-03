@@ -27,7 +27,7 @@
         {
           "id": "home",
           "name": "首页与接入登记",
-          "path": "./index.html"
+          "path": "./index.html?system=management"
         },
         {
           "id": "risk",

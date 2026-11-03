@@ -75,7 +75,7 @@ function render() {
   nav();
   if (section === 'launch') {
     $('#main').innerHTML =
-      `<div class="launch"><div class="hero"><span class="eyebrow">• LAUNCHPAD</span><h1>快捷入口</h1><p>选择业务子系统，快速开始工作</p></div><div class="cards">${names.map((n, i) => `<article class="card ${selectedSystem === i ? 'selected' : ''}" tabindex="0" ${selectedSystem === i ? 'aria-current="true"' : ''} onfocusin="selectSystem(${i})" onkeydown="if(event.target===this && (event.key==='Enter' || event.key===' ')){event.preventDefault();this.click()}" ${req(i === 3 ? 'node.enter' : i === 4 ? 'catalog.browse' : 'system.' + i)} onclick="selectSystem(${i});${i === 3 ? "section='home';render()" : i === 4 ? 'catalogOpen()' : "toast('当前服务暂不可用，请稍后重试')"}"><span class="num">0${i + 1}</span><div class="icon" style="--light:${colors[i][0]};--dark:${colors[i][1]}">${icons[i]}</div><h2>${n}</h2><p>业务子系统</p><button class="enter">立即进入</button><span class="arrow">→</span></article>`).join('')}</div></div>`;
+      `<div class="launch" ${req('portal.system.switch','management.system.launchpad')}><div class="hero"><span class="eyebrow">• LAUNCHPAD</span><h1>快捷入口</h1><p>选择业务子系统，快速开始工作</p></div><div class="cards">${names.map((n, i) => `<article class="card ${selectedSystem === i ? 'selected' : ''}" tabindex="0" ${selectedSystem === i ? 'aria-current="true"' : ''} onfocusin="selectSystem(${i})" onkeydown="if(event.target===this && (event.key==='Enter' || event.key===' ')){event.preventDefault();this.click()}" ${req(i === 3 ? 'node.enter' : i === 4 ? 'catalog.browse' : 'system.' + i)} onclick="selectSystem(${i});${i === 3 ? "section='home';render()" : i === 4 ? 'catalogOpen()' : "toast('当前服务暂不可用，请稍后重试')"}"><span class="num">0${i + 1}</span><div class="icon" style="--light:${colors[i][0]};--dark:${colors[i][1]}">${icons[i]}</div><h2>${n}</h2><p>业务子系统</p><button class="enter">立即进入</button><span class="arrow">→</span></article>`).join('')}</div></div>`;
     return;
   }
   if (section === 'home') {
@@ -846,3 +846,19 @@ if (['catalog','audit'].includes(new URLSearchParams(location.search).get('view'
   }).observe(document.body, { subtree: true, childList: true });
   sync();
 })();
+
+// Reuse the existing six-system launchpad; retain the portal account when switching back.
+document.addEventListener('change', event => {
+  if (event.target.id !== 'management-system-switch' || event.target.value !== 'portal') return;
+  const params = new URLSearchParams(location.search);
+  const stored = sessionStorage.getItem('cq-portal-user');
+  const account = params.get('portalUser') || stored || 'enterprise';
+  const user = ['personal', 'enterprise', 'authentication', 'frozen'].includes(account) ? account : 'enterprise';
+  const documentName = params.get('portalDocument') === 'portal.html' ? 'portal.html' : 'portal-standalone.html';
+  const target = new URL('./' + documentName, location.href);
+  const previousView = params.get('portalView');
+  const view = ['home', 'workbench', 'auth-entry', 'auth-types', 'auth-personal', 'auth-enterprise'].includes(previousView) ? previousView : 'home';
+  target.searchParams.set('user', user);
+  target.searchParams.set('view', view);
+  location.href = target.href;
+});

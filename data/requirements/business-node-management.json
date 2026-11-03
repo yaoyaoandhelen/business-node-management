@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "projectId": "business-node-management",
-  "revision": 171,
+  "revision": 174,
   "requirements": {
     "node.enter": {
       "reqId": "node.enter",
@@ -3203,6 +3203,100 @@
         }
       ],
       "updatedAt": "2026-11-03T02:40:44.312Z"
+    },
+    "portal.system.switch": {
+      "reqId": "portal.system.switch",
+      "featureName": "门户与六大管理系统切换",
+      "kind": "function",
+      "interactionSteps": [
+        "左上角系统名称以选择框展示，门户侧默认选中“区域功能节点（门户）”。",
+        "选择“管理系统（6大）”，进入现有六大系统快捷入口页。",
+        "管理端默认选中管理系统，可选择“区域功能节点（门户）”返回原门户账号和页面。"
+      ],
+      "businessRules": [
+        "访问原型根地址或无管理参数的 index.html 时，直接打开企业门户首页，默认选中区域功能节点（门户）；管理系统经下拉入口或明确管理页面参数进入。",
+        "六大系统沿用现有入口：标识管理系统、连接器管理系统、主体身份管理系统、业务节点管理系统、数据目录管理系统、存证服务。",
+        "管理系统选项指向六大系统的统一快捷入口，不新建六套业务页面；各卡片沿用当前原型实现与可用状态。",
+        "返回门户保留个人/企业/身份认证/冻结身份账号类型和来源页面；字段不保存密码或凭据。",
+        "冻结身份尚未完成申诉时，选择框位于不可操作的背景中，仍不可绕过强制申诉。",
+        "交互说明模式阻止系统切换；页面设计模式才执行跳转。"
+      ],
+      "fields": [
+        {
+          "name": "系统选择",
+          "type": "下拉枚举：区域功能节点（门户） / 管理系统（6大）",
+          "required": true,
+          "defaultValue": "门户页为区域功能节点（门户）；管理页为管理系统（6大）",
+          "validation": "仅允许两个固定选项；只有选择另一系统才跳转，保持当前项目的相对路径及账号类型。"
+        }
+      ],
+      "fieldValidations": [],
+      "permissions": [
+        "当前原型演示账号；冻结期间仍遵循原有业务阻断规则。"
+      ],
+      "exceptionHandling": [
+        "无效账号或来源参数使用白名单默认值，不允许任意地址跳转。",
+        "尚未实现的管理系统卡片沿用原有暂不可用提示。"
+      ],
+      "bindings": [
+        {
+          "pageId": "portal-home",
+          "elementId": "portal.system.switch.brand"
+        },
+        {
+          "pageId": "portal-workbench",
+          "elementId": "portal.system.switch.brand"
+        },
+        {
+          "pageId": "portal-person-home",
+          "elementId": "portal.system.switch.brand"
+        },
+        {
+          "pageId": "portal-person-workbench",
+          "elementId": "portal.system.switch.brand"
+        },
+        {
+          "pageId": "portal-auth-entry",
+          "elementId": "portal.system.switch.brand"
+        },
+        {
+          "pageId": "portal-auth-types",
+          "elementId": "portal.system.switch.brand"
+        },
+        {
+          "pageId": "portal-auth-personal",
+          "elementId": "portal.system.switch.brand"
+        },
+        {
+          "pageId": "portal-auth-enterprise",
+          "elementId": "portal.system.switch.brand"
+        },
+        {
+          "pageId": "portal-frozen-home",
+          "elementId": "portal.system.switch.brand"
+        },
+        {
+          "pageId": "home",
+          "elementId": "portal.system.switch.management"
+        },
+        {
+          "pageId": "home",
+          "elementId": "management.system.launchpad"
+        }
+      ],
+      "acceptanceCriteria": [
+        {
+          "name": "门户切换管理系统并返回",
+          "given": "门户首页显示默认门户选项",
+          "when": "选择管理系统并在管理端再选择门户",
+          "then": [
+            "展示既有六大系统卡片",
+            "返回原账号对应的门户页面",
+            "切换时不绕过冻结申诉限制"
+          ]
+        }
+      ],
+      "updatedAt": "2026-11-03T03:03:25.789Z"
     }
   },
   "modules": [
@@ -3809,7 +3903,8 @@
       "portal.frozen.blocked",
       "portal.frozen.appeal",
       "portal.frozen.pending",
-      "portal.frozen.success"
+      "portal.frozen.success",
+      "portal.system.switch"
     ]
   }
 }
