@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "kind": "design-version",
+  "projectId": "business-node-management",
+  "id": "dv-v15-portal-20261103-r2",
+  "name": "V1.5",
+  "createdAt": "2026-11-03T06:44:23.114745Z",
+  "requirementRevision": 180,
+  "requirementHash": "5ae41fac2dd997315d8e8f58843f6b6ef6d3c12a737b90b6e05d62b0440cdf8c",
+  "summary": "门户身份管理、续期提醒、认证审核与冻结申诉。本版本汇总“新增门户续期功能”对话的最终设计。",
+  "features": [
+    {
+      "title": "门户首页与统一登录",
+      "pageId": "portal-login",
+      "description": "账号选择企业、个人、身份认证或冻结身份；密码和验证码禁用。进入对应门户，支持工作台及管理系统切换。"
+    },
+    {
+      "title": "企业与个人主体身份续期",
+      "pageId": "portal-workbench",
+      "description": "两类身份均支持续期，默认有效期180天，快捷选择30、90、180天，申请最长180天；展示首次续期时间、到期时间和预计新到期时间，提交后待审核。"
+    },
+    {
+      "title": "到期前7天登录提醒",
+      "pageId": "portal-home",
+      "description": "临近到期登录门户后弹出提醒，支持快捷申请；个人与企业申请状态分别保存。"
+    },
+    {
+      "title": "个人与企业身份认证",
+      "pageId": "portal-auth-entry",
+      "description": "待认证入口可选择个人或企业认证，默认进入认证审核中，展示已提交资料及材料；已完成步骤不可点击。"
+    },
+    {
+      "title": "冻结身份与解冻申诉",
+      "pageId": "portal-frozen-home",
+      "description": "冻结身份登录后强制申诉，提醒不可关闭；提交3秒后模拟成功，成功弹窗仅手动关闭。退出并重新登录可重复演示。"
+    }
+  ],
+  "sourceThreadId": "01a19b50-2269-78f2-94f1-f45337085be4",
+  "files": {
+    "prototype/app.js": "3bcb5ac594e5b1c151b9119aab6f6e464821f4a7528b2c24f56b4513aeeed0af",
+    "prototype/assets/main-Cjqio48f.css": "edc0f2c41737c9ef421772aba01e42dc5e85080152308155d28a3e34bf94782b",
+    "prototype/assets/portal-D7RvJhT-.css": "48860786ebe117e0f53d71848e588ecca87a667f38e1a1de8180bcf814533377",
+    "prototype/assets/portal-uhCZ6ixZ.js": "8dab4c38298e2f3bda91389a3c613a5ad42eba244808348bf34cdb1ddbe0ee54",
+    "prototype/index.html": "16daaf4b81b87706d438d23149a02e62c01559938be3a7b47bad44f8c3f16030",
+    "prototype/inspector-config.js": "3c6a8f6aa2e3f2e15e09621c495c4e8a0a2f869318cbb045614b46eaa242415f",
+    "prototype/inspector.js": "d3caaf68164a4fcdfde904c0be98dcf756164d9e2c10ea0c7101dccfcc01aa56",
+    "prototype/portal-assets/chongqing.jpg": "b34bc56c65f6cc431bd832e98c03676e8fa11024686830f554d68494b1c17276",
+    "prototype/portal-standalone.html": "3b0b40f15618929565e0214e493781b8b3837121ddc7a8e2fa7a2cfa4aca7367",
+    "prototype/portal.html": "4d8f36d2082ab1722adec3f446bf3be7ab8176e4908f104da68f3dd38587c885",
+    "prototype/template-0.txt": "74a9d41b8eda99a84c220c4d4e03a45d9a0fae1ece6e8e28c6b947cda8f5c9af",
+    "prototype/template-1.txt": "c8c74dc8b8bd138de2e89949227f560f90d419f5d8d2cd608cef24e3c060c649",
+    "prototype/template-2.txt": "004b14dfc48cef01546856b2de6c30ad68e7bcbf26429d09301f39c73012dcf8",
+    "snapshot.json": "b7de47e6d13508fddead1a0c3d4d347b150bcbc2bca3fa6d68ff745778b47915"
+  }
+}
