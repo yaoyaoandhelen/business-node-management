@@ -87,7 +87,12 @@
       ],
       "versionPolicy": {
         "mode": "reviewed-only",
-        "reviewedVersionIds": []
+        "reviewedVersionIds": [
+          "dv-v15-portal-20261103"
+        ],
+        "defaultVersionId": "dv-v15-portal-20261103",
+        "draftPageId": "home",
+        "draftScope": "all"
       }
     }
   ]
