@@ -75,7 +75,7 @@ function render() {
   nav();
   if (section === 'launch') {
     $('#main').innerHTML =
-      `<div class="launch" ${req('portal.system.switch','management.system.launchpad')}><div class="hero"><span class="eyebrow">• LAUNCHPAD</span><h1>快捷入口</h1><p>选择业务子系统，快速开始工作</p></div><div class="cards">${names.map((n, i) => `<article class="card ${selectedSystem === i ? 'selected' : ''}" tabindex="0" ${selectedSystem === i ? 'aria-current="true"' : ''} onfocusin="selectSystem(${i})" onkeydown="if(event.target===this && (event.key==='Enter' || event.key===' ')){event.preventDefault();this.click()}" ${req(i === 3 ? 'node.enter' : i === 4 ? 'catalog.browse' : 'system.' + i)} onclick="selectSystem(${i});${i === 3 ? "section='home';render()" : i === 4 ? 'catalogOpen()' : "toast('当前服务暂不可用，请稍后重试')"}"><span class="num">0${i + 1}</span><div class="icon" style="--light:${colors[i][0]};--dark:${colors[i][1]}">${icons[i]}</div><h2>${n}</h2><p>业务子系统</p><button class="enter">立即进入</button><span class="arrow">→</span></article>`).join('')}</div></div>`;
+      `<div class="launch" ${req('portal.system.switch','management.system.launchpad')}><div class="hero"><span class="eyebrow">• LAUNCHPAD</span><h1>快捷入口</h1><p>选择业务子系统，快速开始工作</p></div><div class="cards">${names.map((n, i) => `<article class="card ${selectedSystem === i ? 'selected' : ''}" tabindex="0" ${selectedSystem === i ? 'aria-current="true"' : ''} onfocusin="selectSystem(${i})" onkeydown="if(event.target===this && (event.key==='Enter' || event.key===' ')){event.preventDefault();this.click()}" ${req(i === 3 ? 'node.enter' : i === 4 ? 'catalog.browse' : 'system.' + i)} onclick="selectSystem(${i});${i === 0 ? 'identifierOpen()' : i === 3 ? "section='home';render()" : i === 4 ? 'catalogOpen()' : "toast('当前服务暂不可用，请稍后重试')"}"><span class="num">0${i + 1}</span><div class="icon" style="--light:${colors[i][0]};--dark:${colors[i][1]}">${icons[i]}</div><h2>${n}</h2><p>业务子系统</p><button class="enter">立即进入</button><span class="arrow">→</span></article>`).join('')}</div></div>`;
     return;
   }
   if (section === 'home') {
@@ -312,6 +312,10 @@ render = function () {
     portalRender();
     return;
   }
+  if (section === 'identifier') {
+    identifierRender();
+    return;
+  }
   section = 'review';
   nav();
   $('#main').innerHTML =
@@ -367,6 +371,82 @@ drawRows = function () {
     : '<tr><td colspan="6" class="empty">暂无匹配记录</td></tr>';
   $('#pagination').innerHTML = `共 ${list.length} 条　　10条/页　　〈 <b>1</b> 〉　 前往　1　页`;
 };
+let identifierMenuOpen = true;
+const identifierRows = [
+  { name: '测试日志', code: '69150010933164377245000WA79O41TX', type: '数据产品', status: '正常', stage: '生成', stageStatus: '成功', node: '数据产品注册审批流', scene: '数据产品', uses: 0, created: '2026-11-03 11:23:52' },
+  { name: '重庆移动测试', code: '491500000836550152B5000TJ6L1FX28', type: '数据平台', status: '正常', stage: '生成', stageStatus: '成功', node: '业务节点注册审批流', scene: '数据平台', uses: 0, created: '2026-11-03 09:39:37' },
+  { name: '何青阳', code: '91500000836550152B', type: '企业', status: '正常', stage: '生成', stageStatus: '成功', node: '身份注册系统', scene: '企业', uses: 0, created: '2026-11-03 09:25:45' },
+  { name: '多机构客户收入联合推算（安全多方计算融合开…）', code: '692410185E4J2QX50PK5000WV1TTDMES', type: '数据产品', status: '正常', stage: '生成', stageStatus: '成功', node: '数据产品注册审批流', scene: '数据产品', uses: 0, created: '2026-11-02 16:29:06' },
+  { name: '何光秋', code: 'zqbnj3bzn1841q934b', type: '个人', status: '正常', stage: '生成', stageStatus: '成功', node: '身份注册系统', scene: '个人', uses: 0, created: '2026-11-02 11:02:11' },
+  { name: '安全多方计算（融合产品）', code: '692410185E4J2QX50PK5000XJBUT15TS', type: '数据产品', status: '正常', stage: '生成', stageStatus: '成功', node: '数据产品注册审批流', scene: '数据产品', uses: 0, created: '2026-10-30 17:26:00' },
+  { name: '连接器回归测试产品上架 1029', code: '691500120MA618N3X4C50007146CIN1D', type: '数据产品', status: '正常', stage: '生成', stageStatus: '成功', node: '数据产品注册审批流', scene: '数据产品', uses: 0, created: '2026-10-29 17:22:26' },
+  { name: '连接器回归测试资源上架 1029', code: '791500120MA618N3X4C5000NYM8S71EH', type: '数据资源', status: '正常', stage: '生成', stageStatus: '成功', node: '数据资源注册审批流', scene: '数据资源', uses: 0, created: '2026-10-29 17:22:09' },
+  { name: '李五', code: '1mi8zwq1tabzb09m8d', type: '个人', status: '正常', stage: '生成', stageStatus: '成功', node: '身份注册系统', scene: '个人', uses: 0, created: '2026-10-29 15:20:26' },
+  { name: '回归缺陷6654', code: '6915001000RGM16RFG95000CETEILXVN', type: '数据产品', status: '正常', stage: '生成', stageStatus: '成功', node: '数据产品注册审批流', scene: '数据产品', uses: 0, created: '2026-10-28 14:51:23' },
+  { name: '数据资源失效记录', code: '7zqbnj3bzn1841q934b5000l26HKLFOK', type: '数据资源', status: '已停用', stage: '失效', stageStatus: '成功', node: '数据资源注册审批流', scene: '数据资源', uses: 0, created: '2026-11-02 11:17:01' }
+];
+function identifierOpen() {
+  $('#overlay').innerHTML = '';
+  document.querySelector('#audit')?.remove();
+  section = 'identifier';
+  identifierMenuOpen = true;
+  identifierRender();
+}
+function identifierNav() {
+  document.querySelector('header b').textContent = '标识管理系统';
+  $('#sidebar').innerHTML = `<div class="nav identifier-parent" ${req('identifier.manage', 'identifier.menu.lifecycle')} onclick="identifierMenuOpen=!identifierMenuOpen;identifierNav()"><span>◉</span>生命周期管理<em>${identifierMenuOpen ? '⌃' : '⌄'}</em></div>${identifierMenuOpen ? `<div class="nav subnav active identifier-subnav" ${req('identifier.manage', 'identifier.menu.management')} onclick="identifierRender()">标识管理</div>` : ''}`;
+}
+function identifierRender() {
+  identifierNav();
+  $('#main').innerHTML = `<div class="systemtabs"><span onclick="section='launch';render()">首页</span><span class="selected">● 标识管理</span></div><div class="identifier-page"><div class="inner-page-heading"><div><h1>标识管理</h1><p>生命周期管理 / 标识管理</p></div></div><section class="panel identifier-query-panel" ${req('identifier.manage', 'identifier.query')}><div class="query-panel-heading">查询条件</div><form id="identifier-filters" onsubmit="event.preventDefault();identifierQuery()"><div class="identifier-querygrid"><label ${req('identifier.manage', 'identifier.query.name')}><span>对象名称</span><input id="identifier-name" placeholder="请输入对象名称"></label><label ${req('identifier.manage', 'identifier.query.code')}><span>标识编码</span><input id="identifier-code" placeholder="请输入标识编码"></label><label ${req('identifier.manage', 'identifier.query.type')}><span>标识类型</span><select id="identifier-type"><option value="">请选择标识类型</option>${['数据产品', '数据平台', '数据资源', '企业', '个人'].map((type) => `<option>${type}</option>`).join('')}</select></label><label ${req('identifier.manage', 'identifier.query.stage')}><span>生命周期阶段</span><select id="identifier-stage"><option value="">请选择阶段</option><option>生成</option><option>失效</option></select></label><label ${req('identifier.manage', 'identifier.query.stageStatus')}><span>阶段状态</span><select id="identifier-stage-status"><option value="">请选择状态</option><option>成功</option><option>处理中</option><option>失败</option></select></label><label ${req('identifier.manage', 'identifier.query.node')}><span>操作节点</span><input id="identifier-node" placeholder="请输入操作节点"></label><label class="identifier-date-field" ${req('identifier.manage', 'identifier.query.timeRange')}><span>时间范围</span><div class="identifier-date-range"><input id="identifier-start" type="date" aria-label="开始日期"><span>至</span><input id="identifier-end" type="date" aria-label="结束日期"></div></label></div><div class="queryactions"><button class="btn primary" type="submit">⌕ 查询</button><button class="btn" type="button" onclick="identifierReset()">↻ 重置</button></div></form></section><section class="panel identifier-list-panel" ${req('identifier.manage', 'identifier.list')}><div class="listtools"><button class="btn" onclick="identifierSync()">↻ 同步</button><span class="identifier-list-title">标识列表</span><div class="identifier-list-tools"><button class="link" title="刷新列表" onclick="identifierDrawRows();toast('列表已刷新')">↻</button><button class="link" title="列表字段已合并两张设计图" onclick="toast('当前展示合并后的全部字段')">⊞</button></div></div><div class="identifier-table-scroll"><table><thead><tr>${['对象名称', '标识编码', '标识类型', '状态', '生命周期阶段', '阶段状态', '操作节点', '使用场景', '使用频次', '创建时间', '操作'].map((name) => `<th>${name}</th>`).join('')}</tr></thead><tbody id="identifier-rows"></tbody></table></div><div class="pagination" id="identifier-pagination"></div></section></div>`;
+  identifierDrawRows();
+}
+function identifierFilterValues() {
+  return {
+    name: $('#identifier-name').value.trim(),
+    code: $('#identifier-code').value.trim(),
+    type: $('#identifier-type').value,
+    stage: $('#identifier-stage').value,
+    stageStatus: $('#identifier-stage-status').value,
+    node: $('#identifier-node').value.trim(),
+    start: $('#identifier-start').value,
+    end: $('#identifier-end').value
+  };
+}
+function identifierQuery() {
+  const filters = identifierFilterValues();
+  if (filters.start && filters.end && filters.start > filters.end) {
+    toast('开始日期不能晚于结束日期');
+    return;
+  }
+  const count = identifierDrawRows();
+  toast(`查询完成，共 ${count} 条记录`);
+}
+function identifierReset() {
+  $('#identifier-filters').reset();
+  identifierDrawRows();
+}
+function identifierDrawRows() {
+  const filters = identifierFilterValues();
+  const list = identifierRows.filter((row) =>
+    row.name.includes(filters.name) &&
+    row.code.toLowerCase().includes(filters.code.toLowerCase()) &&
+    (!filters.type || row.type === filters.type) &&
+    (!filters.stage || row.stage === filters.stage) &&
+    (!filters.stageStatus || row.stageStatus === filters.stageStatus) &&
+    row.node.includes(filters.node) &&
+    (!filters.start || row.created.slice(0, 10) >= filters.start) &&
+    (!filters.end || row.created.slice(0, 10) <= filters.end)
+  );
+  $('#identifier-rows').innerHTML = list.length
+    ? list.map((row) => `<tr><td class="identifier-object-name" title="${esc(row.name)}">${esc(row.name)}</td><td><code class="identifier-code">${esc(row.code)}</code></td><td>${esc(row.type)}</td><td><span class="status ${row.status === '正常' ? 'ok' : 'identifier-disabled'}">${esc(row.status)}</span></td><td><span class="identifier-tag ${row.stage === '失效' ? 'danger' : ''}">${esc(row.stage)}</span></td><td><span class="identifier-tag">${esc(row.stageStatus)}</span></td><td>${esc(row.node)}</td><td>${esc(row.scene)}</td><td class="identifier-number">${row.uses}</td><td class="identifier-time">${esc(row.created)}</td><td class="identifier-actions"><button type="button" class="link">◉ 详情</button><button type="button" class="link">⊘ 停用</button><button type="button" class="link">▥ 轨迹</button><button type="button" class="link">更多 ⌄</button></td></tr>`).join('')
+    : '<tr><td colspan="11" class="empty">暂无符合条件的标识记录</td></tr>';
+  $('#identifier-pagination').innerHTML = `共 ${list.length} 条　　20条/页　　〈 <b>1</b> 〉`;
+  return list.length;
+}
+function identifierSync() {
+  toast('同步完成，标识数据已是最新状态');
+}
 const baseAudit = showAudit;
 showAudit = function (state, { preview = false } = {}) {
   if (state !== 'risk') {
@@ -427,7 +507,9 @@ function downloadRiskReport() {
   URL.revokeObjectURL(a.href);
 }
 // Render after subsystem overrides; route shortcuts aid review without replacing the iframe.
-if (new URLSearchParams(location.search).get('view')) section = 'review';
+if (new URLSearchParams(location.search).get('view')) {
+  section = new URLSearchParams(location.search).get('view') === 'identifier' ? 'identifier' : 'review';
+}
 render();
 if (new URLSearchParams(location.search).get('view') === 'risk') previewRisk();
 
@@ -483,11 +565,12 @@ function catalogOpen() {
 function catalogRender() {
   document.querySelector('header b').textContent = '数据目录系统';
   if (['alerts','profile'].includes(catalogTab)) catalogTab='logs';
-  $('#sidebar').innerHTML = `<div class="nav ${['list','detail'].includes(catalogTab)?'active':''}" onclick="catalogTab='list';catalogRender()">▦　数据目录</div><div class="nav ${catalogTab==='logs'?'active':''}" onclick="catalogTab='logs';catalogRender()">▤　查询日志</div>`;
-  $('#main').innerHTML = `<div class="systemtabs"><span onclick="section='launch';render()">首页</span><span class="selected">● 数据目录管理系统</span></div><div class="catalog ${catalogTab==='logs'?'unified-audit':''}"><div class="cat-toolbar"><span>数据目录管理 / ${catalogTab==='detail'?'数据目录详情':catalogTab==='logs'?'查询日志':'数据目录'}</span></div><div id="catbody"></div></div>`;
+  $('#sidebar').innerHTML = `<div class="nav ${['list','detail'].includes(catalogTab)?'active':''}" onclick="catalogTab='list';catalogRender()">▦　数据目录</div><div class="nav ${catalogTab==='logs'?'active':''}" onclick="catalogTab='logs';catalogRender()">▤　查询安全管控</div><div class="nav ${catalogTab==='monitor'?'active':''}" ${req('catalog.audit','catalog.monitor.menu')} onclick="catalogTab='monitor';catalogRender()">◈　数据风险监测</div>`;
+  $('#main').innerHTML = `<div class="systemtabs"><span onclick="section='launch';render()">首页</span><span class="selected">● 数据目录管理系统</span></div><div class="catalog ${['logs','monitor'].includes(catalogTab)?'unified-audit':''}"><div class="cat-toolbar"><span>数据目录管理 / ${catalogTab==='detail'?'数据目录详情':catalogTab==='logs'?'查询安全管控':catalogTab==='monitor'?'数据风险监测':'数据目录'}</span></div><div id="catbody"></div></div>`;
   if (catalogTab === 'list') catalogList();
   if (catalogTab === 'detail') catalogDetail();
   if (catalogTab === 'logs') catalogAudit();
+  if (catalogTab === 'monitor') monitorRender();
 }
 function catalogList() {
   $('#catbody').innerHTML =
@@ -539,7 +622,7 @@ const auditActors = [
   {uid:'ENT-2002',name:'企业用户 B',role:'企业用户',org:'旅游运营单位',ip:'203.0.113.42'}
 ];
 const auditPageSize=10;
-let auditSeeded=false, auditPage=1, auditFilters={key:'',mode:'',status:'',day:'2026-11-02'};
+let auditSeeded=false, auditPage=1, auditFilters={key:'',mode:'',status:'',riskType:'',judgment:'',day:'2026-11-02'};
 const auditWindows=new Map();
 function auditEvaluate(uid,now=Date.now(),reason='') {
   const state=auditWindows.get(uid)||{times:[],until:0};
@@ -563,44 +646,52 @@ function auditSeed(){
   catalogLogs.sort((a,b)=>b.at.localeCompare(a.at));
   for(const actor of [auditActors[1],auditActors[3]]){const records=catalogLogs.filter(r=>r.uid===actor.uid&&r.why);catalogAlerts.push({id:records[0].id,uid:actor.uid,why:actor.uid==='ENT-2001'?'高频访问':'越权访问',time:records[records.length-1].time,state:'待研判',evidenceIds:records.map(r=>r.id),note:''});}
 }
-let auditInterval=30, auditBucket=null, auditEditing=false, auditRefreshAt=Date.now(), auditDetail=null;
+let auditRangeDays=1, auditBucket=null, auditEditing=false, auditRefreshAt=Date.now(), auditDetail=null;
+function auditRiskType(r){return r.why?.startsWith('高频')?'高频访问':r.why||'';}
+function auditJudgment(r){const e=auditEventFor(r);return e?.state==='待研判'?'待研判':e?.state?.startsWith('已关闭')?'已关闭':'';}
+function auditDateRange(){
+ const day=auditFilters.day||new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+ const end=Date.parse(day+'T00:00:00+08:00')+86400000;
+ return {start:end-auditRangeDays*86400000,end};
+}
+function auditDateLabel(at){return new Date(at+8*3600000).toISOString().slice(0,16).replace('T',' ');}
 function auditBaseLogs(){
-  return catalogLogs.filter(r=>(!auditFilters.day||r.time.startsWith(auditFilters.day))&&(!auditFilters.key||(r.user+r.org+r.ip+r.id+r.target).toLowerCase().includes(auditFilters.key.toLowerCase()))&&(!auditFilters.mode||r.mode===auditFilters.mode)&&(!auditFilters.status||r.status===auditFilters.status)&&(!auditFilters.pending||auditEventFor(r)?.state==='待研判'));
+  return catalogLogs.filter(r=>!!r.why&&(Date.parse(r.at)>=auditDateRange().start&&Date.parse(r.at)<auditDateRange().end)&&(!auditFilters.key||(r.user+r.org+r.ip+r.id+r.target).toLowerCase().includes(auditFilters.key.toLowerCase()))&&(!auditFilters.mode||r.mode===auditFilters.mode)&&(!auditFilters.status||r.status===auditFilters.status)&&(!auditFilters.riskType||auditRiskType(r)===auditFilters.riskType)&&(!auditFilters.judgment||auditJudgment(r)===auditFilters.judgment)&&(!auditFilters.pending||auditEventFor(r)?.state==='待研判'));
 }
 function auditEventFor(r){return catalogAlerts.find(a=>(a.evidenceIds||[a.id]).includes(r.id));}
-function auditSelected(){return auditBaseLogs().filter(r=>(!auditBucket||(Date.parse(r.at)>=auditBucket.start&&Date.parse(r.at)<auditBucket.end))&&(!auditFilters.pending||auditEventFor(r)?.state==='待研判'));}
-function auditApply(){auditFilters={key:$('#logkey').value.trim(),mode:$('#logmode').value,status:$('#logstatus').value,day:$('#logday').value,pending:auditFilters.pending};auditBucket=null;auditPage=1;auditRefreshAt=Date.now();catalogAudit();}
-function auditReset(){auditFilters={key:'',mode:'',status:'',day:'2026-11-02',pending:false};auditBucket=null;auditPage=1;auditRefreshAt=Date.now();catalogAudit();}
+function auditSelected(){return auditBaseLogs().filter(r=>(!auditBucket||(Date.parse(r.at)>=auditBucket.start&&Date.parse(r.at)<auditBucket.end))&&(!auditFilters.riskType||auditRiskType(r)===auditFilters.riskType)&&(!auditFilters.judgment||auditJudgment(r)===auditFilters.judgment)&&(!auditFilters.pending||auditEventFor(r)?.state==='待研判'));}
+function auditApply(){if(!$('#logday').value){toast('请选择查询截止日期');return}auditFilters={key:$('#logkey').value.trim(),mode:$('#logmode').value,status:$('#logstatus').value,riskType:$('#logrisk').value,judgment:$('#logjudgment').value,day:$('#logday').value,pending:auditFilters.pending&&$('#logjudgment').value==='待研判'};auditBucket=null;auditPage=1;auditRefreshAt=Date.now();catalogAudit();}
+function auditReset(){auditRangeDays=1;auditFilters={key:'',mode:'',status:'',riskType:'',judgment:'',day:'2026-11-02',pending:false};auditBucket=null;auditPage=1;auditRefreshAt=Date.now();catalogAudit();}
 function auditRefresh(){auditRefreshAt=Date.now();catalogAudit();}
-function auditTogglePending(){auditFilters.pending=!auditFilters.pending;auditPage=1;catalogAudit();}
+function auditTogglePending(){auditFilters.pending=!auditFilters.pending;auditFilters.judgment=auditFilters.pending?'待研判':'';auditPage=1;catalogAudit();}
 function auditSelectUser(uid){auditFilters.key=uid;auditBucket=null;auditPage=1;catalogTab='logs';catalogRender();}
 function auditChooseBucket(start,end){auditBucket=auditBucket?.start===start?null:{start,end};auditPage=1;catalogAudit();}
 function auditClock(at){return new Date(at).toLocaleTimeString('zh-CN',{timeZone:'Asia/Shanghai',hour:'2-digit',minute:'2-digit',second:'2-digit'});}
-function auditPeriod(){return auditBucket?auditClock(auditBucket.start).slice(0,5)+'—'+auditClock(auditBucket.end).slice(0,5):'';}
+function auditPeriod(){return auditBucket?auditDateLabel(auditBucket.start)+'—'+auditDateLabel(auditBucket.end):'';}
 function auditVisibleEvents(logs){const ids=new Set(logs.map(r=>r.id));return catalogAlerts.filter(a=>(a.evidenceIds||[a.id]).some(id=>ids.has(id)));}
 function catalogAudit(){
   auditSeed();
   const logs=auditSelected(),bad=logs.filter(r=>r.why),users=new Set(logs.map(r=>r.uid)),cross=logs.filter(r=>r.mode==='跨域调用'),events=auditVisibleEvents(logs),pending=events.filter(a=>a.state==='待研判');
   auditPage=Math.min(auditPage,Math.max(1,Math.ceil(logs.length/auditPageSize)));
   const opts=(values,current)=>'<option value="">全部</option>'+values.map(v=>`<option ${current===v?'selected':''}>${v}</option>`).join('');
-  $('#catbody').innerHTML=`<div class="audit-heading unified-heading"><h1>查询日志</h1><div class="audit-refresh-tools" ${req('catalog.audit','catalog.audit.refresh')}><span>统计更新：${auditClock(auditRefreshAt)}</span><span class="auto-refresh-label">1 分钟自动刷新</span><button class="btn" onclick="auditRefresh()">↻ 刷新</button></div></div>
-  <section class="audit-filters panel" ${req('catalog.audit','catalog.audit.filters')}><label>查询日期<input type="date" id="logday" value="${auditFilters.day}"></label><label class="wide">用户 / IP / 请求编号 / 产品<input id="logkey" value="${esc(auditFilters.key)}" placeholder="请输入关键词" onkeydown="if(event.key==='Enter')auditApply()"></label><label>调用方式<select id="logmode">${opts(['本地查询','跨域调用'],auditFilters.mode)}</select></label><label>返回状态<select id="logstatus">${opts(['成功','已阻断'],auditFilters.status)}</select></label><button class="btn primary" onclick="auditApply()">查询</button><button class="btn" onclick="auditReset()">重置</button></section>
-  <div class="audit-stats" ${req('catalog.audit','catalog.audit.statistics')}>${[['查询总量',logs.length,'次','成功与阻断请求合计','blue'],['活跃用户',users.size,'人','按认证用户 ID 去重','blue'],['跨域调用',cross.length,'次','占查询总量 '+(logs.length?(cross.length/logs.length*100).toFixed(1):'0.0')+'%','blue'],['已阻断请求',bad.length,'次','阻断率 '+(logs.length?(bad.length/logs.length*100).toFixed(1):'0.0')+'%','red']].map(([name,value,unit,note,color])=>`<article><span>${name}</span><strong class="${color}">${value.toLocaleString()}<small> ${unit}</small></strong><p>${note}</p></article>`).join('')}</div>
-  <div class="audit-analysis unified-analysis"><section class="panel" ${req('catalog.audit','catalog.audit.trend')}><div class="audit-section-head"><h3>查询访问趋势 <small>单位：次</small></h3><div class="trend-controls"><span><i class="legend blue-bg"></i>成功 <i class="legend red-bg"></i>已阻断</span><select aria-label="统计粒度" onchange="auditInterval=Number(this.value);auditBucket=null;auditPage=1;catalogAudit()">${[5,30,60].map(n=>`<option value="${n}" ${auditInterval===n?'selected':''}>${n===60?'1 小时':n+' 分钟'}</option>`).join('')}</select></div></div>${auditTrend(auditBaseLogs())}<div class="audit-chart-caption"><span>点击时段联动查询日志与风险记录</span>${auditBucket?`<button class="link" onclick="auditBucket=null;auditPage=1;catalogAudit()">清除时段 ${auditPeriod()} ×</button>`:''}</div></section>
-  <section class="panel audit-risk-panel" ${req('catalog.alert','catalog.alert.events')}><div class="audit-section-head"><h3>关联风险事件 <span class="count-pill">${events.length}</span></h3><button class="link ${auditFilters.pending?'filter-active':''}" onclick="auditTogglePending()">${auditFilters.pending?'查看全部':'仅看待研判'}</button></div><div class="risk-panel-summary"><span class="risk-status-dot"></span><b>${pending.length} 个待研判</b><span>命中即阻断，保留请求证据</span></div><div class="risk-event-list">${events.map(a=>{const r=catalogLogs.find(r=>r.id===a.id);return `<button class="audit-event-row" onclick="auditOpenDetail('${a.id}','risk')"><span class="event-severity">!</span><span><b>${a.why}</b><small>${esc(r.name)} · ${r.uid}</small><small>${a.time} · ${a.evidenceIds?.length||1} 次阻断</small></span><span class="audit-badge ${a.state==='待研判'?'warning':'neutral'}">${a.state==='待研判'?'待研判':'已关闭'}</span><span>›</span></button>`}).join('')||'<div class="empty">当前条件下无风险事件</div>'}</div></section></div>
-  <section class="panel audit-log-panel" ${req('catalog.audit','catalog.audit.table')}><div class="audit-section-head"><h3>查询日志明细 <span class="count-pill">${logs.length}</span>${auditFilters.pending?'<small class="active-scope">仅待研判风险</small>':''}${auditBucket?`<small class="active-scope">${auditPeriod()}</small>`:''}</h3><button class="btn" onclick="downloadCatalogLogs()">导出日志</button></div><div class="audit-table-scroll"><table><thead><tr>${['查询时间 / 请求编号','用户身份 / 机构','来源 IP / 调用方式','查询对象','返回结果','风险 / 研判状态','操作'].map(n=>`<th>${n}</th>`).join('')}</tr></thead><tbody>${logs.slice((auditPage-1)*auditPageSize,auditPage*auditPageSize).map(r=>{const event=auditEventFor(r);return `<tr><td>${r.time}<small class="trace-id">${r.id}</small></td><td><button class="link user-profile-link" ${req('catalog.profile','catalog.profile.user')} onclick="auditOpenDetail('${r.id}','profile')">${esc(r.name)}</button> <span class="role-pill">${r.role}</span><small>${esc(r.org)} · ${r.uid}</small></td><td class="ip-cell">${r.ip}<small>${r.mode}</small></td><td>${esc(r.target)}<small>公开 · 目录元数据</small></td><td><span class="audit-badge ${r.why?'danger':'success'}">${r.status}</span><small>HTTP ${r.http} · ${r.count} 条 · ${r.duration} ms</small></td><td><span class="${r.why?'risk-text':'muted'}">${r.why||'正常访问'}</span>${event?`<small>${esc(event.state)}</small>`:''}${r.why.includes('高频')?`<small>60 秒内 ${r.frequency} 次</small>`:''}</td><td><button class="link" onclick="catalogTrace('${r.id}')">审计详情</button>${event?.state==='待研判'?`<button class="link row-risk-action" ${req('catalog.alert','catalog.alert.resolve')} onclick="auditOpenDetail('${r.id}','risk')">研判</button>`:''}</td></tr>`}).join('')||'<tr><td colspan="7" class="empty">暂无匹配日志，请调整查询条件。</td></tr>'}</tbody></table></div><div class="audit-pagination"><span>共 ${logs.length} 条 · 每页 ${auditPageSize} 条</span><div><button class="btn" ${auditPage===1?'disabled':''} onclick="auditPage--;catalogAudit()">上一页</button> ${auditPage} / ${Math.max(1,Math.ceil(logs.length/auditPageSize))} <button class="btn" ${auditPage*auditPageSize>=logs.length?'disabled':''} onclick="auditPage++;catalogAudit()">下一页</button></div></div></section>`;
+  $('#catbody').innerHTML=`<div class="audit-heading unified-heading"><h1>查询安全管控</h1><div class="audit-refresh-tools" ${req('catalog.audit','catalog.audit.refresh')}><span>统计更新：${auditClock(auditRefreshAt)}</span><span class="auto-refresh-label">1 分钟自动刷新</span><button class="btn" onclick="auditRefresh()">↻ 刷新</button></div></div>
+  <section class="audit-filters panel" data-req-module="catalog.audit.query" ${req('catalog.audit','catalog.audit.filters')}><label>查询截止日期<input type="date" required id="logday" value="${auditFilters.day}"></label><label class="wide">用户 / IP / 请求编号 / 产品<input id="logkey" value="${esc(auditFilters.key)}" placeholder="请输入关键词" onkeydown="if(event.key==='Enter')auditApply()"></label><label>调用方式<select id="logmode">${opts(['本地查询','跨域调用'],auditFilters.mode)}</select></label><label>返回状态<select id="logstatus">${opts(['成功','已阻断'],auditFilters.status)}</select></label><label ${req('catalog.audit','catalog.audit.riskType')}>风险类型<select id="logrisk">${opts(['高频访问','越权访问','令牌重放'],auditFilters.riskType)}</select></label><label ${req('catalog.audit','catalog.audit.judgment')}>研判状态<select id="logjudgment">${opts(['待研判','已关闭'],auditFilters.judgment)}</select></label><button class="btn primary" onclick="auditApply()">查询</button><button class="btn" onclick="auditReset()">重置</button></section>
+  <div class="audit-stats" data-req-module="catalog.audit.statistics" ${req('catalog.audit','catalog.audit.statistics')}>${[['风险查询量',logs.length,'次','仅统计命中风险的查询请求','blue'],['活跃用户',users.size,'人','按认证用户 ID 去重','blue'],['跨域调用',cross.length,'次','占风险查询量 '+(logs.length?(cross.length/logs.length*100).toFixed(1):'0.0')+'%','blue'],['风险事件',events.length,'个','按关联事件编号去重','red']].map(([name,value,unit,note,color])=>`<article><span>${name}</span><strong class="${color}">${value.toLocaleString()}<small> ${unit}</small></strong><p>${note}</p></article>`).join('')}</div>
+  <div class="audit-analysis unified-analysis"><section class="panel" data-req-module="catalog.audit.trend" ${req('catalog.audit','catalog.audit.trend')}><div class="audit-section-head"><h3>风险查询趋势 <small>单位：次</small></h3><div class="trend-controls"><span><i class="legend blue-bg"></i>成功 <i class="legend red-bg"></i>已阻断</span><select aria-label="统计时间范围" ${req('catalog.audit','catalog.audit.timeRange')} onchange="auditRangeDays=Number(this.value);auditBucket=null;auditPage=1;auditRefreshAt=Date.now();catalogAudit()">${[[1,'1天'],[7,'一周'],[30,'30天']].map(([days,label])=>`<option value="${days}" ${auditRangeDays===days?'selected':''}>${label}</option>`).join('')}</select></div></div>${auditTrend(auditBaseLogs())}<div class="audit-chart-caption"><span>${auditDateLabel(auditDateRange().start).slice(0,10)}—${auditFilters.day} · ${auditRangeDays===1?'按小时':'按天'}统计，点击时段联动风险与日志</span>${auditBucket?`<button class="link" onclick="auditBucket=null;auditPage=1;catalogAudit()">清除时段 ${auditPeriod()} ×</button>`:''}</div></section>
+  <section class="panel audit-risk-panel" data-req-module="catalog.audit.events" ${req('catalog.alert','catalog.alert.events')}><div class="audit-section-head"><h3>关联风险事件 <span class="count-pill">${events.length}</span></h3><button class="link ${auditFilters.pending?'filter-active':''}" onclick="auditTogglePending()">${auditFilters.pending?'查看全部':'仅看待研判'}</button></div><div class="risk-panel-summary"><span class="risk-status-dot"></span><b>${pending.length} 个待研判</b><span>命中即阻断，保留请求证据</span></div><div class="risk-event-list">${events.map(a=>{const r=catalogLogs.find(r=>r.id===a.id);return `<button class="audit-event-row" onclick="auditOpenDetail('${a.id}','risk')"><span class="event-severity">!</span><span><b>${a.why}</b><small>${esc(r.name)} · ${r.uid}</small><small>${a.time} · ${a.evidenceIds?.length||1} 次阻断</small></span><span class="audit-badge ${a.state==='待研判'?'warning':'neutral'}">${a.state==='待研判'?'待研判':'已关闭'}</span><span>›</span></button>`}).join('')||'<div class="empty">当前条件下无风险事件</div>'}</div></section></div>
+  <section class="panel audit-log-panel" data-req-module="catalog.audit.records" ${req('catalog.audit','catalog.audit.table')}><div class="audit-section-head"><h3>风险查询日志 <span class="count-pill">${logs.length}</span>${auditFilters.pending?'<small class="active-scope">仅待研判风险</small>':''}${auditBucket?`<small class="active-scope">${auditPeriod()}</small>`:''}</h3><button class="btn" onclick="downloadCatalogLogs()">导出日志</button></div><div class="audit-table-scroll"><table><thead><tr>${['查询时间 / 请求编号','用户身份 / 机构','来源 IP / 调用方式','查询对象','返回结果','风险 / 研判状态','操作'].map(n=>`<th>${n}</th>`).join('')}</tr></thead><tbody>${logs.slice((auditPage-1)*auditPageSize,auditPage*auditPageSize).map(r=>{const event=auditEventFor(r);return `<tr><td>${r.time}<small class="trace-id">${r.id}</small></td><td><button class="link user-profile-link" ${req('catalog.profile','catalog.profile.user')} onclick="auditOpenDetail('${r.id}','profile')">${esc(r.name)}</button> <span class="role-pill">${r.role}</span><small>${esc(r.org)} · ${r.uid}</small></td><td class="ip-cell">${r.ip}<small>${r.mode}</small></td><td>${esc(r.target)}<small>公开 · 目录元数据</small></td><td><span class="audit-badge ${r.why?'danger':'success'}">${r.status}</span><small>HTTP ${r.http} · ${r.count} 条 · ${r.duration} ms</small></td><td><span class="${r.why?'risk-text':'muted'}">${r.why||'正常访问'}</span>${event?`<small>${esc(event.state)}</small>`:''}${r.why.includes('高频')?`<small>60 秒内 ${r.frequency} 次</small>`:''}</td><td><button class="link" onclick="catalogTrace('${r.id}')">审计详情</button>${event?.state==='待研判'?`<button class="link row-risk-action" ${req('catalog.alert','catalog.alert.resolve')} onclick="auditOpenDetail('${r.id}','risk')">研判</button>`:''}</td></tr>`}).join('')||'<tr><td colspan="7" class="empty">暂无匹配日志，请调整查询条件。</td></tr>'}</tbody></table></div><div class="audit-pagination"><span>共 ${logs.length} 条 · 每页 ${auditPageSize} 条</span><div><button class="btn" ${auditPage===1?'disabled':''} onclick="auditPage--;catalogAudit()">上一页</button> ${auditPage} / ${Math.max(1,Math.ceil(logs.length/auditPageSize))} <button class="btn" ${auditPage*auditPageSize>=logs.length?'disabled':''} onclick="auditPage++;catalogAudit()">下一页</button></div></div></section>`;
 }
-function auditBuckets(logs,minutes=auditInterval){
-  if(!logs.length)return [];
-  const width=minutes*60000,first=Math.floor(Math.min(...logs.map(r=>Date.parse(r.at)))/width)*width,last=Math.floor(Math.max(...logs.map(r=>Date.parse(r.at)))/width)*width;
-  const buckets=Array.from({length:Math.round((last-first)/width)+1},(_,i)=>({at:first+i*width,end:first+(i+1)*width,good:0,bad:0}));
-  for(const r of logs){const b=buckets[Math.floor((Date.parse(r.at)-first)/width)];b[r.why?'bad':'good']++;}
-  return buckets;
+function auditBuckets(logs){
+ if(!logs.length)return [];
+ const {start,end}=auditDateRange(),width=auditRangeDays===1?3600000:86400000;
+ const buckets=Array.from({length:Math.round((end-start)/width)},(_,i)=>({at:start+i*width,end:start+(i+1)*width,good:0,bad:0}));
+ for(const r of logs){const index=Math.floor((Date.parse(r.at)-start)/width);if(buckets[index])buckets[index][r.why?'bad':'good']++;}
+ return buckets;
 }
 function auditTrend(logs){
-  const buckets=auditBuckets(logs);if(!buckets.length)return '<div class="empty audit-chart-empty">暂无趋势数据</div>';
-  const max=Math.max(1,...buckets.map(b=>b.good+b.bad)),step=Math.max(1,Math.ceil(buckets.length/8));
-  return `<div class="audit-chart-scroll"><div class="audit-bars" style="min-width:${Math.max(350,buckets.length*22)}px"><span class="axis"><span>${max}</span><span>${Math.round(max/2)}</span><span>0</span></span>${buckets.map((b,i)=>{const label=auditClock(b.at).slice(0,5),selected=auditBucket?.start===b.at;return `<button class="bar-column ${selected?'bucket-selected':''}" aria-label="${label}，成功 ${b.good} 次，阻断 ${b.bad} 次，点击筛选" aria-pressed="${selected}" onclick="auditChooseBucket(${b.at},${b.end})"><span class="chart-tooltip">${label}—${auditClock(b.end).slice(0,5)}<br>成功 ${b.good} 次 · 阻断 ${b.bad} 次</span><span class="bar-track"><span class="bar-stack" style="height:${(b.good+b.bad)/max*100}%"><span class="red-bg" style="flex:${b.bad}"></span><span class="blue-bg" style="flex:${b.good}"></span></span></span><small>${i%step===0||i===buckets.length-1?label:''}</small></button>`}).join('')}</div></div>`;
+ const buckets=auditBuckets(logs);if(!buckets.length)return '<div class="empty audit-chart-empty">暂无趋势数据</div>';
+ const max=Math.max(1,...buckets.map(b=>b.good+b.bad)),step=Math.max(1,Math.ceil(buckets.length/8));
+ return `<div class="audit-chart-scroll"><div class="audit-bars" style="min-width:${Math.max(350,buckets.length*22)}px"><span class="axis"><span>${max}</span><span>${Math.round(max/2)}</span><span>0</span></span>${buckets.map((b,i)=>{const label=auditRangeDays===1?auditClock(b.at).slice(0,5):auditDateLabel(b.at).slice(5,10),period=auditDateLabel(b.at)+'—'+auditDateLabel(b.end),selected=auditBucket?.start===b.at;return `<button class="bar-column ${selected?'bucket-selected':''}" aria-label="${period}，成功 ${b.good} 次，阻断 ${b.bad} 次，点击筛选" aria-pressed="${selected}" onclick="auditChooseBucket(${b.at},${b.end})"><span class="chart-tooltip">${period}<br>成功 ${b.good} 次 · 阻断 ${b.bad} 次</span><span class="bar-track"><span class="bar-stack" style="height:${(b.good+b.bad)/max*100}%"><span class="red-bg" style="flex:${b.bad}"></span><span class="blue-bg" style="flex:${b.good}"></span></span></span><small>${i%step===0||i===buckets.length-1?label:''}</small></button>`}).join('')}</div></div>`;
 }
 function catalogTrace(id){auditOpenDetail(id,'trace');}
 function auditShowProfile(uid){const r=auditSelected().find(r=>r.uid===uid)||catalogLogs.find(r=>r.uid===uid);if(r)auditOpenDetail(r.id,'profile');}
@@ -631,7 +722,7 @@ function auditProfileContent(r){
   const logs=auditSelected().filter(x=>x.uid===r.uid),bad=logs.filter(x=>x.why),peak=Math.max(0,...logs.map(x=>x.frequency)),events=auditVisibleEvents(logs),pending=events.filter(a=>a.state==='待研判').length;
   return `<div class="audit-profile-head"><span class="avatar">${r.role==='政府用户'?'政':'企'}</span><div><h2>${esc(r.name)}</h2><p ${req('catalog.profile','catalog.profile.identity')}><span ${req('catalog.profile','catalog.profile.uid')}>${r.uid}</span> · <span ${req('catalog.profile','catalog.profile.role')}>${r.role}</span> · <span ${req('catalog.profile','catalog.profile.organization')}>${esc(r.org)}</span></p></div><span class="audit-badge ${bad.length?'danger':'success'}">${bad.length?'命中风险规则':'未命中风险规则'}</span></div><div class="audit-stats drawer-profile-stats">${[['查询总量',logs.length],['阻断请求',bad.length],['60S请求总数',peak],['来源 IP',new Set(logs.map(r=>r.ip)).size]].map(([name,value])=>`<article><span>${name}</span><strong>${value}</strong></article>`).join('')}</div><p class="drawer-rule-note">统计范围：当前查询条件${auditBucket?' · '+auditPeriod():''}；最近访问：${logs[0]?.time||'—'}</p><h3 class="drawer-section-title">风险标签与证据</h3><div class="profile-tags">${['高频访问','越权访问','令牌重放'].map(n=>`<span class="audit-badge ${bad.some(x=>x.why.includes(n))?'danger':'neutral'}">${n} ${bad.filter(x=>x.why.includes(n)).length} 次</span>`).join('')}</div><div class="profile-columns"><div><h3>访问特征</h3><p>本地查询：${logs.filter(x=>x.mode==='本地查询').length} 次</p><p>跨域调用：${logs.filter(x=>x.mode==='跨域调用').length} 次</p><p>异常率：${logs.length?(bad.length/logs.length*100).toFixed(1):'0.0'}%</p></div><div><h3>访问范围</h3><p>查询对象：${[...new Set(logs.map(x=>x.target))].map(esc).join('、')||'—'}</p><p>来源 IP：${[...new Set(logs.map(x=>x.ip))].join('、')||'—'}</p><p>待研判风险：${pending} 个</p></div></div><h3 class="drawer-section-title">关联风险事件</h3>${events.map(a=>`<button class="profile-risk-entry" onclick="auditOpenDetail('${a.id}','risk')"><span>${a.why} · ${a.time}</span><span>${a.state==='待研判'?'待研判':'已关闭'} ›</span></button>`).join('')||'<p class="muted">当前范围内无关联风险事件。</p>'}<p class="drawer-rule-note">风险标签依据规则命中记录生成，需结合业务背景进行研判。</p>`;
 }
-function downloadCatalogLogs(){const logs=auditSelected(),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({dataSource:'prototype-fixtures',exportedAt:new Date().toISOString(),filters:{...auditFilters,timeRange:auditBucket},logs,alerts:auditVisibleEvents(logs)},null,2)],{type:'application/json'}));a.download='查询日志.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('已导出当前查询范围的日志及风险记录');}
+function downloadCatalogLogs(){const logs=auditSelected(),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({dataSource:'prototype-fixtures',exportedAt:new Date().toISOString(),filters:{...auditFilters,rangeDays:auditRangeDays,dateRange:auditDateRange(),timeRange:auditBucket},logs,alerts:auditVisibleEvents(logs)},null,2)],{type:'application/json'}));a.download='查询安全管控.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('已导出当前查询范围的日志及风险记录');}
 window.addEventListener('message',e=>{
  const origins=window.AIPrototypeInspectorConfig?.allowedParentOrigins||[];
  if(e.source===window.parent&&origins.includes(e.origin)&&e.data?.namespace==='ai-prototype-studio'&&e.data.version===1&&e.data.type==='SET_MODE')auditEditing=e.data.payload?.mode==='edit';
@@ -641,6 +732,83 @@ setInterval(()=>{
  if(auditEditing||document.hidden||section!=='catalog'||catalogTab!=='logs'||auditDetail||document.activeElement?.matches('input:not([type=checkbox]),select,textarea'))return;
  const y=window.scrollY;auditRefresh();window.scrollTo(0,y);
 },60000);
+
+
+// Risk monitoring fixtures: login failures and large metadata exports.
+const monitorRules=[
+ {id:'LOGIN-FAIL-01',name:'频繁登录失败',type:'登录失败',window:'5分钟',threshold:5,unit:'次',action:'预警并人工核查',basis:'同一账号连续5分钟内登录失败次数达到5次触发预警；成功登录不计入。'},
+ {id:'DATA-EXPORT-01',name:'大规模数据导出',type:'数据导出',window:'10分钟',threshold:1000,unit:'条',action:'预警并暂停后续导出',basis:'同一用户连续10分钟实际成功导出的目录元数据条数累计达到1,000条触发；失败任务不计入。'}
+];
+let monitorFilters={day:'2026-11-03',key:'',type:'',state:''},monitorPage=1,monitorDetail=null,monitorTab='log',monitorUpdated=Date.now();
+const monitorLogs=[];
+const monitorEvents=[];
+function monitorSeed(){
+ if(monitorLogs.length)return;
+ const cases=[
+  {rule:0,time:'11:32:18',count:1,observed:6,change:'11:28:00—11:32:18，同一账号连续6次登录失败；本次为第6次。',approval:'不适用',state:'待研判'},
+  {rule:1,time:'11:25:06',count:600,observed:1200,change:'本次实际导出600条；窗口内前次导出600条',approval:'SP-20261103-206',state:'待研判'},
+  {rule:0,time:'10:48:32',count:1,observed:8,change:'10:44:00—10:48:32，同一账号累计8次登录失败；本次为第8次。',approval:'不适用',state:'处理中'},
+  {rule:1,time:'09:42:20',count:800,observed:1600,change:'本次实际导出800条；窗口内前次导出800条',approval:'SP-20261103-205',state:'已关闭'}
+ ];
+ cases.forEach((c,i)=>{
+  const rule=monitorRules[c.rule],actor=auditActors[(i+1)%4],id='DR-20261103-00'+(i+1),log={id:'DL-RISK-00'+(i+1),time:'2026-11-03 '+c.time,uid:actor.uid,user:actor.name,org:actor.org,ip:actor.ip,type:rule.type,target:c.rule===0?'门户账号登录':products[i%products.length],catalogId:c.rule===0?'—':'CAT-'+(1001+i),count:c.count,result:c.rule===0?'失败':'成功',change:c.change,approval:c.approval,eventId:id};
+  const history=[{time:log.time,action:'规则命中并生成预警',note:rule.basis},{time:log.time,action:'站内消息已送达',note:'接收人：安全管理人员'}];
+  if(c.state!=='待研判')history.push({time:log.time,action:'确认风险，开始处置',note:'安全管理员：已核查风险证据并确认处置范围。'});
+  if(c.state==='已关闭')history.push({time:'2026-11-03 10:05:00',action:'完成处置，等待验证',note:'安全管理员：已核查导出范围并完成异常导出排查。'},{time:'2026-11-03 10:10:00',action:'验证通过并关闭',note:'安全管理员：复核后续导出已恢复合规，未发现持续异常导出。'});
+  monitorLogs.push(log);monitorEvents.push({id,logId:log.id,rule:rule.id,name:rule.name,observed:c.observed,state:c.state,owner:c.state==='待研判'?'未认领':'安全管理员',notification:'站内消息已送达',history});
+ });
+ monitorLogs.sort((a,b)=>b.time.localeCompare(a.time));
+}
+function monitorBase(){return monitorLogs.filter(r=>!!monitorEvent(r)&&(!monitorFilters.day||r.time.startsWith(monitorFilters.day))&&(!monitorFilters.key||(r.id+r.user+r.uid+r.org+r.ip+r.target+r.catalogId).toLowerCase().includes(monitorFilters.key.toLowerCase()))&&(!monitorFilters.type||monitorEvent(r)?.name===monitorFilters.type)&&(!monitorFilters.state||monitorEvent(r)?.state===monitorFilters.state));}
+function monitorEvent(r){return monitorEvents.find(e=>e.id===r.eventId);}
+function monitorSelected(){return monitorBase();}
+function monitorVisibleEvents(logs){return monitorEvents.filter(e=>logs.some(r=>r.eventId===e.id));}
+function monitorApply(){monitorFilters={day:$('#m-day').value,key:$('#m-key').value.trim(),type:$('#m-type').value,state:$('#m-state').value};monitorPage=1;monitorRender();}
+function monitorReset(){monitorFilters={day:'2026-11-03',key:'',type:'',state:''};monitorPage=1;monitorRender();}
+function monitorRender(){
+ monitorSeed();monitorUpdated=Date.now();
+ const logs=monitorSelected(),events=monitorVisibleEvents(logs);
+ monitorPage=Math.min(monitorPage,Math.max(1,Math.ceil(logs.length/10)));
+ const opts=(items,value)=>'<option value="">全部</option>'+items.map(v=>`<option ${v===value?'selected':''}>${v}</option>`).join('');
+ const metrics=[
+  ['待研判风险',events.filter(e=>e.state==='待研判').length,'待研判事件','review'],
+  ['处理中风险',events.filter(e=>e.state==='处理中').length,'正在执行处置的事件','handling'],
+  ['待验证风险',events.filter(e=>e.state==='待验证').length,'已处置，等待验证','verification'],
+  ['已关闭风险',events.filter(e=>e.state==='已关闭').length,'含验证通过及研判排除','closed']
+ ];
+ $('#catbody').innerHTML=`<div class="audit-heading unified-heading"><div><h1>数据风险监测</h1><p class="monitor-subtitle">频繁登录失败与大规模数据导出的风险识别和处置</p></div><div class="monitor-tools"><span>更新于 ${auditClock(monitorUpdated)}</span><button class="btn" ${req('catalog.audit','catalog.monitor.refresh')} onclick="monitorRender()">↻ 刷新</button></div></div>
+ <section class="panel monitor-filters" data-req-module="catalog.monitor.query" ${req('catalog.audit','catalog.monitor.filters')}><label>发现日期<input type="date" id="m-day" value="${monitorFilters.day}"></label><label class="wide">用户 / 对象 / 日志编号<input id="m-key" maxlength="100" placeholder="请输入关键词" value="${esc(monitorFilters.key)}" onkeydown="if(event.key==='Enter')monitorApply()"></label><label>风险类型<select id="m-type">${opts(monitorRules.map(r=>r.name),monitorFilters.type)}</select></label><label>处置状态<select id="m-state">${opts(['待研判','处理中','待验证','已关闭'],monitorFilters.state)}</select></label><button class="btn primary" onclick="monitorApply()">查询</button><button class="btn" onclick="monitorReset()">重置</button></section>
+ <div class="audit-stats monitor-stats" data-req-module="catalog.monitor.statistics" ${req('catalog.audit','catalog.monitor.statistics')}>${metrics.map(([name,value,note,key])=>`<article ${req('catalog.audit','catalog.monitor.'+key)}><span>${name}</span><strong class="${key==='closed'?'blue':'red'}">${value}<small> 个</small></strong><p>${note}</p></article>`).join('')}</div>
+ <section class="panel audit-log-panel" data-req-module="catalog.monitor.records" ${req('catalog.audit','catalog.monitor.table')}><div class="audit-section-head"><div><h3>数据风险监测情况 <span class="count-pill">${logs.length}</span></h3><p class="monitor-table-note">保留命中风险及处置后的记录 · 点击风险类型展开判定逻辑</p></div><button class="btn" ${req('catalog.audit','catalog.monitor.export')} onclick="monitorExport()">导出记录</button></div><div class="audit-table-scroll"><table><thead><tr>${['发现时间 / 日志编号','操作人 / 机构','操作对象','操作类型 / 结果','风险类型','处置状态','操作'].map(n=>`<th>${n}</th>`).join('')}</tr></thead><tbody>${logs.slice((monitorPage-1)*10,monitorPage*10).map(r=>{const e=monitorEvent(r),rule=monitorRules.find(x=>x.id===e.rule);return `<tr><td>${r.time}<small class="trace-id">${r.id}</small></td><td>${esc(r.user)}<small>${esc(r.org)} · ${r.uid}</small></td><td>${esc(r.target)}<small>${r.type==='登录失败'?'门户登录':r.catalogId+' · 目录元数据'}</small></td><td>${r.type}<small>${r.result} · ${r.count} ${r.type==='登录失败'?'次':'条'}</small></td><td class="monitor-type-cell" ${req('catalog.alert','catalog.monitor.type')}><details class="monitor-type-rule"><summary>${e.name}</summary><div><p>${rule.basis}</p><p>响应：${rule.action}。</p><p>本事件命中：${e.observed} ${rule.unit} / 阈值 ≥${rule.threshold} ${rule.unit}。</p></div></details><small>${e.id}</small></td><td><span class="audit-badge ${e.state==='已关闭'?'neutral':'warning'}">${e.state}</span><small>${esc(e.owner)}</small></td><td><button class="link" onclick="monitorOpen('${r.id}','log')">日志详情</button><button class="link row-risk-action" ${req('catalog.alert','catalog.monitor.handle')} onclick="monitorOpen('${r.id}','response')">${e.state==='已关闭'?'处置记录':'风险处置'}</button></td></tr>`}).join('')||'<tr><td colspan="7" class="empty">暂无匹配风险记录，请调整筛选条件。</td></tr>'}</tbody></table></div><div class="audit-pagination"><span>共 ${logs.length} 条 · 每页10条</span><div><button class="btn" ${monitorPage===1?'disabled':''} onclick="monitorPage--;monitorRender()">上一页</button> ${monitorPage} / ${Math.max(1,Math.ceil(logs.length/10))} <button class="btn" ${monitorPage*10>=logs.length?'disabled':''} onclick="monitorPage++;monitorRender()">下一页</button></div></div></section><p class="monitor-footnote">示例数据 · 统计按当前筛选范围内事件编号去重，每分钟刷新；处置后保留风险与处置记录。</p>`;
+}
+function monitorClose(){monitorDetail=null;$('#overlay').innerHTML='';document.body.classList.remove('audit-drawer-open');}
+function monitorOpen(id,tab='log'){
+ const r=monitorLogs.find(r=>r.id===id);if(!r)return;monitorDetail=id;monitorTab=tab;
+ const e=monitorEvent(r),rule=e?monitorRules.find(x=>x.id===e.rule):null;
+ let content='';
+ if(tab==='log')content=`<div class="trace-summary"><span>操作人<b>${esc(r.user)} / ${r.uid}</b></span><span>所属机构<b>${esc(r.org)}</b></span><span>来源IP<b>${r.ip}</b></span><span>操作类型<b>${r.type} · ${r.result}</b></span><span>操作对象<b>${esc(r.target)}</b></span><span>操作规模<b>${r.count} ${r.type==='登录失败'?'次':'条'}</b></span></div><h3 class="drawer-section-title">操作记录</h3><div class="monitor-evidence">${r.type==='登录失败'?`<p>登录账号：${r.uid}</p>`:`<p>目录标识：${r.catalogId}</p><p>审批关联：${r.approval}</p>`}<p>操作摘要：${esc(r.change==='—'?'读取或导出目录元数据，不涉及实际业务数据文件。':r.change)}</p><p>执行时间：${r.time}</p></div>`;
+ if(tab==='risk')content=e?`<div class="risk-detail-title"><h3>${e.name}</h3></div><div class="trace-summary"><span>事件编号<b>${e.id}</b></span><span>处置状态<b>${e.state}</b></span><span>命中值 / 阈值<b>${e.observed} / ≥${rule.threshold} ${rule.unit}</b></span><span>统计窗口<b>${rule.window}</b></span></div><h3 class="drawer-section-title">检测依据</h3><p class="drawer-rule-note">${rule.basis}</p><p>规则：${rule.id} / v1</p><p>系统响应：${rule.action}${rule.type==='数据导出'?'；已完成的导出无法由暂停操作撤回。':''}</p><h3 class="drawer-section-title">证据与通知</h3><button class="btn" onclick="monitorOpen('${id}','log')">查看触发日志 ${id}</button>${rule.type==='数据导出'?`<p class="drawer-rule-note">${esc(r.change)}；10分钟内累计${e.observed.toLocaleString()}条。</p>`:''}${rule.type==='登录失败'?`<p class="drawer-rule-note">${esc(r.change)}</p>`:''}<p>${e.notification} · 接收人：安全管理人员</p><p class="muted">发送结果与人工认领分别记录。</p>`:'<div class="empty">本次操作未命中风险规则。</div>';
+ if(tab==='response')content=e?monitorResponse(e):'<div class="empty">本次操作无关联风险，无需处置。</div>';
+ $('#overlay').innerHTML=`<div class="audit-drawer-mask"><section class="monitor-drawer audit-drawer" role="dialog" aria-modal="true" aria-labelledby="monitor-detail-title" data-req-surface="catalog.monitor.detail" data-req-title="数据操作审计详情" data-req-page="monitor" data-req-layer="dialog" ${req(tab==='log'?'catalog.audit':'catalog.alert','catalog.monitor.'+tab)}><div class="audit-drawer-heading"><div><h2 id="monitor-detail-title">数据操作审计详情</h2><p>${r.time} · ${r.id}</p></div><button class="close" aria-label="关闭详情" onclick="monitorClose()">×</button></div><div class="audit-drawer-tabs" role="tablist" aria-label="数据操作审计分类">${[['log','操作日志'],['risk','风险详情'],['response','风险处置']].map(([k,n])=>`<button role="tab" aria-selected="${tab===k}" ${req(k==='log'?'catalog.audit':'catalog.alert','catalog.monitor.tab.'+k)} onclick="monitorOpen('${id}','${k}')">${n}</button>`).join('')}</div><div class="audit-drawer-content">${content}</div><div class="audit-drawer-footer"><button class="btn" onclick="monitorClose()">关闭</button></div></section></div>`;
+ document.body.classList.add('audit-drawer-open');
+}
+function monitorResponse(e){
+ const actions=e.state==='待研判'?['确认风险并认领','业务正常，关闭','规则误报，关闭']:e.state==='处理中'?['完成处置，提交验证']:e.state==='待验证'?['验证通过，关闭事件','验证未通过，退回处理']:[];
+ return `<div class="trace-summary"><span>当前状态<b>${e.state}</b></span><span>负责人<b>${esc(e.owner)}</b></span></div><h3 class="drawer-section-title">处置时间线</h3><ol class="trace audit-timeline">${e.history.map(h=>`<li><b>${esc(h.action)}</b><small>${h.time}</small><p>${esc(h.note)}</p></li>`).join('')}</ol>${actions.length?`<h3 class="drawer-section-title">${e.state==='待研判'?'风险研判':e.state==='处理中'?'应急处置':'恢复验证'}</h3><form class="audit-resolution-form" ${req('catalog.alert','catalog.monitor.responseForm')} onsubmit="event.preventDefault();monitorAdvance()"><label>处理结论 <span class="required">*</span><select id="m-action">${actions.map(a=>`<option>${a}</option>`).join('')}</select></label><label>${e.state==='待研判'?'研判依据':e.state==='处理中'?'处置措施与执行结果':'恢复验证依据'} <span class="required">*</span><textarea id="m-note" required maxlength="1000" placeholder="请填写核查证据、执行措施或验证结果，1～1,000字"></textarea></label><p class="drawer-rule-note">${e.state==='处理中'?'先完成实际业务处置，再记录执行结果；本原型不执行账号冻结、权限撤销或目录回滚。':e.state==='待验证'?'核查登录异常或导出限制的恢复情况。关闭事件不自动解除限制。':'业务正常或规则误报须填写依据；确认风险后进入处理中。'}</p><button type="submit" class="btn primary">保存${e.state==='待研判'?'研判':e.state==='处理中'?'处置':'验证'}结果</button></form>`:'<div class="resolution-result">本事件已关闭，保留完整处置记录。事件关闭不自动解除任何业务限制。</div>'}`;
+}
+function monitorAdvance(){
+ if(auditEditing)return;
+ const e=monitorEvent(monitorLogs.find(r=>r.id===monitorDetail));if(!e||e.state==='已关闭')return;
+ const note=$('#m-note')?.value.trim(),action=$('#m-action')?.value;if(!note||note.length>1000){toast('请填写1～1,000字的处理依据');return}
+ if(e.state==='待研判'){e.state=action==='确认风险并认领'?'处理中':'已关闭';}else if(e.state==='处理中')e.state='待验证';else e.state=action==='验证通过，关闭事件'?'已关闭':'处理中';
+ e.owner='安全管理员';e.history.push({time:new Date().toLocaleString('sv-SE',{timeZone:'Asia/Shanghai'}),action,note:'安全管理员：'+note});
+ const id=monitorDetail;monitorRender();monitorOpen(id,'response');toast('处理结果已保存至本次演示会话');
+}
+function monitorExport(){
+ const logs=monitorSelected(),events=monitorVisibleEvents(logs),a=document.createElement('a'),url=URL.createObjectURL(new Blob([JSON.stringify({dataSource:'prototype-fixtures',scope:'频繁登录失败与大规模数据导出风险及处置记录',exportedAt:new Date().toISOString(),filters:monitorFilters,logs,events},null,2)],{type:'application/json'}));a.href=url;a.download='数据风险监测情况.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('已导出当前范围日志、关联风险与处置记录');
+}
+window.addEventListener('keydown',event=>{if(event.key==='Escape'&&monitorDetail){event.preventDefault();monitorClose();}});
+setInterval(()=>{if(section==='catalog'&&catalogTab==='monitor'&&!auditEditing&&!document.hidden&&!monitorDetail&&!document.activeElement?.matches('input,select,textarea'))monitorRender();},60000);
 
 function catalogDetail() {
   let entries = [
@@ -685,7 +853,7 @@ function catalogDetail() {
     `<section class="panel" ${req('catalog.detail')}><h2 class="cat-title">基本信息</h2><div class="cat-detail">${entries.map(([k, v]) => `<div><span>${k}</span> ${esc(v)}</div>`).join('')}</div><p style="text-align:center"><button class="btn" onclick="catalogTab='list';catalogRender()">返回</button></p></section>`;
 }
 
-if (['catalog','audit'].includes(new URLSearchParams(location.search).get('view'))) { catalogOpen(); if(new URLSearchParams(location.search).get('view')==='audit'){catalogTab='logs';catalogRender();} }
+if (['catalog','audit','monitor'].includes(new URLSearchParams(location.search).get('view'))) { catalogOpen(); if(new URLSearchParams(location.search).get('view')==='audit'){catalogTab='logs';catalogRender();} if(new URLSearchParams(location.search).get('view')==='monitor'){catalogTab='monitor';catalogRender();} }
 
 // Business surfaces describe the current view to the independent Studio Inspector.
 // This projection adds semantic anchors only; it does not change navigation or form state.
@@ -706,25 +874,30 @@ if (['catalog','audit'].includes(new URLSearchParams(location.search).get('view'
   };
   function sync() {
     queued = false;
+    if(section==='identity'){surface($('#main'),identityPage(),identityPage().replaceAll('-','.'),(identityQueue==='pending'?'待我审批':'我已审批')+' · '+identityKinds[identityKind]);const auditDialog=$('#overlay .identity-audit-dialog');if(auditDialog)surface(auditDialog,identityPage(),auditDialog.dataset.reqSurface,auditDialog.dataset.reqTitle,true);return;}
+    if(section==='intelligent'){surface($('#main'),'intelligent-'+aiTab,'intelligent.'+aiTab,aiPages[aiKeys.indexOf(aiTab)]);const modal=$('#overlay .ai-modal');if(modal)surface(modal,'intelligent-'+aiTab,'intelligent.'+aiTab+'.dialog',modal.getAttribute('aria-label'),true);return;}
     const main = $('#main'),
-      catalog = section === 'catalog';
+      catalog = section === 'catalog',
+      identifier = section === 'identifier';
     const titles = {
+      monitor: '数据风险监测',
       list: '数据目录',
       detail: '数据目录详情',
-      logs: '查询日志',
+      logs: '查询安全管控',
       alerts: '风险识别与预警',
       profile: '风险行为画像'
     };
     surface(
       main,
-      catalog ? 'catalog' : 'home',
-      catalog ? 'catalog.' + catalogTab : section === 'launch' ? 'portal' : 'registration.list',
-      catalog ? titles[catalogTab] : section === 'launch' ? '快捷入口' : '接入登记审核'
+      identifier ? 'identifier' : catalog ? 'catalog' : 'home',
+      identifier ? 'identifier.manage' : catalog ? 'catalog.' + catalogTab : section === 'launch' ? 'portal' : 'registration.list',
+      identifier ? '标识管理' : catalog ? titles[catalogTab] : section === 'launch' ? '快捷入口' : '接入登记审核'
     );
     document
       .querySelectorAll('header,#sidebar,.systemtabs,.cat-toolbar')
       .forEach((el) => attribute(el, 'data-req-context-ignore', ''));
-    if (!catalog) anchor($('.registration-page'), 'node.review');
+    if (!catalog && !identifier) anchor($('.registration-page'), 'node.review');
+    if (identifier) anchor($('.identifier-page'), 'identifier.manage');
     if (catalog && catalogTab === 'list') anchor($('.cat-results'), 'catalog.browse');
     document
       .querySelectorAll('.querygrid>label')
@@ -818,10 +991,10 @@ if (['catalog','audit'].includes(new URLSearchParams(location.search).get('view'
         catalog ? 'catalog.' + type : 'node.review.detail'
       );
     }
-    document.querySelectorAll('#catbody>.audit-stats article').forEach((el,i)=>anchor(el,'catalog.audit','catalog.audit.'+['total','users','cross','blocked'][i]));
+    document.querySelectorAll(catalogTab==='monitor'?'#unused-monitor-selector':'#catbody>.audit-stats article').forEach((el,i)=>anchor(el,'catalog.audit','catalog.audit.'+['total','users','cross','blocked'][i]));
     ['logday','logkey','logmode','logstatus'].forEach((id,i)=>anchor(document.getElementById(id)?.closest('label'),'catalog.audit','catalog.audit.'+['date','keyword','mode','status'][i]));
-    anchor(document.querySelector('.audit-refresh-tools>button'),'catalog.audit','catalog.audit.refreshButton');
-    anchor(document.querySelector('.audit-refresh-tools>.auto-refresh-label'),'catalog.audit','catalog.audit.autoRefresh');
+    anchor(document.querySelector(catalogTab==='monitor'?'#unused-monitor-selector':'.audit-refresh-tools>button'),'catalog.audit','catalog.audit.refreshButton');
+    anchor(document.querySelector(catalogTab==='monitor'?'#unused-monitor-selector':'.audit-refresh-tools>.auto-refresh-label'),'catalog.audit','catalog.audit.autoRefresh');
     const profileRoot=document.querySelector('[data-audit-detail="profile"]');
     if(profileRoot){
       const bind=(selector,key)=>anchor(profileRoot.querySelector(selector),'catalog.profile','catalog.profile.'+key);

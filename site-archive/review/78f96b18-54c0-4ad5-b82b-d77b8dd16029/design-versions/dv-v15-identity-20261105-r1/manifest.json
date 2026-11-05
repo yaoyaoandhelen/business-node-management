@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "kind": "design-version",
+  "projectId": "business-node-management",
+  "id": "dv-v15-identity-20261105-r1",
+  "name": "V1.5",
+  "createdAt": "2026-11-05T01:37:13.051Z",
+  "requirementRevision": 607,
+  "requirementHash": "44b6b567fc161b6407f73a38c4609f515f82f1fe55572c8094ede2eb577f4bfe",
+  "summary": "主体身份审核管理：个人、企业、经办人审批列表、审核弹窗、历史记录和独立提交确认；并入既有 V1.5。",
+  "files": {
+    "prototype/app.js": "f022bdfb6aa2cd5ac12a4dcee566e5b9e383ebd468900a65047c470e18e562fa",
+    "prototype/assets/main-m_EA0mQ-.css": "8c19e8a046d9d326e1d601090df5e9644a79081d7158a36aef98e31b1f18e61c",
+    "prototype/assets/portal-CPcdJkM0.css": "e26bc3995e9ac857f3857393629c620ff40a5429e470329407e2f0dd63021ed4",
+    "prototype/assets/portal-CnbZZunT.js": "697452651a4b716ddc105ffa4af6700f445a5d9398042cbd48ffda46c3b44051",
+    "prototype/identity-certification.js": "eab9e24b6531e13ba2d7f44e813fb8f61131ee284f1654fbf7e62394b856755a",
+    "prototype/identity-review.js": "67fdc3595fd31379264310dbcd24af0bd396c4a77fd2e172cd06dcba30beb1ef",
+    "prototype/identity-workflow-data.js": "d83684a81567f1fe0a99b203d908e79e3d3847a7ffd54af24244211871c582b4",
+    "prototype/index.html": "deebdd8c352eb7667366233747ed0c3d78666cc949a76be1586f3a5f09a04e73",
+    "prototype/inspector-config.js": "3c6a8f6aa2e3f2e15e09621c495c4e8a0a2f869318cbb045614b46eaa242415f",
+    "prototype/inspector.js": "d3caaf68164a4fcdfde904c0be98dcf756164d9e2c10ea0c7101dccfcc01aa56",
+    "prototype/intelligent-expanded.js": "af0cdda8ea801a3d5c943b0efb96d710c5a2f364619eb9116a56c881814e5dc3",
+    "prototype/intelligent.js": "157786ab7268aef5bd67a439af87c2ff0561c2801e9772c843a59462a811ce63",
+    "prototype/portal-assets/chongqing.jpg": "b34bc56c65f6cc431bd832e98c03676e8fa11024686830f554d68494b1c17276",
+    "prototype/portal-standalone.html": "5bb61a5a3f8d2a34cf5416cd35d633a306f1c811c39ee705219a7c5cbb322ad5",
+    "prototype/portal.html": "fa2b8d070a6a8d8e895cf71280b21ff208f037bc35e9b4c401e1e34c6fd18706",
+    "prototype/template-0.txt": "74a9d41b8eda99a84c220c4d4e03a45d9a0fae1ece6e8e28c6b947cda8f5c9af",
+    "prototype/template-1.txt": "c8c74dc8b8bd138de2e89949227f560f90d419f5d8d2cd608cef24e3c060c649",
+    "prototype/template-2.txt": "004b14dfc48cef01546856b2de6c30ad68e7bcbf26429d09301f39c73012dcf8",
+    "snapshot.json": "04931d9999ed69b11d5a39c7b8d9c90a222f6f5a30753db3ce0381e9ff99e863"
+  }
+}

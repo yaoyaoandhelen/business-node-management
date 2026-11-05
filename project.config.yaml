@@ -6,6 +6,12 @@ pages:
   - id: portal-home
     name: 业务节点门户首页
     path: ./portal-standalone.html?user=enterprise
+  - id: portal-resources
+    name: 门户数据资源
+    path: ./portal-standalone.html?user=enterprise&view=resources
+  - id: portal-trade
+    name: 门户数据交易
+    path: ./portal-standalone.html?user=enterprise&view=trade
   - id: portal-workbench
     name: 门户工作台与身份续期
     path: ./portal-standalone.html?user=enterprise&view=workbench
@@ -15,6 +21,9 @@ pages:
   - id: home
     name: 首页与接入登记
     path: ./index.html?system=management
+  - id: identifier
+    name: 生命周期管理-标识管理
+    path: ./index.html?system=management&view=identifier
   - id: risk
     name: 敏感词审核不通过
     path: ./index.html?view=risk
@@ -25,8 +34,11 @@ pages:
     name: 数据目录与查询安全
     path: ./index.html?view=catalog
   - id: audit
-    name: 查询日志与风险分析
+    name: 查询安全管控
     path: ./index.html?view=audit
+  - id: monitor
+    name: 数据风险监测与处置
+    path: ./index.html?view=monitor
   - id: portal-person-home
     name: 个人用户门户首页
     path: ./portal-standalone.html?user=personal
@@ -48,6 +60,69 @@ pages:
   - id: portal-frozen-home
     name: 冻结身份与解冻申诉
     path: ./portal-standalone.html?user=frozen&view=home
+  - id: intelligent-overview
+    name: 智能搜索 · 功能概览
+    path: ./index.html?system=intelligent&view=overview
+  - id: intelligent-themes
+    name: 智能搜索 · 搜索主题管理
+    path: ./index.html?system=intelligent&view=themes
+  - id: intelligent-tags
+    name: 智能搜索 · 检索标签管理
+    path: ./index.html?system=intelligent&view=tags
+  - id: intelligent-templates
+    name: 智能搜索 · 主题模板管理
+    path: ./index.html?system=intelligent&view=templates
+  - id: intelligent-sources
+    name: 智能搜索 · 数据源管理
+    path: ./index.html?system=intelligent&view=sources
+  - id: intelligent-indexes
+    name: 智能搜索 · 索引管理
+    path: ./index.html?system=intelligent&view=indexes
+  - id: intelligent-indexMonitor
+    name: 智能搜索 · 索引监控
+    path: ./index.html?system=intelligent&view=indexMonitor
+  - id: intelligent-search
+    name: 智能搜索 · 搜索管理
+    path: ./index.html?system=intelligent&view=search
+  - id: intelligent-recommendations
+    name: 智能搜索 · 智能推荐管理
+    path: ./index.html?system=intelligent&view=recommendations
+  - id: intelligent-records
+    name: 智能搜索 · 搜索记录管理
+    path: ./index.html?system=intelligent&view=records
+  - id: intelligent-content
+    name: 智能搜索 · 搜索内容管理
+    path: ./index.html?system=intelligent&view=content
+  - id: intelligent-operations
+    name: 智能搜索 · 搜索运营分析
+    path: ./index.html?system=intelligent&view=operations
+  - id: identity-pending-personal
+    name: 主体身份 · 待我审批 · 个人
+    path: ./index.html?system=identity&view=pending&kind=personal
+  - id: identity-pending-enterprise
+    name: 主体身份 · 待我审批 · 企业
+    path: ./index.html?system=identity&view=pending&kind=enterprise
+  - id: identity-pending-agent
+    name: 主体身份 · 待我审批 · 经办人
+    path: ./index.html?system=identity&view=pending&kind=agent
+  - id: identity-completed-personal
+    name: 主体身份 · 我已审批 · 个人
+    path: ./index.html?system=identity&view=completed&kind=personal
+  - id: identity-completed-enterprise
+    name: 主体身份 · 我已审批 · 企业
+    path: ./index.html?system=identity&view=completed&kind=enterprise
+  - id: identity-completed-agent
+    name: 主体身份 · 我已审批 · 经办人
+    path: ./index.html?system=identity&view=completed&kind=agent
+  - id: identity-audit-personal
+    name: 个人审核弹窗
+    path: ./index.html?system=identity&view=pending&kind=personal&review=1
+  - id: identity-audit-enterprise
+    name: 企业审核弹窗
+    path: ./index.html?system=identity&view=pending&kind=enterprise&review=1
+  - id: identity-audit-agent
+    name: 经办人审核弹窗
+    path: ./index.html?system=identity&view=pending&kind=agent&review=1
 build:
   adapter: vite
   root: prototype
