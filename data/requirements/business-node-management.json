@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "projectId": "business-node-management",
-  "revision": 607,
+  "revision": 836,
   "requirements": {
     "node.enter": {
       "reqId": "node.enter",
@@ -8417,7 +8417,7 @@
         "点击重置清空条件并返回第一页。"
       ],
       "businessRules": [
-        "审核类型：注册、更新、解冻、注销。",
+        "审核类型：注册、更新、续期、解冻、注销。",
         "待我审批展示待处理记录；我已审批展示当前审批人处理过的记录，审核结果为通过、驳回。",
         "当前为示例数据，暂不执行真实审批或改变身份状态。"
       ],
@@ -8470,13 +8470,13 @@
           "type": "枚举",
           "defaultValue": "",
           "required": false,
-          "validation": "仅允许选择：注册、更新、解冻、注销；空值查询全部。",
+          "validation": "仅允许选择：注册、更新、续期、解冻、注销；空值查询全部。",
           "message": ""
         }
       ],
       "statistics": [],
       "acceptanceCriteria": [],
-      "updatedAt": "2026-11-05T01:22:20.979Z",
+      "updatedAt": "2026-11-06T02:23:45.020Z",
       "surfaceSummaries": {
         "identity.pending.personal": [
           "按姓名、证件号码、手机号、认证方式和审核类型组合查询个人待审批申请；重置后恢复全部记录。"
@@ -8499,7 +8499,7 @@
         "点击审批，打开当前主体的审核弹窗。"
       ],
       "businessRules": [
-        "审核类型：注册、更新、解冻、注销。",
+        "审核类型：注册、更新、续期、解冻、注销。",
         "待我审批展示待处理记录；我已审批展示当前审批人处理过的记录，审核结果为通过、驳回。",
         "当前为示例数据，暂不执行真实审批或改变身份状态。"
       ],
@@ -8517,7 +8517,7 @@
       "fields": [],
       "statistics": [],
       "acceptanceCriteria": [],
-      "updatedAt": "2026-11-05T01:22:20.986Z"
+      "updatedAt": "2026-11-06T02:23:45.194Z"
     },
     "identity.review.pending.enterprise.query": {
       "reqId": "identity.review.pending.enterprise.query",
@@ -8534,7 +8534,7 @@
         "点击重置清空条件并返回第一页。"
       ],
       "businessRules": [
-        "审核类型：注册、更新、解冻、注销。",
+        "审核类型：注册、更新、续期、解冻、注销。",
         "待我审批展示待处理记录；我已审批展示当前审批人处理过的记录，审核结果为通过、驳回。",
         "当前为示例数据，暂不执行真实审批或改变身份状态。"
       ],
@@ -8603,13 +8603,13 @@
           "type": "枚举",
           "defaultValue": "",
           "required": false,
-          "validation": "仅允许选择：注册、更新、解冻、注销；空值查询全部。",
+          "validation": "仅允许选择：注册、更新、续期、解冻、注销；空值查询全部。",
           "message": ""
         }
       ],
       "statistics": [],
       "acceptanceCriteria": [],
-      "updatedAt": "2026-11-05T01:22:20.991Z"
+      "updatedAt": "2026-11-06T02:23:45.328Z"
     },
     "identity.review.pending.enterprise.list": {
       "reqId": "identity.review.pending.enterprise.list",
@@ -8627,7 +8627,7 @@
         "点击审批，打开当前主体的审核弹窗。"
       ],
       "businessRules": [
-        "审核类型：注册、更新、解冻、注销。",
+        "审核类型：注册、更新、续期、解冻、注销。",
         "待我审批展示待处理记录；我已审批展示当前审批人处理过的记录，审核结果为通过、驳回。",
         "当前为示例数据，暂不执行真实审批或改变身份状态。"
       ],
@@ -8645,7 +8645,7 @@
       "fields": [],
       "statistics": [],
       "acceptanceCriteria": [],
-      "updatedAt": "2026-11-05T01:22:20.997Z"
+      "updatedAt": "2026-11-06T02:23:45.343Z"
     },
     "identity.review.pending.agent.query": {
       "reqId": "identity.review.pending.agent.query",
@@ -8662,7 +8662,7 @@
         "点击重置清空条件并返回第一页。"
       ],
       "businessRules": [
-        "审核类型：注册、更新、解冻、注销。",
+        "审核类型：注册、更新、续期、解冻、注销。",
         "待我审批展示待处理记录；我已审批展示当前审批人处理过的记录，审核结果为通过、驳回。",
         "当前为示例数据，暂不执行真实审批或改变身份状态。"
       ],
@@ -8715,13 +8715,13 @@
           "type": "枚举",
           "defaultValue": "",
           "required": false,
-          "validation": "仅允许选择：注册、更新、解冻、注销；空值查询全部。",
+          "validation": "仅允许选择：注册、更新、续期、解冻、注销；空值查询全部。",
           "message": ""
         }
       ],
       "statistics": [],
       "acceptanceCriteria": [],
-      "updatedAt": "2026-11-05T01:22:21.003Z"
+      "updatedAt": "2026-11-06T02:23:45.436Z"
     },
     "identity.review.pending.agent.list": {
       "reqId": "identity.review.pending.agent.list",
@@ -8738,7 +8738,7 @@
         "支持刷新、每页条数选择、上一页、下一页及页码跳转。"
       ],
       "businessRules": [
-        "审核类型：注册、更新、解冻、注销。",
+        "审核类型：注册、更新、续期、解冻、注销。",
         "待我审批展示待处理记录；我已审批展示当前审批人处理过的记录，审核结果为通过、驳回。",
         "当前为示例数据，暂不执行真实审批或改变身份状态。"
       ],
@@ -8756,7 +8756,7 @@
       "fields": [],
       "statistics": [],
       "acceptanceCriteria": [],
-      "updatedAt": "2026-11-05T01:22:21.010Z"
+      "updatedAt": "2026-11-06T02:23:45.450Z"
     },
     "identity.review.completed.personal.query": {
       "reqId": "identity.review.completed.personal.query",
@@ -8773,7 +8773,7 @@
         "点击重置清空条件并返回第一页。"
       ],
       "businessRules": [
-        "审核类型：注册、更新、解冻、注销。",
+        "审核类型：注册、更新、续期、解冻、注销。",
         "待我审批展示待处理记录；我已审批展示当前审批人处理过的记录，审核结果为通过、驳回。",
         "当前为示例数据，暂不执行真实审批或改变身份状态。"
       ],
@@ -8826,7 +8826,7 @@
           "type": "枚举",
           "defaultValue": "",
           "required": false,
-          "validation": "仅允许选择：注册、更新、解冻、注销；空值查询全部。",
+          "validation": "仅允许选择：注册、更新、续期、解冻、注销；空值查询全部。",
           "message": ""
         },
         {
@@ -8840,7 +8840,7 @@
       ],
       "statistics": [],
       "acceptanceCriteria": [],
-      "updatedAt": "2026-11-05T01:22:21.018Z"
+      "updatedAt": "2026-11-06T02:23:45.226Z"
     },
     "identity.review.completed.personal.list": {
       "reqId": "identity.review.completed.personal.list",
@@ -8858,7 +8858,7 @@
         "点击查看，打开已审核记录的只读结果弹窗。"
       ],
       "businessRules": [
-        "审核类型：注册、更新、解冻、注销。",
+        "审核类型：注册、更新、续期、解冻、注销。",
         "待我审批展示待处理记录；我已审批展示当前审批人处理过的记录，审核结果为通过、驳回。",
         "当前为示例数据，暂不执行真实审批或改变身份状态。"
       ],
@@ -8876,7 +8876,7 @@
       "fields": [],
       "statistics": [],
       "acceptanceCriteria": [],
-      "updatedAt": "2026-11-05T01:22:21.024Z"
+      "updatedAt": "2026-11-06T02:23:45.248Z"
     },
     "identity.review.completed.enterprise.query": {
       "reqId": "identity.review.completed.enterprise.query",
@@ -8893,7 +8893,7 @@
         "点击重置清空条件并返回第一页。"
       ],
       "businessRules": [
-        "审核类型：注册、更新、解冻、注销。",
+        "审核类型：注册、更新、续期、解冻、注销。",
         "待我审批展示待处理记录；我已审批展示当前审批人处理过的记录，审核结果为通过、驳回。",
         "当前为示例数据，暂不执行真实审批或改变身份状态。"
       ],
@@ -8962,7 +8962,7 @@
           "type": "枚举",
           "defaultValue": "",
           "required": false,
-          "validation": "仅允许选择：注册、更新、解冻、注销；空值查询全部。",
+          "validation": "仅允许选择：注册、更新、续期、解冻、注销；空值查询全部。",
           "message": ""
         },
         {
@@ -8976,7 +8976,7 @@
       ],
       "statistics": [],
       "acceptanceCriteria": [],
-      "updatedAt": "2026-11-05T01:22:21.029Z"
+      "updatedAt": "2026-11-06T02:23:45.358Z"
     },
     "identity.review.completed.enterprise.list": {
       "reqId": "identity.review.completed.enterprise.list",
@@ -8994,7 +8994,7 @@
         "点击查看，打开已审核记录的只读结果弹窗。"
       ],
       "businessRules": [
-        "审核类型：注册、更新、解冻、注销。",
+        "审核类型：注册、更新、续期、解冻、注销。",
         "待我审批展示待处理记录；我已审批展示当前审批人处理过的记录，审核结果为通过、驳回。",
         "当前为示例数据，暂不执行真实审批或改变身份状态。"
       ],
@@ -9012,7 +9012,7 @@
       "fields": [],
       "statistics": [],
       "acceptanceCriteria": [],
-      "updatedAt": "2026-11-05T01:22:21.035Z"
+      "updatedAt": "2026-11-06T02:23:45.372Z"
     },
     "identity.review.completed.agent.query": {
       "reqId": "identity.review.completed.agent.query",
@@ -9029,7 +9029,7 @@
         "点击重置清空条件并返回第一页。"
       ],
       "businessRules": [
-        "审核类型：注册、更新、解冻、注销。",
+        "审核类型：注册、更新、续期、解冻、注销。",
         "待我审批展示待处理记录；我已审批展示当前审批人处理过的记录，审核结果为通过、驳回。",
         "当前为示例数据，暂不执行真实审批或改变身份状态。"
       ],
@@ -9082,7 +9082,7 @@
           "type": "枚举",
           "defaultValue": "",
           "required": false,
-          "validation": "仅允许选择：注册、更新、解冻、注销；空值查询全部。",
+          "validation": "仅允许选择：注册、更新、续期、解冻、注销；空值查询全部。",
           "message": ""
         },
         {
@@ -9096,7 +9096,7 @@
       ],
       "statistics": [],
       "acceptanceCriteria": [],
-      "updatedAt": "2026-11-05T01:22:21.041Z"
+      "updatedAt": "2026-11-06T02:23:45.463Z"
     },
     "identity.review.completed.agent.list": {
       "reqId": "identity.review.completed.agent.list",
@@ -9113,7 +9113,7 @@
         "支持刷新、每页条数选择、上一页、下一页及页码跳转。"
       ],
       "businessRules": [
-        "审核类型：注册、更新、解冻、注销。",
+        "审核类型：注册、更新、续期、解冻、注销。",
         "待我审批展示待处理记录；我已审批展示当前审批人处理过的记录，审核结果为通过、驳回。",
         "当前为示例数据，暂不执行真实审批或改变身份状态。"
       ],
@@ -9131,7 +9131,7 @@
       "fields": [],
       "statistics": [],
       "acceptanceCriteria": [],
-      "updatedAt": "2026-11-05T01:22:21.048Z"
+      "updatedAt": "2026-11-06T02:23:45.477Z"
     },
     "portal.trade.query": {
       "reqId": "portal.trade.query",
@@ -9263,7 +9263,7 @@
       "interactionSteps": [
         "从列表点击审批或查看，打开对应主体审核弹窗。",
         "突出当前审核类型、主体名称、标识、提交人与提交时间。",
-        "可切换注册、更新、解冻、注销查看不同审核场景；切换后保留各场景未提交意见。"
+        "可切换注册、更新、续期、解冻、注销查看不同审核场景；切换后保留各场景未提交意见。"
       ],
       "businessRules": [
         "审核类型预览不会更改原申请类型。",
@@ -9272,7 +9272,8 @@
         "弹窗类型按钮不展示待审核数字，列表待审核数量保持显示。",
         "在注销按钮下方显示提示：此处多个审核类型弹窗仅作原型展示，真实审核流每次只有一个审核类型。",
         "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
-        "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。"
+        "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。",
+        "续期为独立审核类型；从续期申请进入弹窗可直接审批，切换预览其他类型不改变申请本身。"
       ],
       "permissions": [],
       "exceptionHandling": [
@@ -9288,11 +9289,43 @@
         {
           "pageId": "identity-completed-personal",
           "elementId": "identity.review.personal.audit.context"
+        },
+        {
+          "pageId": "identity-renewal-personal",
+          "elementId": "identity.review.personal.audit.context"
         }
       ],
       "fields": [],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:32:04.122Z"
+      "updatedAt": "2026-11-06T02:31:29.112Z",
+      "elementDefinitions": {
+        "identity.review.personal.audit.context": {
+          "name": "个人续期 · 审核对象与类型",
+          "meaning": "核对申请主体、提交人、时间和原申请类型。",
+          "kind": "module",
+          "fieldTableTitle": "字段说明",
+          "fields": [],
+          "interactionSteps": [
+            "从列表点击审批或查看，打开对应主体审核弹窗。",
+            "突出当前审核类型、主体名称、标识、提交人与提交时间。",
+            "可切换注册、更新、续期、解冻、注销查看不同审核场景；切换后保留各场景未提交意见。"
+          ],
+          "businessRules": [
+            "审核类型预览不会更改原申请类型。",
+            "切换到与原申请不同的类型时，审核按钮禁用并提示切回原申请类型。",
+            "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
+            "弹窗类型按钮不展示待审核数字，列表待审核数量保持显示。",
+            "在注销按钮下方显示提示：此处多个审核类型弹窗仅作原型展示，真实审核流每次只有一个审核类型。",
+            "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
+            "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。",
+            "续期为独立审核类型；从续期申请进入弹窗可直接审批，切换预览其他类型不改变申请本身。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.personal.audit.request": {
       "reqId": "identity.review.personal.audit.request",
@@ -9307,7 +9340,8 @@
       "interactionSteps": [
         "展示本次申请类型的审核说明与预期身份变化。",
         "更新审核显示字段名、变更前与本次申请值；冻结、解冻、注销显示原因及对应审核重点。",
-        "解冻审核依次只读展示冻结原因、申诉说明、申诉联系电话，三项均标记必填。"
+        "解冻审核依次只读展示冻结原因、申诉说明、申诉联系电话，三项均标记必填。",
+        "续期审核只读展示首次续期时间、当前到期时间、申请续期时长、预计续期后到期时间和申请说明；我已审批展示审核后到期时间。"
       ],
       "businessRules": [
         "审核类型预览不会更改原申请类型。",
@@ -9315,7 +9349,10 @@
         "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
         "冻结原因来自同主体的独立冻结操作记录，按主体标识关联，不读取其他主体记录。",
         "申诉说明与申诉联系电话来自申请解冻主体身份弹窗的已提交申诉记录，按subjectId匹配。",
-        "未关联记录时显示未提供，不编造申诉信息；三项完整且联系电话有效才允许提交解冻审核。"
+        "未关联记录时显示未提供，不编造申诉信息；三项完整且联系电话有效才允许提交解冻审核。",
+        "续期时长为1–180天的整数，默认申请180天；审批人员不可修改申请时长。",
+        "未到期时从当前到期日顺延；已到期时从审核通过日计算；以Asia/Shanghai的自然日计算，提交确认时重新计算。",
+        "通过后记录续期后的到期日；驳回时原到期日不变。首次续期时间为空显示暂无（首次申请）。"
       ],
       "permissions": [],
       "exceptionHandling": [
@@ -9330,6 +9367,10 @@
         },
         {
           "pageId": "identity-completed-personal",
+          "elementId": "identity.review.personal.audit.request"
+        },
+        {
+          "pageId": "identity-renewal-personal",
           "elementId": "identity.review.personal.audit.request"
         }
       ],
@@ -9357,10 +9398,137 @@
           "required": true,
           "validation": "解冻申请的phone，11位中国大陆手机号码",
           "message": "未提供"
+        },
+        {
+          "name": "首次续期时间",
+          "type": "只读日期",
+          "defaultValue": "",
+          "required": false,
+          "validation": "来自主体历史续期记录；无记录显示暂无（首次申请）",
+          "message": ""
+        },
+        {
+          "name": "当前到期时间",
+          "type": "只读日期",
+          "defaultValue": "",
+          "required": true,
+          "validation": "YYYY-MM-DD，来源为本次申请的原有效期",
+          "message": ""
+        },
+        {
+          "name": "申请续期时长",
+          "type": "只读整数",
+          "defaultValue": 180,
+          "required": true,
+          "validation": "1–180天的整数，默认180；缺失或越界禁止提交",
+          "message": ""
+        },
+        {
+          "name": "预计续期后到期时间",
+          "type": "只读计算日期",
+          "defaultValue": "",
+          "required": true,
+          "validation": "max(当前到期日,审核通过日)+申请天数；待审按当天估算",
+          "message": ""
+        },
+        {
+          "name": "审核后到期时间",
+          "type": "只读日期",
+          "defaultValue": "",
+          "required": false,
+          "validation": "通过显示实际顺延日期；驳回显示原到期日期",
+          "message": ""
+        },
+        {
+          "name": "申请说明",
+          "type": "只读文本",
+          "defaultValue": "",
+          "required": false,
+          "validation": "展示申请人提交的说明；为空显示—",
+          "message": ""
         }
       ],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:22:21.059Z"
+      "updatedAt": "2026-11-06T02:31:29.129Z",
+      "elementDefinitions": {
+        "identity.review.personal.audit.request": {
+          "name": "个人续期 · 续期申请与有效期",
+          "meaning": "集中核对申请续期天数、原有效期及计算后的新到期日。",
+          "kind": "module",
+          "fieldTableTitle": "续期申请字段",
+          "fields": [
+            {
+              "name": "首次续期时间",
+              "type": "只读日期",
+              "defaultValue": "",
+              "required": false,
+              "validation": "来自主体历史续期记录；无记录显示暂无（首次申请）",
+              "message": ""
+            },
+            {
+              "name": "当前到期时间",
+              "type": "只读日期",
+              "defaultValue": "",
+              "required": true,
+              "validation": "YYYY-MM-DD，来源为本次申请的原有效期",
+              "message": ""
+            },
+            {
+              "name": "申请续期时长",
+              "type": "只读整数",
+              "defaultValue": 180,
+              "required": true,
+              "validation": "1–180天的整数，默认180；缺失或越界禁止提交",
+              "message": ""
+            },
+            {
+              "name": "预计续期后到期时间",
+              "type": "只读计算日期",
+              "defaultValue": "",
+              "required": true,
+              "validation": "max(当前到期日,审核通过日)+申请天数；待审按当天估算",
+              "message": ""
+            },
+            {
+              "name": "审核后到期时间",
+              "type": "只读日期",
+              "defaultValue": "",
+              "required": false,
+              "validation": "通过显示实际顺延日期；驳回显示原到期日期",
+              "message": ""
+            },
+            {
+              "name": "申请说明",
+              "type": "只读文本",
+              "defaultValue": "",
+              "required": false,
+              "validation": "展示申请人提交的说明；为空显示—",
+              "message": ""
+            }
+          ],
+          "interactionSteps": [
+            "展示本次申请类型的审核说明与预期身份变化。",
+            "更新审核显示字段名、变更前与本次申请值；冻结、解冻、注销显示原因及对应审核重点。",
+            "解冻审核依次只读展示冻结原因、申诉说明、申诉联系电话，三项均标记必填。",
+            "续期审核只读展示首次续期时间、当前到期时间、申请续期时长、预计续期后到期时间和申请说明；我已审批展示审核后到期时间。"
+          ],
+          "businessRules": [
+            "审核类型预览不会更改原申请类型。",
+            "切换到与原申请不同的类型时，审核按钮禁用并提示切回原申请类型。",
+            "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
+            "冻结原因来自同主体的独立冻结操作记录，按主体标识关联，不读取其他主体记录。",
+            "申诉说明与申诉联系电话来自申请解冻主体身份弹窗的已提交申诉记录，按subjectId匹配。",
+            "未关联记录时显示未提供，不编造申诉信息；三项完整且联系电话有效才允许提交解冻审核。",
+            "续期时长为1–180天的整数，默认申请180天；审批人员不可修改申请时长。",
+            "未到期时从当前到期日顺延；已到期时从审核通过日计算；以Asia/Shanghai的自然日计算，提交确认时重新计算。",
+            "通过后记录续期后的到期日；驳回时原到期日不变。首次续期时间为空显示暂无（首次申请）。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.personal.audit.info": {
       "reqId": "identity.review.personal.audit.info",
@@ -9399,11 +9567,41 @@
         {
           "pageId": "identity-completed-personal",
           "elementId": "identity.review.personal.audit.info"
+        },
+        {
+          "pageId": "identity-renewal-personal",
+          "elementId": "identity.review.personal.audit.info"
         }
       ],
       "fields": [],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:32:04.142Z"
+      "updatedAt": "2026-11-06T02:31:29.146Z",
+      "elementDefinitions": {
+        "identity.review.personal.audit.info": {
+          "name": "个人续期 · 主体认证信息",
+          "meaning": "查看与本次申请关联的主体认证资料。",
+          "kind": "module",
+          "fieldTableTitle": "字段说明",
+          "fields": [],
+          "interactionSteps": [
+            "复用个人认证页面共用字段定义，按所选申请记录填充只读信息。",
+            "基本信息仅展示，不在审核页面修改申请人的认证资料。"
+          ],
+          "businessRules": [
+            "审核类型预览不会更改原申请类型。",
+            "切换到与原申请不同的类型时，审核按钮禁用并提示切回原申请类型。",
+            "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
+            "区块统一命名为基本信息。",
+            "必填字段显示红色星号，申请状态为派生只读项，不标必填。",
+            "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
+            "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.personal.audit.materials": {
       "reqId": "identity.review.personal.audit.materials",
@@ -9438,11 +9636,15 @@
         {
           "pageId": "identity-completed-personal",
           "elementId": "identity.review.personal.audit.materials"
+        },
+        {
+          "pageId": "identity-renewal-personal",
+          "elementId": "identity.review.personal.audit.materials"
         }
       ],
       "fields": [],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:22:21.070Z"
+      "updatedAt": "2026-11-06T02:30:11.162Z"
     },
     "identity.review.personal.audit.decision": {
       "reqId": "identity.review.personal.audit.decision",
@@ -9471,7 +9673,9 @@
         "确认弹窗打开时底层审核弹窗不可操作；取消、关闭或Escape仅关闭二次确认，保留审核结果和意见。",
         "确认弹窗优先获得键盘焦点，Tab在弹窗内循环；取消后焦点回到提交审核。",
         "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
-        "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。"
+        "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。",
+        "续期审批提交前必须校验原到期日和申请时长；二次确认展示当前到期日、申请天数及通过或驳回后的到期日。",
+        "续期通过或驳回后从待审列表移除，待审数量减一；已审记录保留申请类型、原到期日、时长、审核后到期日、结果和意见，禁止再次审批。"
       ],
       "permissions": [],
       "exceptionHandling": [
@@ -9486,6 +9690,10 @@
         },
         {
           "pageId": "identity-completed-personal",
+          "elementId": "identity.review.personal.audit.decision"
+        },
+        {
+          "pageId": "identity-renewal-personal",
           "elementId": "identity.review.personal.audit.decision"
         }
       ],
@@ -9508,7 +9716,58 @@
         }
       ],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:32:04.134Z"
+      "updatedAt": "2026-11-06T02:31:29.159Z",
+      "elementDefinitions": {
+        "identity.review.personal.audit.decision": {
+          "name": "个人续期 · 审核结论与提交",
+          "meaning": "校验通过或驳回结论，并在独立确认弹窗中确认有效期变化。",
+          "kind": "module",
+          "fieldTableTitle": "字段说明",
+          "fields": [
+            {
+              "name": "审核结果",
+              "type": "枚举",
+              "defaultValue": "",
+              "required": true,
+              "validation": "仅可选择通过或驳回",
+              "message": "请选择审核结果。"
+            },
+            {
+              "name": "审核意见",
+              "type": "多行字符串",
+              "defaultValue": "",
+              "required": false,
+              "validation": "驳回时必填且去除首尾空白后不能为空；最多500字；通过时选填",
+              "message": "请填写驳回原因。"
+            }
+          ],
+          "interactionSteps": [
+            "选择通过或驳回并填写审核意见。",
+            "提交前校验审核结果；驳回必须填写非空原因。",
+            "点击提交审核，校验成功后打开居中的独立小弹窗；展示审核对象、类型、结果和意见，确认提交后记录审核结果。",
+            "确认后从待我审批中移除，进入我已审批查看；当前仅在本次演示会话内生效。",
+            "我已审批弹窗显示结论、审核人、时间和意见，不重复审批。"
+          ],
+          "businessRules": [
+            "审核类型预览不会更改原申请类型。",
+            "切换到与原申请不同的类型时，审核按钮禁用并提示切回原申请类型。",
+            "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
+            "审核结果默认不选；通过意见选填，驳回原因必填，最多500字。",
+            "提交前确认，禁止重复处理已审批记录。",
+            "提交审核的二次确认使用独立小弹窗，不嵌入审核工作区。",
+            "确认弹窗打开时底层审核弹窗不可操作；取消、关闭或Escape仅关闭二次确认，保留审核结果和意见。",
+            "确认弹窗优先获得键盘焦点，Tab在弹窗内循环；取消后焦点回到提交审核。",
+            "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
+            "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。",
+            "续期审批提交前必须校验原到期日和申请时长；二次确认展示当前到期日、申请天数及通过或驳回后的到期日。",
+            "续期通过或驳回后从待审列表移除，待审数量减一；已审记录保留申请类型、原到期日、时长、审核后到期日、结果和意见，禁止再次审批。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.personal.audit.history": {
       "reqId": "identity.review.personal.audit.history",
@@ -9529,7 +9788,8 @@
         "历史记录从审核主视图移除，集中放在右上角入口。",
         "审核记录按审核时间倒序；独立冻结操作单独标识为冻结操作，不作为审核类型。",
         "切换历史与审核视图保留本次未提交的审核结果和意见。",
-        "历史记录区域内不再设置返回按钮，仅保留弹窗右上角的返回审核入口。"
+        "历史记录区域内不再设置返回按钮，仅保留弹窗右上角的返回审核入口。",
+        "审核历史包含续期类型；支持按续期筛选，展示审核结果、审核人、时间和意见。"
       ],
       "permissions": [],
       "exceptionHandling": [
@@ -9545,6 +9805,10 @@
         {
           "pageId": "identity-completed-personal",
           "elementId": "identity.review.personal.audit.history"
+        },
+        {
+          "pageId": "identity-renewal-personal",
+          "elementId": "identity.review.personal.audit.history"
         }
       ],
       "fields": [
@@ -9558,7 +9822,41 @@
         }
       ],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:34:20.068Z"
+      "updatedAt": "2026-11-06T02:31:29.170Z",
+      "elementDefinitions": {
+        "identity.review.personal.audit.history": {
+          "name": "个人续期 · 审核历史",
+          "meaning": "按时间倒序展示审核记录，可按续期类型筛选。",
+          "kind": "module",
+          "fieldTableTitle": "字段说明",
+          "fields": [
+            {
+              "name": "审核类型",
+              "type": "枚举",
+              "defaultValue": "全部",
+              "required": false,
+              "validation": "全部、注册、更新、解冻、注销、冻结操作；仅筛选当前主体，默认全部，时间倒序",
+              "message": ""
+            }
+          ],
+          "interactionSteps": [
+            "从审核弹窗右上角点击审核历史记录，进入同一主体的全部历史记录视图。",
+            "默认展示全部类型，按审核时间降序排列，不依赖记录插入顺序。",
+            "可按注册、更新、解冻、注销及冻结操作筛选；仅通过右上角返回审核恢复原审核操作。"
+          ],
+          "businessRules": [
+            "历史记录从审核主视图移除，集中放在右上角入口。",
+            "审核记录按审核时间倒序；独立冻结操作单独标识为冻结操作，不作为审核类型。",
+            "切换历史与审核视图保留本次未提交的审核结果和意见。",
+            "历史记录区域内不再设置返回按钮，仅保留弹窗右上角的返回审核入口。",
+            "审核历史包含续期类型；支持按续期筛选，展示审核结果、审核人、时间和意见。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.enterprise.audit.context": {
       "reqId": "identity.review.enterprise.audit.context",
@@ -9573,7 +9871,7 @@
       "interactionSteps": [
         "从列表点击审批或查看，打开对应主体审核弹窗。",
         "突出当前审核类型、主体名称、标识、提交人与提交时间。",
-        "可切换注册、更新、解冻、注销查看不同审核场景；切换后保留各场景未提交意见。"
+        "可切换注册、更新、续期、解冻、注销查看不同审核场景；切换后保留各场景未提交意见。"
       ],
       "businessRules": [
         "审核类型预览不会更改原申请类型。",
@@ -9582,7 +9880,8 @@
         "弹窗类型按钮不展示待审核数字，列表待审核数量保持显示。",
         "在注销按钮下方显示提示：此处多个审核类型弹窗仅作原型展示，真实审核流每次只有一个审核类型。",
         "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
-        "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。"
+        "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。",
+        "续期为独立审核类型；从续期申请进入弹窗可直接审批，切换预览其他类型不改变申请本身。"
       ],
       "permissions": [],
       "exceptionHandling": [
@@ -9598,11 +9897,43 @@
         {
           "pageId": "identity-completed-enterprise",
           "elementId": "identity.review.enterprise.audit.context"
+        },
+        {
+          "pageId": "identity-renewal-enterprise",
+          "elementId": "identity.review.enterprise.audit.context"
         }
       ],
       "fields": [],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:32:04.148Z"
+      "updatedAt": "2026-11-06T02:31:29.194Z",
+      "elementDefinitions": {
+        "identity.review.enterprise.audit.context": {
+          "name": "企业续期 · 审核对象与类型",
+          "meaning": "核对申请主体、提交人、时间和原申请类型。",
+          "kind": "module",
+          "fieldTableTitle": "字段说明",
+          "fields": [],
+          "interactionSteps": [
+            "从列表点击审批或查看，打开对应主体审核弹窗。",
+            "突出当前审核类型、主体名称、标识、提交人与提交时间。",
+            "可切换注册、更新、续期、解冻、注销查看不同审核场景；切换后保留各场景未提交意见。"
+          ],
+          "businessRules": [
+            "审核类型预览不会更改原申请类型。",
+            "切换到与原申请不同的类型时，审核按钮禁用并提示切回原申请类型。",
+            "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
+            "弹窗类型按钮不展示待审核数字，列表待审核数量保持显示。",
+            "在注销按钮下方显示提示：此处多个审核类型弹窗仅作原型展示，真实审核流每次只有一个审核类型。",
+            "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
+            "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。",
+            "续期为独立审核类型；从续期申请进入弹窗可直接审批，切换预览其他类型不改变申请本身。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.enterprise.audit.request": {
       "reqId": "identity.review.enterprise.audit.request",
@@ -9617,7 +9948,8 @@
       "interactionSteps": [
         "展示本次申请类型的审核说明与预期身份变化。",
         "更新审核显示字段名、变更前与本次申请值；冻结、解冻、注销显示原因及对应审核重点。",
-        "解冻审核依次只读展示冻结原因、申诉说明、申诉联系电话，三项均标记必填。"
+        "解冻审核依次只读展示冻结原因、申诉说明、申诉联系电话，三项均标记必填。",
+        "续期审核只读展示首次续期时间、当前到期时间、申请续期时长、预计续期后到期时间和申请说明；我已审批展示审核后到期时间。"
       ],
       "businessRules": [
         "审核类型预览不会更改原申请类型。",
@@ -9625,7 +9957,10 @@
         "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
         "冻结原因来自同主体的独立冻结操作记录，按主体标识关联，不读取其他主体记录。",
         "申诉说明与申诉联系电话来自申请解冻主体身份弹窗的已提交申诉记录，按subjectId匹配。",
-        "未关联记录时显示未提供，不编造申诉信息；三项完整且联系电话有效才允许提交解冻审核。"
+        "未关联记录时显示未提供，不编造申诉信息；三项完整且联系电话有效才允许提交解冻审核。",
+        "续期时长为1–180天的整数，默认申请180天；审批人员不可修改申请时长。",
+        "未到期时从当前到期日顺延；已到期时从审核通过日计算；以Asia/Shanghai的自然日计算，提交确认时重新计算。",
+        "通过后记录续期后的到期日；驳回时原到期日不变。首次续期时间为空显示暂无（首次申请）。"
       ],
       "permissions": [],
       "exceptionHandling": [
@@ -9640,6 +9975,10 @@
         },
         {
           "pageId": "identity-completed-enterprise",
+          "elementId": "identity.review.enterprise.audit.request"
+        },
+        {
+          "pageId": "identity-renewal-enterprise",
           "elementId": "identity.review.enterprise.audit.request"
         }
       ],
@@ -9667,10 +10006,137 @@
           "required": true,
           "validation": "解冻申请的phone，11位中国大陆手机号码",
           "message": "未提供"
+        },
+        {
+          "name": "首次续期时间",
+          "type": "只读日期",
+          "defaultValue": "",
+          "required": false,
+          "validation": "来自主体历史续期记录；无记录显示暂无（首次申请）",
+          "message": ""
+        },
+        {
+          "name": "当前到期时间",
+          "type": "只读日期",
+          "defaultValue": "",
+          "required": true,
+          "validation": "YYYY-MM-DD，来源为本次申请的原有效期",
+          "message": ""
+        },
+        {
+          "name": "申请续期时长",
+          "type": "只读整数",
+          "defaultValue": 180,
+          "required": true,
+          "validation": "1–180天的整数，默认180；缺失或越界禁止提交",
+          "message": ""
+        },
+        {
+          "name": "预计续期后到期时间",
+          "type": "只读计算日期",
+          "defaultValue": "",
+          "required": true,
+          "validation": "max(当前到期日,审核通过日)+申请天数；待审按当天估算",
+          "message": ""
+        },
+        {
+          "name": "审核后到期时间",
+          "type": "只读日期",
+          "defaultValue": "",
+          "required": false,
+          "validation": "通过显示实际顺延日期；驳回显示原到期日期",
+          "message": ""
+        },
+        {
+          "name": "申请说明",
+          "type": "只读文本",
+          "defaultValue": "",
+          "required": false,
+          "validation": "展示申请人提交的说明；为空显示—",
+          "message": ""
         }
       ],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:22:21.094Z"
+      "updatedAt": "2026-11-06T02:31:29.205Z",
+      "elementDefinitions": {
+        "identity.review.enterprise.audit.request": {
+          "name": "企业续期 · 续期申请与有效期",
+          "meaning": "集中核对申请续期天数、原有效期及计算后的新到期日。",
+          "kind": "module",
+          "fieldTableTitle": "续期申请字段",
+          "fields": [
+            {
+              "name": "首次续期时间",
+              "type": "只读日期",
+              "defaultValue": "",
+              "required": false,
+              "validation": "来自主体历史续期记录；无记录显示暂无（首次申请）",
+              "message": ""
+            },
+            {
+              "name": "当前到期时间",
+              "type": "只读日期",
+              "defaultValue": "",
+              "required": true,
+              "validation": "YYYY-MM-DD，来源为本次申请的原有效期",
+              "message": ""
+            },
+            {
+              "name": "申请续期时长",
+              "type": "只读整数",
+              "defaultValue": 180,
+              "required": true,
+              "validation": "1–180天的整数，默认180；缺失或越界禁止提交",
+              "message": ""
+            },
+            {
+              "name": "预计续期后到期时间",
+              "type": "只读计算日期",
+              "defaultValue": "",
+              "required": true,
+              "validation": "max(当前到期日,审核通过日)+申请天数；待审按当天估算",
+              "message": ""
+            },
+            {
+              "name": "审核后到期时间",
+              "type": "只读日期",
+              "defaultValue": "",
+              "required": false,
+              "validation": "通过显示实际顺延日期；驳回显示原到期日期",
+              "message": ""
+            },
+            {
+              "name": "申请说明",
+              "type": "只读文本",
+              "defaultValue": "",
+              "required": false,
+              "validation": "展示申请人提交的说明；为空显示—",
+              "message": ""
+            }
+          ],
+          "interactionSteps": [
+            "展示本次申请类型的审核说明与预期身份变化。",
+            "更新审核显示字段名、变更前与本次申请值；冻结、解冻、注销显示原因及对应审核重点。",
+            "解冻审核依次只读展示冻结原因、申诉说明、申诉联系电话，三项均标记必填。",
+            "续期审核只读展示首次续期时间、当前到期时间、申请续期时长、预计续期后到期时间和申请说明；我已审批展示审核后到期时间。"
+          ],
+          "businessRules": [
+            "审核类型预览不会更改原申请类型。",
+            "切换到与原申请不同的类型时，审核按钮禁用并提示切回原申请类型。",
+            "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
+            "冻结原因来自同主体的独立冻结操作记录，按主体标识关联，不读取其他主体记录。",
+            "申诉说明与申诉联系电话来自申请解冻主体身份弹窗的已提交申诉记录，按subjectId匹配。",
+            "未关联记录时显示未提供，不编造申诉信息；三项完整且联系电话有效才允许提交解冻审核。",
+            "续期时长为1–180天的整数，默认申请180天；审批人员不可修改申请时长。",
+            "未到期时从当前到期日顺延；已到期时从审核通过日计算；以Asia/Shanghai的自然日计算，提交确认时重新计算。",
+            "通过后记录续期后的到期日；驳回时原到期日不变。首次续期时间为空显示暂无（首次申请）。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.enterprise.audit.info": {
       "reqId": "identity.review.enterprise.audit.info",
@@ -9709,11 +10175,41 @@
         {
           "pageId": "identity-completed-enterprise",
           "elementId": "identity.review.enterprise.audit.info"
+        },
+        {
+          "pageId": "identity-renewal-enterprise",
+          "elementId": "identity.review.enterprise.audit.info"
         }
       ],
       "fields": [],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:32:04.160Z"
+      "updatedAt": "2026-11-06T02:31:29.215Z",
+      "elementDefinitions": {
+        "identity.review.enterprise.audit.info": {
+          "name": "企业续期 · 主体认证信息",
+          "meaning": "查看与本次申请关联的主体认证资料。",
+          "kind": "module",
+          "fieldTableTitle": "字段说明",
+          "fields": [],
+          "interactionSteps": [
+            "复用企业认证页面共用字段定义，按所选申请记录填充只读信息。",
+            "基本信息仅展示，不在审核页面修改申请人的认证资料。"
+          ],
+          "businessRules": [
+            "审核类型预览不会更改原申请类型。",
+            "切换到与原申请不同的类型时，审核按钮禁用并提示切回原申请类型。",
+            "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
+            "区块统一命名为基本信息。",
+            "必填字段显示红色星号，申请状态为派生只读项，不标必填。",
+            "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
+            "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.enterprise.audit.materials": {
       "reqId": "identity.review.enterprise.audit.materials",
@@ -9748,11 +10244,15 @@
         {
           "pageId": "identity-completed-enterprise",
           "elementId": "identity.review.enterprise.audit.materials"
+        },
+        {
+          "pageId": "identity-renewal-enterprise",
+          "elementId": "identity.review.enterprise.audit.materials"
         }
       ],
       "fields": [],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:22:21.105Z"
+      "updatedAt": "2026-11-06T02:30:11.279Z"
     },
     "identity.review.enterprise.audit.decision": {
       "reqId": "identity.review.enterprise.audit.decision",
@@ -9781,7 +10281,9 @@
         "确认弹窗打开时底层审核弹窗不可操作；取消、关闭或Escape仅关闭二次确认，保留审核结果和意见。",
         "确认弹窗优先获得键盘焦点，Tab在弹窗内循环；取消后焦点回到提交审核。",
         "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
-        "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。"
+        "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。",
+        "续期审批提交前必须校验原到期日和申请时长；二次确认展示当前到期日、申请天数及通过或驳回后的到期日。",
+        "续期通过或驳回后从待审列表移除，待审数量减一；已审记录保留申请类型、原到期日、时长、审核后到期日、结果和意见，禁止再次审批。"
       ],
       "permissions": [],
       "exceptionHandling": [
@@ -9796,6 +10298,10 @@
         },
         {
           "pageId": "identity-completed-enterprise",
+          "elementId": "identity.review.enterprise.audit.decision"
+        },
+        {
+          "pageId": "identity-renewal-enterprise",
           "elementId": "identity.review.enterprise.audit.decision"
         }
       ],
@@ -9818,7 +10324,58 @@
         }
       ],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:32:04.155Z"
+      "updatedAt": "2026-11-06T02:31:29.227Z",
+      "elementDefinitions": {
+        "identity.review.enterprise.audit.decision": {
+          "name": "企业续期 · 审核结论与提交",
+          "meaning": "校验通过或驳回结论，并在独立确认弹窗中确认有效期变化。",
+          "kind": "module",
+          "fieldTableTitle": "字段说明",
+          "fields": [
+            {
+              "name": "审核结果",
+              "type": "枚举",
+              "defaultValue": "",
+              "required": true,
+              "validation": "仅可选择通过或驳回",
+              "message": "请选择审核结果。"
+            },
+            {
+              "name": "审核意见",
+              "type": "多行字符串",
+              "defaultValue": "",
+              "required": false,
+              "validation": "驳回时必填且去除首尾空白后不能为空；最多500字；通过时选填",
+              "message": "请填写驳回原因。"
+            }
+          ],
+          "interactionSteps": [
+            "选择通过或驳回并填写审核意见。",
+            "提交前校验审核结果；驳回必须填写非空原因。",
+            "点击提交审核，校验成功后打开居中的独立小弹窗；展示审核对象、类型、结果和意见，确认提交后记录审核结果。",
+            "确认后从待我审批中移除，进入我已审批查看；当前仅在本次演示会话内生效。",
+            "我已审批弹窗显示结论、审核人、时间和意见，不重复审批。"
+          ],
+          "businessRules": [
+            "审核类型预览不会更改原申请类型。",
+            "切换到与原申请不同的类型时，审核按钮禁用并提示切回原申请类型。",
+            "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
+            "审核结果默认不选；通过意见选填，驳回原因必填，最多500字。",
+            "提交前确认，禁止重复处理已审批记录。",
+            "提交审核的二次确认使用独立小弹窗，不嵌入审核工作区。",
+            "确认弹窗打开时底层审核弹窗不可操作；取消、关闭或Escape仅关闭二次确认，保留审核结果和意见。",
+            "确认弹窗优先获得键盘焦点，Tab在弹窗内循环；取消后焦点回到提交审核。",
+            "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
+            "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。",
+            "续期审批提交前必须校验原到期日和申请时长；二次确认展示当前到期日、申请天数及通过或驳回后的到期日。",
+            "续期通过或驳回后从待审列表移除，待审数量减一；已审记录保留申请类型、原到期日、时长、审核后到期日、结果和意见，禁止再次审批。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.enterprise.audit.history": {
       "reqId": "identity.review.enterprise.audit.history",
@@ -9839,7 +10396,8 @@
         "历史记录从审核主视图移除，集中放在右上角入口。",
         "审核记录按审核时间倒序；独立冻结操作单独标识为冻结操作，不作为审核类型。",
         "切换历史与审核视图保留本次未提交的审核结果和意见。",
-        "历史记录区域内不再设置返回按钮，仅保留弹窗右上角的返回审核入口。"
+        "历史记录区域内不再设置返回按钮，仅保留弹窗右上角的返回审核入口。",
+        "审核历史包含续期类型；支持按续期筛选，展示审核结果、审核人、时间和意见。"
       ],
       "permissions": [],
       "exceptionHandling": [
@@ -9855,6 +10413,10 @@
         {
           "pageId": "identity-completed-enterprise",
           "elementId": "identity.review.enterprise.audit.history"
+        },
+        {
+          "pageId": "identity-renewal-enterprise",
+          "elementId": "identity.review.enterprise.audit.history"
         }
       ],
       "fields": [
@@ -9868,7 +10430,41 @@
         }
       ],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:34:20.077Z"
+      "updatedAt": "2026-11-06T02:31:29.239Z",
+      "elementDefinitions": {
+        "identity.review.enterprise.audit.history": {
+          "name": "企业续期 · 审核历史",
+          "meaning": "按时间倒序展示审核记录，可按续期类型筛选。",
+          "kind": "module",
+          "fieldTableTitle": "字段说明",
+          "fields": [
+            {
+              "name": "审核类型",
+              "type": "枚举",
+              "defaultValue": "全部",
+              "required": false,
+              "validation": "全部、注册、更新、解冻、注销、冻结操作；仅筛选当前主体，默认全部，时间倒序",
+              "message": ""
+            }
+          ],
+          "interactionSteps": [
+            "从审核弹窗右上角点击审核历史记录，进入同一主体的全部历史记录视图。",
+            "默认展示全部类型，按审核时间降序排列，不依赖记录插入顺序。",
+            "可按注册、更新、解冻、注销及冻结操作筛选；仅通过右上角返回审核恢复原审核操作。"
+          ],
+          "businessRules": [
+            "历史记录从审核主视图移除，集中放在右上角入口。",
+            "审核记录按审核时间倒序；独立冻结操作单独标识为冻结操作，不作为审核类型。",
+            "切换历史与审核视图保留本次未提交的审核结果和意见。",
+            "历史记录区域内不再设置返回按钮，仅保留弹窗右上角的返回审核入口。",
+            "审核历史包含续期类型；支持按续期筛选，展示审核结果、审核人、时间和意见。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.personal.counts": {
       "reqId": "identity.review.personal.counts",
@@ -9891,7 +10487,7 @@
         }
       ],
       "interactionSteps": [
-        "在待我审批列表顶部高亮显示注册、更新、解冻、注销的待审核数量。",
+        "在待我审批列表顶部高亮显示注册、更新、续期、解冻、注销的待审核数量。",
         "点击某类型标签可筛选列表，再次点击取消该类型筛选。"
       ],
       "businessRules": [
@@ -9927,9 +10523,15 @@
           "formula": "count(当前主体类别、审核类型=注销且未完成审核的记录)",
           "scope": "个人全部待审核记录；不受查询或分页影响",
           "refresh": "首次加载、切换主体类别、查询或刷新、审核提交后重新计算"
+        },
+        {
+          "name": "续期待审核数",
+          "formula": "count(当前主体类别、审核类型=续期且未完成审核的申请记录)",
+          "scope": "个人全部待审核申请；不受查询条件和分页影响",
+          "refresh": "首次加载、切换主体类别、刷新列表及审核提交后重新计算"
         }
       ],
-      "updatedAt": "2026-11-05T01:22:21.121Z"
+      "updatedAt": "2026-11-06T02:23:45.311Z"
     },
     "identity.review.personal.freeze": {
       "reqId": "identity.review.personal.freeze",
@@ -9975,7 +10577,7 @@
         }
       ],
       "interactionSteps": [
-        "在待我审批列表顶部高亮显示注册、更新、解冻、注销的待审核数量。",
+        "在待我审批列表顶部高亮显示注册、更新、续期、解冻、注销的待审核数量。",
         "点击某类型标签可筛选列表，再次点击取消该类型筛选。"
       ],
       "businessRules": [
@@ -10011,9 +10613,15 @@
           "formula": "count(当前主体类别、审核类型=注销且未完成审核的记录)",
           "scope": "企业全部待审核记录；不受查询或分页影响",
           "refresh": "首次加载、切换主体类别、查询或刷新、审核提交后重新计算"
+        },
+        {
+          "name": "续期待审核数",
+          "formula": "count(当前主体类别、审核类型=续期且未完成审核的申请记录)",
+          "scope": "企业全部待审核申请；不受查询条件和分页影响",
+          "refresh": "首次加载、切换主体类别、刷新列表及审核提交后重新计算"
         }
       ],
-      "updatedAt": "2026-11-05T01:22:21.134Z"
+      "updatedAt": "2026-11-06T02:23:45.420Z"
     },
     "identity.review.enterprise.freeze": {
       "reqId": "identity.review.enterprise.freeze",
@@ -10051,7 +10659,7 @@
       "interactionSteps": [
         "从列表点击审批或查看，打开对应主体审核弹窗。",
         "突出当前审核类型、主体名称、标识、提交人与提交时间。",
-        "可切换注册、更新、解冻、注销查看不同审核场景；切换后保留各场景未提交意见。"
+        "可切换注册、更新、续期、解冻、注销查看不同审核场景；切换后保留各场景未提交意见。"
       ],
       "businessRules": [
         "审核类型预览不会更改原申请类型。",
@@ -10060,7 +10668,8 @@
         "弹窗类型按钮不展示待审核数字，列表待审核数量保持显示。",
         "在注销按钮下方显示提示：此处多个审核类型弹窗仅作原型展示，真实审核流每次只有一个审核类型。",
         "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
-        "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。"
+        "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。",
+        "续期为独立审核类型；从续期申请进入弹窗可直接审批，切换预览其他类型不改变申请本身。"
       ],
       "permissions": [],
       "exceptionHandling": [
@@ -10076,11 +10685,43 @@
         {
           "pageId": "identity-completed-agent",
           "elementId": "identity.review.agent.audit.context"
+        },
+        {
+          "pageId": "identity-renewal-agent",
+          "elementId": "identity.review.agent.audit.context"
         }
       ],
       "fields": [],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:32:04.166Z"
+      "updatedAt": "2026-11-06T02:31:29.264Z",
+      "elementDefinitions": {
+        "identity.review.agent.audit.context": {
+          "name": "经办人续期 · 审核对象与类型",
+          "meaning": "核对申请主体、提交人、时间和原申请类型。",
+          "kind": "module",
+          "fieldTableTitle": "字段说明",
+          "fields": [],
+          "interactionSteps": [
+            "从列表点击审批或查看，打开对应主体审核弹窗。",
+            "突出当前审核类型、主体名称、标识、提交人与提交时间。",
+            "可切换注册、更新、续期、解冻、注销查看不同审核场景；切换后保留各场景未提交意见。"
+          ],
+          "businessRules": [
+            "审核类型预览不会更改原申请类型。",
+            "切换到与原申请不同的类型时，审核按钮禁用并提示切回原申请类型。",
+            "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
+            "弹窗类型按钮不展示待审核数字，列表待审核数量保持显示。",
+            "在注销按钮下方显示提示：此处多个审核类型弹窗仅作原型展示，真实审核流每次只有一个审核类型。",
+            "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
+            "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。",
+            "续期为独立审核类型；从续期申请进入弹窗可直接审批，切换预览其他类型不改变申请本身。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.agent.audit.request": {
       "reqId": "identity.review.agent.audit.request",
@@ -10095,7 +10736,8 @@
       "interactionSteps": [
         "展示本次申请类型的审核说明与预期身份变化。",
         "更新审核显示字段名、变更前与本次申请值；冻结、解冻、注销显示原因及对应审核重点。",
-        "解冻审核依次只读展示冻结原因、申诉说明、申诉联系电话，三项均标记必填。"
+        "解冻审核依次只读展示冻结原因、申诉说明、申诉联系电话，三项均标记必填。",
+        "续期审核只读展示首次续期时间、当前到期时间、申请续期时长、预计续期后到期时间和申请说明；我已审批展示审核后到期时间。"
       ],
       "businessRules": [
         "审核类型预览不会更改原申请类型。",
@@ -10103,7 +10745,10 @@
         "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
         "冻结原因来自同主体的独立冻结操作记录，按主体标识关联，不读取其他主体记录。",
         "申诉说明与申诉联系电话来自申请解冻主体身份弹窗的已提交申诉记录，按subjectId匹配。",
-        "未关联记录时显示未提供，不编造申诉信息；三项完整且联系电话有效才允许提交解冻审核。"
+        "未关联记录时显示未提供，不编造申诉信息；三项完整且联系电话有效才允许提交解冻审核。",
+        "续期时长为1–180天的整数，默认申请180天；审批人员不可修改申请时长。",
+        "未到期时从当前到期日顺延；已到期时从审核通过日计算；以Asia/Shanghai的自然日计算，提交确认时重新计算。",
+        "通过后记录续期后的到期日；驳回时原到期日不变。首次续期时间为空显示暂无（首次申请）。"
       ],
       "permissions": [],
       "exceptionHandling": [
@@ -10118,6 +10763,10 @@
         },
         {
           "pageId": "identity-completed-agent",
+          "elementId": "identity.review.agent.audit.request"
+        },
+        {
+          "pageId": "identity-renewal-agent",
           "elementId": "identity.review.agent.audit.request"
         }
       ],
@@ -10145,10 +10794,137 @@
           "required": true,
           "validation": "解冻申请的phone，11位中国大陆手机号码",
           "message": "未提供"
+        },
+        {
+          "name": "首次续期时间",
+          "type": "只读日期",
+          "defaultValue": "",
+          "required": false,
+          "validation": "来自主体历史续期记录；无记录显示暂无（首次申请）",
+          "message": ""
+        },
+        {
+          "name": "当前到期时间",
+          "type": "只读日期",
+          "defaultValue": "",
+          "required": true,
+          "validation": "YYYY-MM-DD，来源为本次申请的原有效期",
+          "message": ""
+        },
+        {
+          "name": "申请续期时长",
+          "type": "只读整数",
+          "defaultValue": 180,
+          "required": true,
+          "validation": "1–180天的整数，默认180；缺失或越界禁止提交",
+          "message": ""
+        },
+        {
+          "name": "预计续期后到期时间",
+          "type": "只读计算日期",
+          "defaultValue": "",
+          "required": true,
+          "validation": "max(当前到期日,审核通过日)+申请天数；待审按当天估算",
+          "message": ""
+        },
+        {
+          "name": "审核后到期时间",
+          "type": "只读日期",
+          "defaultValue": "",
+          "required": false,
+          "validation": "通过显示实际顺延日期；驳回显示原到期日期",
+          "message": ""
+        },
+        {
+          "name": "申请说明",
+          "type": "只读文本",
+          "defaultValue": "",
+          "required": false,
+          "validation": "展示申请人提交的说明；为空显示—",
+          "message": ""
         }
       ],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:22:21.151Z"
+      "updatedAt": "2026-11-06T02:31:29.275Z",
+      "elementDefinitions": {
+        "identity.review.agent.audit.request": {
+          "name": "经办人续期 · 续期申请与有效期",
+          "meaning": "集中核对申请续期天数、原有效期及计算后的新到期日。",
+          "kind": "module",
+          "fieldTableTitle": "续期申请字段",
+          "fields": [
+            {
+              "name": "首次续期时间",
+              "type": "只读日期",
+              "defaultValue": "",
+              "required": false,
+              "validation": "来自主体历史续期记录；无记录显示暂无（首次申请）",
+              "message": ""
+            },
+            {
+              "name": "当前到期时间",
+              "type": "只读日期",
+              "defaultValue": "",
+              "required": true,
+              "validation": "YYYY-MM-DD，来源为本次申请的原有效期",
+              "message": ""
+            },
+            {
+              "name": "申请续期时长",
+              "type": "只读整数",
+              "defaultValue": 180,
+              "required": true,
+              "validation": "1–180天的整数，默认180；缺失或越界禁止提交",
+              "message": ""
+            },
+            {
+              "name": "预计续期后到期时间",
+              "type": "只读计算日期",
+              "defaultValue": "",
+              "required": true,
+              "validation": "max(当前到期日,审核通过日)+申请天数；待审按当天估算",
+              "message": ""
+            },
+            {
+              "name": "审核后到期时间",
+              "type": "只读日期",
+              "defaultValue": "",
+              "required": false,
+              "validation": "通过显示实际顺延日期；驳回显示原到期日期",
+              "message": ""
+            },
+            {
+              "name": "申请说明",
+              "type": "只读文本",
+              "defaultValue": "",
+              "required": false,
+              "validation": "展示申请人提交的说明；为空显示—",
+              "message": ""
+            }
+          ],
+          "interactionSteps": [
+            "展示本次申请类型的审核说明与预期身份变化。",
+            "更新审核显示字段名、变更前与本次申请值；冻结、解冻、注销显示原因及对应审核重点。",
+            "解冻审核依次只读展示冻结原因、申诉说明、申诉联系电话，三项均标记必填。",
+            "续期审核只读展示首次续期时间、当前到期时间、申请续期时长、预计续期后到期时间和申请说明；我已审批展示审核后到期时间。"
+          ],
+          "businessRules": [
+            "审核类型预览不会更改原申请类型。",
+            "切换到与原申请不同的类型时，审核按钮禁用并提示切回原申请类型。",
+            "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
+            "冻结原因来自同主体的独立冻结操作记录，按主体标识关联，不读取其他主体记录。",
+            "申诉说明与申诉联系电话来自申请解冻主体身份弹窗的已提交申诉记录，按subjectId匹配。",
+            "未关联记录时显示未提供，不编造申诉信息；三项完整且联系电话有效才允许提交解冻审核。",
+            "续期时长为1–180天的整数，默认申请180天；审批人员不可修改申请时长。",
+            "未到期时从当前到期日顺延；已到期时从审核通过日计算；以Asia/Shanghai的自然日计算，提交确认时重新计算。",
+            "通过后记录续期后的到期日；驳回时原到期日不变。首次续期时间为空显示暂无（首次申请）。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.agent.audit.info": {
       "reqId": "identity.review.agent.audit.info",
@@ -10187,6 +10963,10 @@
         },
         {
           "pageId": "identity-completed-agent",
+          "elementId": "identity.review.agent.audit.info"
+        },
+        {
+          "pageId": "identity-renewal-agent",
           "elementId": "identity.review.agent.audit.info"
         }
       ],
@@ -10265,7 +11045,107 @@
         }
       ],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:32:04.178Z"
+      "updatedAt": "2026-11-06T02:31:29.288Z",
+      "elementDefinitions": {
+        "identity.review.agent.audit.info": {
+          "name": "经办人续期 · 主体认证信息",
+          "meaning": "查看与本次申请关联的主体认证资料。",
+          "kind": "module",
+          "fieldTableTitle": "字段说明",
+          "fields": [
+            {
+              "name": "经办人姓名",
+              "type": "只读字符串",
+              "defaultValue": "",
+              "required": true,
+              "validation": "必填，来自经办人申请",
+              "message": ""
+            },
+            {
+              "name": "经办人标识",
+              "type": "只读标识",
+              "defaultValue": "",
+              "required": true,
+              "validation": "必备唯一标识",
+              "message": ""
+            },
+            {
+              "name": "所属组织名称",
+              "type": "只读字符串",
+              "defaultValue": "",
+              "required": true,
+              "validation": "必填，与所属组织标识对应",
+              "message": ""
+            },
+            {
+              "name": "所属组织标识",
+              "type": "只读标识",
+              "defaultValue": "",
+              "required": true,
+              "validation": "必填，关联授权组织",
+              "message": ""
+            },
+            {
+              "name": "颁发时间",
+              "type": "日期时间",
+              "defaultValue": "",
+              "required": true,
+              "validation": "必备，由系统生成",
+              "message": ""
+            },
+            {
+              "name": "过期时间",
+              "type": "日期时间",
+              "defaultValue": "",
+              "required": true,
+              "validation": "必填，晚于颁发时间",
+              "message": ""
+            },
+            {
+              "name": "经办权限",
+              "type": "权限表",
+              "defaultValue": "",
+              "required": true,
+              "validation": "必填，至少一项有效授权；每项包含权限名称和数据范围",
+              "message": ""
+            },
+            {
+              "name": "签名类型",
+              "type": "只读字符串",
+              "defaultValue": "",
+              "required": true,
+              "validation": "必备，由系统生成",
+              "message": ""
+            },
+            {
+              "name": "签名值",
+              "type": "只读字符串",
+              "defaultValue": "",
+              "required": true,
+              "validation": "必备，由系统生成，不手工编辑",
+              "message": ""
+            }
+          ],
+          "interactionSteps": [
+            "按参考图显示经办人姓名、经办人标识、所属组织名称、所属组织标识、颁发时间、过期时间。",
+            "经办权限使用权限名称、数据范围两列表格。",
+            "签发信息显示签名类型和签名值，由系统生成。"
+          ],
+          "businessRules": [
+            "审核类型预览不会更改原申请类型。",
+            "切换到与原申请不同的类型时，审核按钮禁用并提示切回原申请类型。",
+            "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
+            "区块统一命名为基本信息。",
+            "必填字段显示红色星号，申请状态为派生只读项，不标必填。",
+            "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
+            "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.agent.audit.materials": {
       "reqId": "identity.review.agent.audit.materials",
@@ -10299,11 +11179,15 @@
         {
           "pageId": "identity-completed-agent",
           "elementId": "identity.review.agent.audit.materials"
+        },
+        {
+          "pageId": "identity-renewal-agent",
+          "elementId": "identity.review.agent.audit.materials"
         }
       ],
       "fields": [],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:22:21.164Z"
+      "updatedAt": "2026-11-06T02:30:11.364Z"
     },
     "identity.review.agent.audit.decision": {
       "reqId": "identity.review.agent.audit.decision",
@@ -10332,7 +11216,9 @@
         "确认弹窗打开时底层审核弹窗不可操作；取消、关闭或Escape仅关闭二次确认，保留审核结果和意见。",
         "确认弹窗优先获得键盘焦点，Tab在弹窗内循环；取消后焦点回到提交审核。",
         "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
-        "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。"
+        "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。",
+        "续期审批提交前必须校验原到期日和申请时长；二次确认展示当前到期日、申请天数及通过或驳回后的到期日。",
+        "续期通过或驳回后从待审列表移除，待审数量减一；已审记录保留申请类型、原到期日、时长、审核后到期日、结果和意见，禁止再次审批。"
       ],
       "permissions": [],
       "exceptionHandling": [
@@ -10347,6 +11233,10 @@
         },
         {
           "pageId": "identity-completed-agent",
+          "elementId": "identity.review.agent.audit.decision"
+        },
+        {
+          "pageId": "identity-renewal-agent",
           "elementId": "identity.review.agent.audit.decision"
         }
       ],
@@ -10369,7 +11259,58 @@
         }
       ],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:32:04.172Z"
+      "updatedAt": "2026-11-06T02:31:29.298Z",
+      "elementDefinitions": {
+        "identity.review.agent.audit.decision": {
+          "name": "经办人续期 · 审核结论与提交",
+          "meaning": "校验通过或驳回结论，并在独立确认弹窗中确认有效期变化。",
+          "kind": "module",
+          "fieldTableTitle": "字段说明",
+          "fields": [
+            {
+              "name": "审核结果",
+              "type": "枚举",
+              "defaultValue": "",
+              "required": true,
+              "validation": "仅可选择通过或驳回",
+              "message": "请选择审核结果。"
+            },
+            {
+              "name": "审核意见",
+              "type": "多行字符串",
+              "defaultValue": "",
+              "required": false,
+              "validation": "驳回时必填且去除首尾空白后不能为空；最多500字；通过时选填",
+              "message": "请填写驳回原因。"
+            }
+          ],
+          "interactionSteps": [
+            "选择通过或驳回并填写审核意见。",
+            "提交前校验审核结果；驳回必须填写非空原因。",
+            "点击提交审核，校验成功后打开居中的独立小弹窗；展示审核对象、类型、结果和意见，确认提交后记录审核结果。",
+            "确认后从待我审批中移除，进入我已审批查看；当前仅在本次演示会话内生效。",
+            "我已审批弹窗显示结论、审核人、时间和意见，不重复审批。"
+          ],
+          "businessRules": [
+            "审核类型预览不会更改原申请类型。",
+            "切换到与原申请不同的类型时，审核按钮禁用并提示切回原申请类型。",
+            "基本信息与认证页面共用字段定义，审核主题与操作区在弹窗中突出显示。",
+            "审核结果默认不选；通过意见选填，驳回原因必填，最多500字。",
+            "提交前确认，禁止重复处理已审批记录。",
+            "提交审核的二次确认使用独立小弹窗，不嵌入审核工作区。",
+            "确认弹窗打开时底层审核弹窗不可操作；取消、关闭或Escape仅关闭二次确认，保留审核结果和意见。",
+            "确认弹窗优先获得键盘焦点，Tab在弹窗内循环；取消后焦点回到提交审核。",
+            "删除暂不处理按钮；审核页通过右上角关闭按钮退出。",
+            "界面不展示自行添加的演示会话说明、冗余提示和解释；只保留用户明确要求的多审核类型原型展示提示，以及实际校验和操作反馈。",
+            "续期审批提交前必须校验原到期日和申请时长；二次确认展示当前到期日、申请天数及通过或驳回后的到期日。",
+            "续期通过或驳回后从待审列表移除，待审数量减一；已审记录保留申请类型、原到期日、时长、审核后到期日、结果和意见，禁止再次审批。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.agent.audit.history": {
       "reqId": "identity.review.agent.audit.history",
@@ -10390,7 +11331,8 @@
         "历史记录从审核主视图移除，集中放在右上角入口。",
         "审核记录按审核时间倒序；独立冻结操作单独标识为冻结操作，不作为审核类型。",
         "切换历史与审核视图保留本次未提交的审核结果和意见。",
-        "历史记录区域内不再设置返回按钮，仅保留弹窗右上角的返回审核入口。"
+        "历史记录区域内不再设置返回按钮，仅保留弹窗右上角的返回审核入口。",
+        "审核历史包含续期类型；支持按续期筛选，展示审核结果、审核人、时间和意见。"
       ],
       "permissions": [],
       "exceptionHandling": [
@@ -10406,6 +11348,10 @@
         {
           "pageId": "identity-completed-agent",
           "elementId": "identity.review.agent.audit.history"
+        },
+        {
+          "pageId": "identity-renewal-agent",
+          "elementId": "identity.review.agent.audit.history"
         }
       ],
       "fields": [
@@ -10419,7 +11365,41 @@
         }
       ],
       "statistics": [],
-      "updatedAt": "2026-11-05T01:34:20.085Z"
+      "updatedAt": "2026-11-06T02:31:29.309Z",
+      "elementDefinitions": {
+        "identity.review.agent.audit.history": {
+          "name": "经办人续期 · 审核历史",
+          "meaning": "按时间倒序展示审核记录，可按续期类型筛选。",
+          "kind": "module",
+          "fieldTableTitle": "字段说明",
+          "fields": [
+            {
+              "name": "审核类型",
+              "type": "枚举",
+              "defaultValue": "全部",
+              "required": false,
+              "validation": "全部、注册、更新、解冻、注销、冻结操作；仅筛选当前主体，默认全部，时间倒序",
+              "message": ""
+            }
+          ],
+          "interactionSteps": [
+            "从审核弹窗右上角点击审核历史记录，进入同一主体的全部历史记录视图。",
+            "默认展示全部类型，按审核时间降序排列，不依赖记录插入顺序。",
+            "可按注册、更新、解冻、注销及冻结操作筛选；仅通过右上角返回审核恢复原审核操作。"
+          ],
+          "businessRules": [
+            "历史记录从审核主视图移除，集中放在右上角入口。",
+            "审核记录按审核时间倒序；独立冻结操作单独标识为冻结操作，不作为审核类型。",
+            "切换历史与审核视图保留本次未提交的审核结果和意见。",
+            "历史记录区域内不再设置返回按钮，仅保留弹窗右上角的返回审核入口。",
+            "审核历史包含续期类型；支持按续期筛选，展示审核结果、审核人、时间和意见。"
+          ],
+          "exceptionHandling": [
+            "校验失败时展示提示，保留已填写内容。",
+            "关闭弹窗不提交审核结果。"
+          ]
+        }
+      }
     },
     "identity.review.agent.counts": {
       "reqId": "identity.review.agent.counts",
@@ -10442,7 +11422,7 @@
         }
       ],
       "interactionSteps": [
-        "在待我审批列表顶部高亮显示注册、更新、解冻、注销的待审核数量。",
+        "在待我审批列表顶部高亮显示注册、更新、续期、解冻、注销的待审核数量。",
         "点击某类型标签可筛选列表，再次点击取消该类型筛选。"
       ],
       "businessRules": [
@@ -10478,9 +11458,15 @@
           "formula": "count(当前主体类别、审核类型=注销且未完成审核的记录)",
           "scope": "经办人全部待审核记录；不受查询或分页影响",
           "refresh": "首次加载、切换主体类别、查询或刷新、审核提交后重新计算"
+        },
+        {
+          "name": "续期待审核数",
+          "formula": "count(当前主体类别、审核类型=续期且未完成审核的申请记录)",
+          "scope": "经办人全部待审核申请；不受查询条件和分页影响",
+          "refresh": "首次加载、切换主体类别、刷新列表及审核提交后重新计算"
         }
       ],
-      "updatedAt": "2026-11-05T01:22:21.182Z"
+      "updatedAt": "2026-11-06T02:23:45.524Z"
     },
     "identity.review.agent.freeze": {
       "reqId": "identity.review.agent.freeze",
@@ -11708,7 +12694,7 @@
         "查询不改变申请或身份状态。"
       ],
       "businessRules": [
-        "审核类型仅包含注册、更新、解冻、注销。",
+        "审核类型仅包含注册、更新、续期、解冻、注销。",
         "列表待审核数量按主体类别全部未完成记录统计；审核弹窗类型按钮不显示数字。",
         "基本信息标出必填项；审核历史按审核时间降序排列。"
       ],
@@ -11729,7 +12715,7 @@
         "查询不改变申请或身份状态。"
       ],
       "businessRules": [
-        "审核类型仅包含注册、更新、解冻、注销。",
+        "审核类型仅包含注册、更新、续期、解冻、注销。",
         "列表待审核数量按主体类别全部未完成记录统计；审核弹窗类型按钮不显示数字。",
         "基本信息标出必填项；审核历史按审核时间降序排列。"
       ],
@@ -11750,7 +12736,7 @@
         "查询不改变申请或身份状态。"
       ],
       "businessRules": [
-        "审核类型仅包含注册、更新、解冻、注销。",
+        "审核类型仅包含注册、更新、续期、解冻、注销。",
         "列表待审核数量按主体类别全部未完成记录统计；审核弹窗类型按钮不显示数字。",
         "基本信息标出必填项；审核历史按审核时间降序排列。"
       ],
@@ -11771,7 +12757,7 @@
         "查询不改变申请或身份状态。"
       ],
       "businessRules": [
-        "审核类型仅包含注册、更新、解冻、注销。",
+        "审核类型仅包含注册、更新、续期、解冻、注销。",
         "列表待审核数量按主体类别全部未完成记录统计；审核弹窗类型按钮不显示数字。",
         "基本信息标出必填项；审核历史按审核时间降序排列。"
       ],
@@ -11792,7 +12778,7 @@
         "查询不改变申请或身份状态。"
       ],
       "businessRules": [
-        "审核类型仅包含注册、更新、解冻、注销。",
+        "审核类型仅包含注册、更新、续期、解冻、注销。",
         "列表待审核数量按主体类别全部未完成记录统计；审核弹窗类型按钮不显示数字。",
         "基本信息标出必填项；审核历史按审核时间降序排列。"
       ],
@@ -11813,7 +12799,7 @@
         "查询不改变申请或身份状态。"
       ],
       "businessRules": [
-        "审核类型仅包含注册、更新、解冻、注销。",
+        "审核类型仅包含注册、更新、续期、解冻、注销。",
         "列表待审核数量按主体类别全部未完成记录统计；审核弹窗类型按钮不显示数字。",
         "基本信息标出必填项；审核历史按审核时间降序排列。"
       ],
@@ -11851,7 +12837,7 @@
         "选择通过或驳回，填写意见并确认提交。"
       ],
       "businessRules": [
-        "审核类型仅注册、更新、解冻、注销；冻结功能已移除。",
+        "审核类型仅注册、更新、续期、解冻、注销；冻结功能已移除。",
         "基本信息红星表示必填项，派生状态不标星。",
         "进入历史默认全部；返回审核保留未提交意见。"
       ],
@@ -11868,7 +12854,7 @@
         "选择通过或驳回，填写意见并确认提交。"
       ],
       "businessRules": [
-        "审核类型仅注册、更新、解冻、注销；冻结功能已移除。",
+        "审核类型仅注册、更新、续期、解冻、注销；冻结功能已移除。",
         "基本信息红星表示必填项，派生状态不标星。",
         "进入历史默认全部；返回审核保留未提交意见。"
       ],
@@ -11894,7 +12880,7 @@
         "选择通过或驳回，填写意见并确认提交。"
       ],
       "businessRules": [
-        "审核类型仅注册、更新、解冻、注销；冻结功能已移除。",
+        "审核类型仅注册、更新、续期、解冻、注销；冻结功能已移除。",
         "基本信息红星表示必填项，派生状态不标星。",
         "进入历史默认全部；返回审核保留未提交意见。",
         "冻结原因、申诉说明、申诉联系电话三项必填；分别从独立冻结记录和解冻申请中按主体标识关联。"
@@ -11912,7 +12898,7 @@
         "选择通过或驳回，填写意见并确认提交。"
       ],
       "businessRules": [
-        "审核类型仅注册、更新、解冻、注销；冻结功能已移除。",
+        "审核类型仅注册、更新、续期、解冻、注销；冻结功能已移除。",
         "基本信息红星表示必填项，派生状态不标星。",
         "进入历史默认全部；返回审核保留未提交意见。"
       ],
@@ -11929,7 +12915,7 @@
         "选择通过或驳回，填写意见并确认提交。"
       ],
       "businessRules": [
-        "审核类型仅注册、更新、解冻、注销；冻结功能已移除。",
+        "审核类型仅注册、更新、续期、解冻、注销；冻结功能已移除。",
         "基本信息红星表示必填项，派生状态不标星。",
         "进入历史默认全部；返回审核保留未提交意见。"
       ],
@@ -11946,7 +12932,7 @@
         "选择通过或驳回，填写意见并确认提交。"
       ],
       "businessRules": [
-        "审核类型仅注册、更新、解冻、注销；冻结功能已移除。",
+        "审核类型仅注册、更新、续期、解冻、注销；冻结功能已移除。",
         "基本信息红星表示必填项，派生状态不标星。",
         "进入历史默认全部；返回审核保留未提交意见。"
       ],
@@ -11972,7 +12958,7 @@
         "选择通过或驳回，填写意见并确认提交。"
       ],
       "businessRules": [
-        "审核类型仅注册、更新、解冻、注销；冻结功能已移除。",
+        "审核类型仅注册、更新、续期、解冻、注销；冻结功能已移除。",
         "基本信息红星表示必填项，派生状态不标星。",
         "进入历史默认全部；返回审核保留未提交意见。",
         "冻结原因、申诉说明、申诉联系电话三项必填；分别从独立冻结记录和解冻申请中按主体标识关联。"
@@ -11990,7 +12976,7 @@
         "选择通过或驳回，填写意见并确认提交。"
       ],
       "businessRules": [
-        "审核类型仅注册、更新、解冻、注销；冻结功能已移除。",
+        "审核类型仅注册、更新、续期、解冻、注销；冻结功能已移除。",
         "基本信息红星表示必填项，派生状态不标星。",
         "进入历史默认全部；返回审核保留未提交意见。"
       ],
@@ -12025,7 +13011,7 @@
         "选择通过或驳回，填写意见并确认提交。"
       ],
       "businessRules": [
-        "审核类型仅注册、更新、解冻、注销；冻结功能已移除。",
+        "审核类型仅注册、更新、续期、解冻、注销；冻结功能已移除。",
         "基本信息红星表示必填项，派生状态不标星。",
         "进入历史默认全部；返回审核保留未提交意见。"
       ],
@@ -12042,7 +13028,7 @@
         "选择通过或驳回，填写意见并确认提交。"
       ],
       "businessRules": [
-        "审核类型仅注册、更新、解冻、注销；冻结功能已移除。",
+        "审核类型仅注册、更新、续期、解冻、注销；冻结功能已移除。",
         "基本信息红星表示必填项，派生状态不标星。",
         "进入历史默认全部；返回审核保留未提交意见。"
       ],
@@ -12059,7 +13045,7 @@
         "选择通过或驳回，填写意见并确认提交。"
       ],
       "businessRules": [
-        "审核类型仅注册、更新、解冻、注销；冻结功能已移除。",
+        "审核类型仅注册、更新、续期、解冻、注销；冻结功能已移除。",
         "基本信息红星表示必填项，派生状态不标星。",
         "进入历史默认全部；返回审核保留未提交意见。",
         "冻结原因、申诉说明、申诉联系电话三项必填；分别从独立冻结记录和解冻申请中按主体标识关联。"
@@ -12077,7 +13063,7 @@
         "选择通过或驳回，填写意见并确认提交。"
       ],
       "businessRules": [
-        "审核类型仅注册、更新、解冻、注销；冻结功能已移除。",
+        "审核类型仅注册、更新、续期、解冻、注销；冻结功能已移除。",
         "基本信息红星表示必填项，派生状态不标星。",
         "进入历史默认全部；返回审核保留未提交意见。"
       ],
@@ -12156,6 +13142,246 @@
       "exceptionHandling": [
         "校验失败停留审核表单，不弹出确认。"
       ]
+    },
+    "identity.review.personal.audit.renew": {
+      "title": "个人续期审核",
+      "preconditions": [
+        "审核人员已进入主体身份管理系统，申请人已提交续期申请；本次申请尚未完成审核。"
+      ],
+      "interactionSteps": [
+        "在待我审批选择续期申请，核对主体信息、当前到期时间、申请续期时长和预计到期时间。",
+        "选择通过或驳回；驳回必须填写原因；点击提交审核，在二次确认弹窗核对有效期变化后确认。",
+        "处理后查看我已审批记录，或进入审核历史按续期类型筛选。"
+      ],
+      "postconditions": [
+        "待审批列表移除已处理申请，续期待审数量减一；我已审批保留结果、意见和审核后有效期。",
+        "通过后按规则记录新的到期日；驳回保持原到期日。"
+      ],
+      "businessRules": [
+        "单次续期1–180天，默认180天；未到期从原到期日顺延，已到期从审核通过日计算，均按Asia/Shanghai自然日处理。",
+        "首次续期时间来自历史记录，无记录显示暂无（首次申请）；申请数据和计算结果只读，不允许审核人修改。",
+        "审核类型切换用于查看原型，只有原申请类型可提交；已审核记录只读，禁止重复审批。"
+      ],
+      "exceptionHandling": [
+        "时长缺失、不是整数或超出1–180天，或原到期日无效时禁止提交。",
+        "未选审核结果或驳回原因空白时提示错误，保留输入；取消二次确认不提交。"
+      ],
+      "functionalModules": [
+        {
+          "reqId": "identity.review.personal.audit.context",
+          "name": "审核对象与类型",
+          "elementId": "identity.review.personal.audit.context",
+          "id": "identity.review.personal.audit.context.renew",
+          "summary": "核对申请主体、提交人、时间和原申请类型。",
+          "members": [
+            "identity.review.personal.audit.context",
+            "identity.review.personal.audit.type.switch",
+            "identity.review.personal.audit.subject"
+          ]
+        },
+        {
+          "reqId": "identity.review.personal.audit.request",
+          "name": "续期申请与有效期",
+          "elementId": "identity.review.personal.audit.request",
+          "id": "identity.review.personal.audit.request.renew",
+          "summary": "集中核对申请续期天数、原有效期及计算后的新到期日。",
+          "members": [
+            "identity.review.personal.audit.request",
+            "identity.review.personal.audit.renewal.fields"
+          ]
+        },
+        {
+          "reqId": "identity.review.personal.audit.info",
+          "name": "主体认证信息",
+          "elementId": "identity.review.personal.audit.info",
+          "id": "identity.review.personal.audit.info.renew",
+          "summary": "查看与本次申请关联的主体认证资料。",
+          "members": [
+            "identity.review.personal.audit.info"
+          ]
+        },
+        {
+          "reqId": "identity.review.personal.audit.decision",
+          "name": "审核结论与提交",
+          "elementId": "identity.review.personal.audit.decision",
+          "id": "identity.review.personal.audit.decision.renew",
+          "summary": "校验通过或驳回结论，并在独立确认弹窗中确认有效期变化。",
+          "members": [
+            "identity.review.personal.audit.decision"
+          ]
+        },
+        {
+          "reqId": "identity.review.personal.audit.history",
+          "name": "审核历史",
+          "elementId": "identity.review.personal.audit.history.open",
+          "id": "identity.review.personal.audit.history.renew",
+          "summary": "按时间倒序展示审核记录，可按续期类型筛选。",
+          "members": [
+            "identity.review.personal.audit.history"
+          ]
+        }
+      ],
+      "purpose": "核对主体身份续期申请，确认有效期变化并完成审核。"
+    },
+    "identity.review.enterprise.audit.renew": {
+      "title": "企业续期审核",
+      "preconditions": [
+        "审核人员已进入主体身份管理系统，申请人已提交续期申请；本次申请尚未完成审核。"
+      ],
+      "interactionSteps": [
+        "在待我审批选择续期申请，核对主体信息、当前到期时间、申请续期时长和预计到期时间。",
+        "选择通过或驳回；驳回必须填写原因；点击提交审核，在二次确认弹窗核对有效期变化后确认。",
+        "处理后查看我已审批记录，或进入审核历史按续期类型筛选。"
+      ],
+      "postconditions": [
+        "待审批列表移除已处理申请，续期待审数量减一；我已审批保留结果、意见和审核后有效期。",
+        "通过后按规则记录新的到期日；驳回保持原到期日。"
+      ],
+      "businessRules": [
+        "单次续期1–180天，默认180天；未到期从原到期日顺延，已到期从审核通过日计算，均按Asia/Shanghai自然日处理。",
+        "首次续期时间来自历史记录，无记录显示暂无（首次申请）；申请数据和计算结果只读，不允许审核人修改。",
+        "审核类型切换用于查看原型，只有原申请类型可提交；已审核记录只读，禁止重复审批。"
+      ],
+      "exceptionHandling": [
+        "时长缺失、不是整数或超出1–180天，或原到期日无效时禁止提交。",
+        "未选审核结果或驳回原因空白时提示错误，保留输入；取消二次确认不提交。"
+      ],
+      "functionalModules": [
+        {
+          "reqId": "identity.review.enterprise.audit.context",
+          "name": "审核对象与类型",
+          "elementId": "identity.review.enterprise.audit.context",
+          "id": "identity.review.enterprise.audit.context.renew",
+          "summary": "核对申请主体、提交人、时间和原申请类型。",
+          "members": [
+            "identity.review.enterprise.audit.context",
+            "identity.review.enterprise.audit.type.switch",
+            "identity.review.enterprise.audit.subject"
+          ]
+        },
+        {
+          "reqId": "identity.review.enterprise.audit.request",
+          "name": "续期申请与有效期",
+          "elementId": "identity.review.enterprise.audit.request",
+          "id": "identity.review.enterprise.audit.request.renew",
+          "summary": "集中核对申请续期天数、原有效期及计算后的新到期日。",
+          "members": [
+            "identity.review.enterprise.audit.request",
+            "identity.review.enterprise.audit.renewal.fields"
+          ]
+        },
+        {
+          "reqId": "identity.review.enterprise.audit.info",
+          "name": "主体认证信息",
+          "elementId": "identity.review.enterprise.audit.info",
+          "id": "identity.review.enterprise.audit.info.renew",
+          "summary": "查看与本次申请关联的主体认证资料。",
+          "members": [
+            "identity.review.enterprise.audit.info"
+          ]
+        },
+        {
+          "reqId": "identity.review.enterprise.audit.decision",
+          "name": "审核结论与提交",
+          "elementId": "identity.review.enterprise.audit.decision",
+          "id": "identity.review.enterprise.audit.decision.renew",
+          "summary": "校验通过或驳回结论，并在独立确认弹窗中确认有效期变化。",
+          "members": [
+            "identity.review.enterprise.audit.decision"
+          ]
+        },
+        {
+          "reqId": "identity.review.enterprise.audit.history",
+          "name": "审核历史",
+          "elementId": "identity.review.enterprise.audit.history.open",
+          "id": "identity.review.enterprise.audit.history.renew",
+          "summary": "按时间倒序展示审核记录，可按续期类型筛选。",
+          "members": [
+            "identity.review.enterprise.audit.history"
+          ]
+        }
+      ],
+      "purpose": "核对主体身份续期申请，确认有效期变化并完成审核。"
+    },
+    "identity.review.agent.audit.renew": {
+      "title": "经办人续期审核",
+      "preconditions": [
+        "审核人员已进入主体身份管理系统，申请人已提交续期申请；本次申请尚未完成审核。"
+      ],
+      "interactionSteps": [
+        "在待我审批选择续期申请，核对主体信息、当前到期时间、申请续期时长和预计到期时间。",
+        "选择通过或驳回；驳回必须填写原因；点击提交审核，在二次确认弹窗核对有效期变化后确认。",
+        "处理后查看我已审批记录，或进入审核历史按续期类型筛选。"
+      ],
+      "postconditions": [
+        "待审批列表移除已处理申请，续期待审数量减一；我已审批保留结果、意见和审核后有效期。",
+        "通过后按规则记录新的到期日；驳回保持原到期日。"
+      ],
+      "businessRules": [
+        "单次续期1–180天，默认180天；未到期从原到期日顺延，已到期从审核通过日计算，均按Asia/Shanghai自然日处理。",
+        "首次续期时间来自历史记录，无记录显示暂无（首次申请）；申请数据和计算结果只读，不允许审核人修改。",
+        "审核类型切换用于查看原型，只有原申请类型可提交；已审核记录只读，禁止重复审批。"
+      ],
+      "exceptionHandling": [
+        "时长缺失、不是整数或超出1–180天，或原到期日无效时禁止提交。",
+        "未选审核结果或驳回原因空白时提示错误，保留输入；取消二次确认不提交。"
+      ],
+      "functionalModules": [
+        {
+          "reqId": "identity.review.agent.audit.context",
+          "name": "审核对象与类型",
+          "elementId": "identity.review.agent.audit.context",
+          "id": "identity.review.agent.audit.context.renew",
+          "summary": "核对申请主体、提交人、时间和原申请类型。",
+          "members": [
+            "identity.review.agent.audit.context",
+            "identity.review.agent.audit.type.switch",
+            "identity.review.agent.audit.subject"
+          ]
+        },
+        {
+          "reqId": "identity.review.agent.audit.request",
+          "name": "续期申请与有效期",
+          "elementId": "identity.review.agent.audit.request",
+          "id": "identity.review.agent.audit.request.renew",
+          "summary": "集中核对申请续期天数、原有效期及计算后的新到期日。",
+          "members": [
+            "identity.review.agent.audit.request",
+            "identity.review.agent.audit.renewal.fields"
+          ]
+        },
+        {
+          "reqId": "identity.review.agent.audit.info",
+          "name": "主体认证信息",
+          "elementId": "identity.review.agent.audit.info",
+          "id": "identity.review.agent.audit.info.renew",
+          "summary": "查看与本次申请关联的主体认证资料。",
+          "members": [
+            "identity.review.agent.audit.info"
+          ]
+        },
+        {
+          "reqId": "identity.review.agent.audit.decision",
+          "name": "审核结论与提交",
+          "elementId": "identity.review.agent.audit.decision",
+          "id": "identity.review.agent.audit.decision.renew",
+          "summary": "校验通过或驳回结论，并在独立确认弹窗中确认有效期变化。",
+          "members": [
+            "identity.review.agent.audit.decision"
+          ]
+        },
+        {
+          "reqId": "identity.review.agent.audit.history",
+          "name": "审核历史",
+          "elementId": "identity.review.agent.audit.history.open",
+          "id": "identity.review.agent.audit.history.renew",
+          "summary": "按时间倒序展示审核记录，可按续期类型筛选。",
+          "members": [
+            "identity.review.agent.audit.history"
+          ]
+        }
+      ],
+      "purpose": "核对主体身份续期申请，确认有效期变化并完成审核。"
     }
   },
   "reviewScope": {

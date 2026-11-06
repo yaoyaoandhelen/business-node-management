@@ -208,14 +208,29 @@
           "id": "identity-audit-agent",
           "name": "经办人审核弹窗",
           "path": "./index.html?system=identity&view=pending&kind=agent&review=1"
+        },
+        {
+          "id": "identity-renewal-personal",
+          "name": "个人续期审批",
+          "path": "./index.html?system=identity&view=pending&kind=personal&review=1&auditType=续期"
+        },
+        {
+          "id": "identity-renewal-enterprise",
+          "name": "企业续期审批",
+          "path": "./index.html?system=identity&view=pending&kind=enterprise&review=1&auditType=续期"
+        },
+        {
+          "id": "identity-renewal-agent",
+          "name": "经办人续期审批",
+          "path": "./index.html?system=identity&view=pending&kind=agent&review=1&auditType=续期"
         }
       ],
       "versionPolicy": {
         "mode": "reviewed-only",
         "reviewedVersionIds": [
-          "dv-v15-identity-20261105-r1"
+          "dv-v15-identity-renewal-20261106-r1"
         ],
-        "defaultVersionId": "dv-v15-identity-20261105-r1",
+        "defaultVersionId": "dv-v15-identity-renewal-20261106-r1",
         "draftPageId": "home",
         "draftScope": "all"
       }
