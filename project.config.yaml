@@ -129,9 +129,6 @@ pages:
   - id: identity-renewal-enterprise
     name: 企业续期审批
     path: ./index.html?system=identity&view=pending&kind=enterprise&review=1&auditType=续期
-  - id: identity-renewal-agent
-    name: 经办人续期审批
-    path: ./index.html?system=identity&view=pending&kind=agent&review=1&auditType=续期
 build:
   adapter: vite
   root: prototype
