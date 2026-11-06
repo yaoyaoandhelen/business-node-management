@@ -223,9 +223,9 @@
       "versionPolicy": {
         "mode": "reviewed-only",
         "reviewedVersionIds": [
-          "dv-v15-identity-approval-20261106-r2"
+          "dv-v15-identity-history-20261106-r3"
         ],
-        "defaultVersionId": "dv-v15-identity-approval-20261106-r2",
+        "defaultVersionId": "dv-v15-identity-history-20261106-r3",
         "draftPageId": "home",
         "draftScope": "all"
       }
