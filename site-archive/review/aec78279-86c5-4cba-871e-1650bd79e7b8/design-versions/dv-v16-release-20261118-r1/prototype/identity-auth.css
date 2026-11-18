@@ -1,0 +1,28 @@
+/* 主体身份管理系统 · 身份登陆认证服务（复用智能服务/基础设施的简洁后台风格） */
+.iaa-page .ai-table table{width:100%;min-width:100%}
+.iaa-page .ai-table th,.iaa-page .ai-table td{padding:12px 10px!important;font-size:13px;line-height:1.65;vertical-align:middle}
+.iaa-page .ai-table th:first-child,.iaa-page .ai-table td:first-child{text-align:center;width:56px}
+.iaa-page .ai-list-head h3{font-size:15px;color:#2c466a;margin:0}
+.iaa-page .ai-list-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+.iaa-page .iaa-sec{margin-top:22px}
+.iaa-page .iaa-sec:first-of-type{margin-top:0}
+.iaa-page .iaa-search{height:34px;min-width:230px;border:1px solid #dce2eb;border-radius:4px;padding:0 12px;font:inherit;font-size:13px;color:#52637b;background:#fff}
+.iaa-page .iaa-note{font-size:12px;color:#8d99ab;line-height:1.9;margin:10px 2px 0}
+/* 弹窗 */
+.iaa-modal{width:880px!important;max-width:calc(100vw - 40px)}
+.iaa-modal .modalbody{max-height:76vh;overflow:auto;padding:18px 22px}
+.iaa-block{border:1px solid #e9eef6;border-radius:6px;padding:14px 16px;margin-bottom:12px;background:#fcfdff}
+.iaa-block h3{font-size:14px;color:#3c5375;margin:0 0 10px;font-weight:600}
+.iaa-kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 18px;font-size:13px;color:#5d6b80;line-height:1.8}
+.iaa-kv b{color:#34465d;font-weight:600}
+.iaa-form-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:8px}
+.iaa-form-row label{display:flex;align-items:center;gap:10px;font-size:13px;color:#5d6b80}
+.iaa-form-row select,.iaa-form-row input{height:34px;border:1px solid #dce2eb;border-radius:4px;padding:0 10px;font:inherit;font-size:13px;color:#52637b;background:#fff}
+.iaa-form-row input#iaa-d-reason{min-width:340px}
+.iaa-form-row input#iaa-d-priority{width:100px}
+.iaa-form-row input#iaa-d-lock-attempts{width:90px}
+.iaa-form-row input#iaa-d-lock-value{width:110px}
+.iaa-form-row input:disabled{background:#f4f6fa;color:#a3adbb}
+.iaa-hint{font-size:12px;color:#8d99ab;line-height:1.8;margin:8px 0 0}
+.iaa-modal .modalfoot{display:flex;justify-content:flex-end;gap:10px}
+@media(max-width:1100px){.iaa-page .iaa-kv{grid-template-columns:1fr}.iaa-page .iaa-form-row input#iaa-d-reason{min-width:0;width:100%}}

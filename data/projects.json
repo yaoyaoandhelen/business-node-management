@@ -10,6 +10,81 @@
       ],
       "pages": [
         {
+          "id": "home",
+          "name": "首页与接入登记",
+          "path": "./index.html?system=management"
+        },
+        {
+          "id": "identity-pending-personal",
+          "name": "主体身份 · 待我审批 · 个人",
+          "path": "./index.html?system=identity&view=pending&kind=personal"
+        },
+        {
+          "id": "identity-pending-enterprise",
+          "name": "主体身份 · 待我审批 · 企业",
+          "path": "./index.html?system=identity&view=pending&kind=enterprise"
+        },
+        {
+          "id": "identity-pending-agent",
+          "name": "主体身份 · 待我审批 · 经办人",
+          "path": "./index.html?system=identity&view=pending&kind=agent"
+        },
+        {
+          "id": "catalog",
+          "name": "数据目录与查询安全",
+          "path": "./index.html?view=catalog"
+        },
+        {
+          "id": "audit",
+          "name": "查询安全管控",
+          "path": "./index.html?view=audit"
+        },
+        {
+          "id": "dirsync",
+          "name": "业务节点 · 全域目录信息互通",
+          "path": "./index.html?system=management&view=dirsync"
+        },
+        {
+          "id": "dirsync-share",
+          "name": "业务节点 · 目录共享链接详情",
+          "path": "./index.html?system=management&view=dirsync-share"
+        },
+        {
+          "id": "infra-overview",
+          "name": "基础设施 · 监测看板",
+          "path": "./index.html?system=infrastructure&view=overview"
+        },
+        {
+          "id": "infra-collection",
+          "name": "基础设施 · 运行信息收集",
+          "path": "./index.html?system=infrastructure&view=collection"
+        },
+        {
+          "id": "infra-objects",
+          "name": "基础设施 · 重要对象监测",
+          "path": "./index.html?system=infrastructure&view=objects"
+        },
+        {
+          "id": "infra-alerts",
+          "name": "基础设施 · 预警管理",
+          "path": "./index.html?system=infrastructure&view=alerts"
+        },
+        {
+          "id": "infra-audit",
+          "name": "基础设施 · 审核管理",
+          "path": "./index.html?system=infrastructure&view=audit"
+        },
+        {
+          "id": "infra-control",
+          "name": "基础设施 · 采集与处置管控",
+          "path": "./index.html?system=infrastructure&view=control"
+        },
+        {
+          "id": "infra-efficiency",
+          "name": "基础设施 · 运行效能分析",
+          "path": "./index.html?system=infrastructure&view=efficiency"
+        },
+        {
           "id": "portal-home",
           "name": "业务节点门户首页",
           "path": "./portal-standalone.html?user=enterprise"
@@ -35,9 +110,14 @@
           "path": "./portal-standalone.html?view=login"
         },
         {
-          "id": "home",
-          "name": "首页与接入登记",
-          "path": "./index.html?system=management"
+          "id": "portal-login-unlock",
+          "name": "门户登录 · 账号解锁弹窗",
+          "path": "./portal-standalone.html?view=login&unlock=1"
+        },
+        {
+          "id": "portal-login-unlock-verify",
+          "name": "门户登录 · 解锁认证信息填写",
+          "path": "./portal-standalone.html?view=login&unlock=verify"
         },
         {
           "id": "identifier",
@@ -53,16 +133,6 @@
           "id": "loading",
           "name": "敏感词审核中",
           "path": "./index.html?view=loading"
-        },
-        {
-          "id": "catalog",
-          "name": "数据目录与查询安全",
-          "path": "./index.html?view=catalog"
-        },
-        {
-          "id": "audit",
-          "name": "查询安全管控",
-          "path": "./index.html?view=audit"
         },
         {
           "id": "portal-person-home",
@@ -101,8 +171,8 @@
         },
         {
           "id": "monitor",
-          "name": "数据风险监测与处置",
-          "path": "./index.html?view=monitor"
+          "name": "数据登记管理系统 · 数据风险监测",
+          "path": "./index.html?system=registration&view=monitor"
         },
         {
           "id": "intelligent-overview",
@@ -118,11 +188,6 @@
           "id": "intelligent-tags",
           "name": "智能搜索 · 检索标签管理",
           "path": "./index.html?system=intelligent&view=tags"
-        },
-        {
-          "id": "intelligent-templates",
-          "name": "智能搜索 · 主题模板管理",
-          "path": "./index.html?system=intelligent&view=templates"
         },
         {
           "id": "intelligent-sources",
@@ -165,21 +230,6 @@
           "path": "./index.html?system=intelligent&view=operations"
         },
         {
-          "id": "identity-pending-personal",
-          "name": "主体身份 · 待我审批 · 个人",
-          "path": "./index.html?system=identity&view=pending&kind=personal"
-        },
-        {
-          "id": "identity-pending-enterprise",
-          "name": "主体身份 · 待我审批 · 企业",
-          "path": "./index.html?system=identity&view=pending&kind=enterprise"
-        },
-        {
-          "id": "identity-pending-agent",
-          "name": "主体身份 · 待我审批 · 经办人",
-          "path": "./index.html?system=identity&view=pending&kind=agent"
-        },
-        {
           "id": "identity-completed-personal",
           "name": "主体身份 · 我已审批 · 个人",
           "path": "./index.html?system=identity&view=completed&kind=personal"
@@ -218,6 +268,151 @@
           "id": "identity-renewal-enterprise",
           "name": "企业续期审批",
           "path": "./index.html?system=identity&view=pending&kind=enterprise&review=1&auditType=续期"
+        },
+        {
+          "id": "portal-appmarket",
+          "name": "门户应用市场 · 应用浏览",
+          "path": "./portal-standalone.html?user=enterprise&view=appmarket"
+        },
+        {
+          "id": "portal-appmarket-recommend",
+          "name": "门户应用市场 · 推荐专区",
+          "path": "./portal-standalone.html?user=enterprise&view=appmarket&tab=recommend"
+        },
+        {
+          "id": "portal-appmarket-mine",
+          "name": "门户应用市场 · 我的应用与更新",
+          "path": "./portal-standalone.html?user=enterprise&view=appmarket&tab=mine"
+        },
+        {
+          "id": "portal-appmarket-catalog",
+          "name": "门户应用市场 · 功能结构清单",
+          "path": "./portal-standalone.html?user=enterprise&view=appmarket&tab=catalog"
+        },
+        {
+          "id": "appmarket-listing",
+          "name": "应用市场后台 · 应用上架申请",
+          "path": "./index.html?system=appmarket&view=listing"
+        },
+        {
+          "id": "appmarket-audit",
+          "name": "应用市场后台 · 审核管理",
+          "path": "./index.html?system=appmarket&view=audit"
+        },
+        {
+          "id": "appmarket-lifecycle",
+          "name": "应用市场后台 · 上架应用全生命周期",
+          "path": "./index.html?system=appmarket&view=lifecycle"
+        },
+        {
+          "id": "appmarket-ops",
+          "name": "应用市场后台 · 检索与推荐运营",
+          "path": "./index.html?system=appmarket&view=ops"
+        },
+        {
+          "id": "appmarket-download",
+          "name": "应用市场后台 · 下载与交易管理",
+          "path": "./index.html?system=appmarket&view=download"
+        },
+        {
+          "id": "appmarket-version",
+          "name": "应用市场后台 · 版本与更新运营",
+          "path": "./index.html?system=appmarket&view=version"
+        },
+        {
+          "id": "appmarket-catalog",
+          "name": "应用市场后台 · 功能结构清单",
+          "path": "./index.html?system=appmarket&view=catalog"
+        },
+        {
+          "id": "identity-auth-service",
+          "name": "主体身份 · 身份登陆认证服务",
+          "path": "./index.html?system=identity&view=auth-service"
+        },
+        {
+          "id": "identity-auth-config-dialog",
+          "name": "主体身份 · 认证方式配置弹窗",
+          "path": "./index.html?system=identity&view=auth-service&dialog=config"
+        },
+        {
+          "id": "regionCatalog-analysisLog",
+          "name": "区域目录管理系统 · 目录同步 / 冲突检测与处理 · 分析日志",
+          "path": "./index.html?system=management&view=regionCatalog"
+        },
+        {
+          "id": "regionCatalog-syncQuality",
+          "name": "区域目录管理系统 · 目录同步 / 同步管理",
+          "path": "./index.html?system=management&view=syncQuality"
+        },
+        {
+          "id": "nodeAudit-pending",
+          "name": "业务节点管理系统 · 审核管理 / 待我审批",
+          "path": "./index.html?system=management&view=nodeAudit&queue=pending"
+        },
+        {
+          "id": "nodeAudit-completed",
+          "name": "业务节点管理系统 · 审核管理 / 我已审批",
+          "path": "./index.html?system=management&view=nodeAudit&queue=completed"
+        },
+        {
+          "id": "nodeAudit-audit-dialog",
+          "name": "业务节点管理系统 · 业务节点审核弹窗",
+          "path": "./index.html?system=management&view=nodeAudit&queue=pending&review=1"
+        },
+        {
+          "id": "registrationAudit-pending",
+          "name": "数据登记管理系统 · 审核管理 / 待我审批",
+          "path": "./index.html?system=registration&view=registrationAudit&queue=pending&tab=resource"
+        },
+        {
+          "id": "registrationAudit-completed",
+          "name": "数据登记管理系统 · 审核管理 / 我已审批",
+          "path": "./index.html?system=registration&view=registrationAudit&queue=completed&tab=resource"
+        },
+        {
+          "id": "registrationAudit-resource-dialog",
+          "name": "数据登记管理系统 · 数据资源登记审核弹窗",
+          "path": "./index.html?system=registration&view=registrationAudit&queue=pending&tab=resource&review=1"
+        },
+        {
+          "id": "registrationAudit-product-dialog",
+          "name": "数据登记管理系统 · 数据产品登记审核弹窗",
+          "path": "./index.html?system=registration&view=registrationAudit&queue=pending&tab=product&review=1"
+        },
+        {
+          "id": "registrationAudit-listing-dialog",
+          "name": "数据登记管理系统 · 数据产品上架审核弹窗",
+          "path": "./index.html?system=registration&view=registrationAudit&queue=pending&tab=listing&review=1"
+        },
+        {
+          "id": "portal-my-apps",
+          "name": "门户工作台 · 我的应用",
+          "path": "./portal-standalone.html?user=enterprise&view=workbench&panel=apps"
+        },
+        {
+          "id": "appmarket-categories",
+          "name": "应用市场后台 · 分类目录管理",
+          "path": "./index.html?system=appmarket&view=categories"
+        },
+        {
+          "id": "appmarket-frequency",
+          "name": "应用市场后台 · 分类使用频次统计",
+          "path": "./index.html?system=appmarket&view=frequency"
+        },
+        {
+          "id": "appmarket-keywords",
+          "name": "应用市场后台 · 应用关键词库管理",
+          "path": "./index.html?system=appmarket&view=keywords"
+        },
+        {
+          "id": "appmarket-searchHistory",
+          "name": "应用市场后台 · 检索历史记录管理",
+          "path": "./index.html?system=appmarket&view=searchHistory"
+        },
+        {
+          "id": "appmarket-searchApi",
+          "name": "应用市场后台 · 检索服务接口提供",
+          "path": "./index.html?system=appmarket&view=searchApi"
         }
       ],
       "versionPolicy": {
@@ -225,8 +420,7 @@
         "reviewedVersionIds": [
           "dv-v15-identity-history-20261106-r3"
         ],
-        "defaultVersionId": "dv-v15-identity-history-20261106-r3",
-        "draftPageId": "home",
+        "draftPageId": "registrationAudit-pending",
         "draftScope": "all"
       }
     }

@@ -1,0 +1,106 @@
+/* 数据登记管理系统 · 审核管理 */
+.registration-audit-page .identity-menu.identity-sub { padding-left: 52px; }
+.identity-page.registration-audit-page .identity-navigation.ra-navigation { background: transparent; border: 0; border-radius: 0; margin-bottom: 12px; overflow: visible; }
+.identity-page.registration-audit-page .ra-tabs { height: 44px; margin: 0; padding: 0 4px; gap: 30px; border-bottom: 1px solid #dfe5ed; }
+.identity-page.registration-audit-page .ra-tabs button { display: flex; align-items: center; gap: 8px; padding: 0 2px; font-size: 14px; font-weight: 400; }
+.identity-page.registration-audit-page .ra-tabs button.active { font-weight: 500; }
+.identity-page.registration-audit-page .ra-tabs b { display: inline-grid; place-items: center; min-width: 20px; height: 18px; padding: 0 5px; border-radius: 9px; background: #e6ebf3; color: #75839a; font-size: 11px; font-weight: 500; }
+.identity-page.registration-audit-page .ra-tabs button.active b { background: #244b91; color: #fff; }
+.identity-page.registration-audit-page .identity-filters label > span { flex: 0 0 118px; width: 118px; max-width: 118px; white-space: nowrap; }
+.registration-audit-page.identity-page .identity-results table { width: 100%; min-width: 1320px; border-collapse: collapse; }
+.registration-audit-page .identity-table-scroll { overflow-x: auto; }
+.registration-audit-page .identity-results th,
+.registration-audit-page .identity-results td { white-space: nowrap; }
+.registration-audit-page .identity-table-tools h2 { font-weight: 600; }
+
+/* 审核类型：独立成条的类型切换 + 待办数量徽标 */
+.identity-page.registration-audit-page .identity-navigation.ra-navigation.ra-type-panel {
+  background: #f4f7fc; border: 1px solid #e6ebf3; border-radius: 8px;
+  padding: 11px 18px; margin: 0 0 14px; overflow: visible;
+}
+.ra-type-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.ra-type-strip-label { flex: 0 0 auto; font-size: 12px; color: #7d8ca1; white-space: nowrap; }
+.ra-type-tab {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  min-height: 34px; padding: 0 14px; border: 1px solid transparent; border-radius: 6px;
+  background: transparent; color: #66758b; font: inherit; font-size: 13px; cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.ra-type-tab > span { white-space: nowrap; }
+.ra-type-tab b {
+  display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px;
+  border-radius: 10px; background: #e5eaf2; color: #7b8aa1; font-size: 11px; font-weight: 500;
+}
+.ra-type-tab:hover { background: #eef3fa; color: #244b91; }
+.ra-type-tab.active { background: #eaf1fd; border-color: #bed0ee; color: #244b91; font-weight: 600; }
+.ra-type-tab.active b { background: #244b91; color: #fff; }
+.ra-type-tab:focus-visible { outline: 2px solid #6794df; outline-offset: 2px; }
+
+/* 弹窗：审核类型同样独立成条 */
+.registration-audit-dialog .identity-audit-scenarios.ra-dialog-types {
+  display: flex; align-items: center; gap: 18px; padding: 10px 26px;
+  background: #f4f7fc; border-bottom: 1px solid #e3e8f0;
+}
+.registration-audit-dialog .identity-audit-scenarios button.ra-type-tab,
+.registration-audit-dialog .identity-audit-scenarios button.ra-type-tab.active {
+  min-width: 96px; box-shadow: none; background: transparent; border-color: transparent; color: #66758b;
+}
+.registration-audit-dialog .identity-audit-scenarios button.ra-type-tab.active {
+  background: #eaf1fd; border-color: #bed0ee; color: #244b91; font-weight: 600;
+}
+.registration-audit-dialog .identity-audit-ref { text-align: right; white-space: nowrap; }
+
+/* 弹窗信息流：规整的「标签 + 值」两列网格 */
+.registration-audit-dialog .ra-section { margin-bottom: 12px; }
+.registration-audit-dialog .ra-section .identity-audit-section-title { padding: 12px 18px; }
+.registration-audit-dialog .ra-section .identity-audit-section-title::before { content: ''; display: block; width: 3px; height: 15px; border-radius: 2px; background: #244b91; }
+.registration-audit-dialog .ra-section .identity-audit-section-title h2 { font-size: 15px; }
+.registration-audit-dialog .ra-section .identity-audit-request { padding: 0; }
+.registration-audit-dialog .identity-audit-request dl.ra-fields {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; margin: 0;
+}
+.registration-audit-dialog .ra-fields > .ra-field {
+  display: flex; align-items: stretch; min-width: 0;
+  border-right: 1px solid #edf0f6; border-bottom: 1px solid #edf0f6;
+}
+.registration-audit-dialog .ra-fields > .ra-field.wide { grid-column: 1 / -1; }
+.registration-audit-dialog .ra-fields > .ra-field-empty { background: #fafbfd; }
+.registration-audit-dialog .ra-fields > .ra-field-empty dt,
+.registration-audit-dialog .ra-fields > .ra-field-empty dd { background: transparent; border-right: 0; }
+.registration-audit-dialog .ra-fields dt {
+  display: flex; align-items: center; flex: 0 0 132px; width: 132px; margin: 0;
+  padding: 10px 14px; background: #fafbfd; border-right: 1px solid #edf0f6;
+  color: #8492a6; font-size: 12px; line-height: 1.5;
+}
+.registration-audit-dialog .ra-fields dd {
+  flex: 1; min-width: 0; margin: 0; padding: 10px 14px;
+  color: #31445f; font-size: 13px; line-height: 1.6;
+  word-break: break-word; white-space: pre-wrap;
+}
+.registration-audit-dialog .ra-items { width: 100%; border-collapse: collapse; font-size: 13px; color: #3c4d65; }
+.registration-audit-dialog .ra-items th,
+.registration-audit-dialog .ra-items td { padding: 10px 18px; border-bottom: 1px solid #edf0f6; text-align: left; }
+.registration-audit-dialog .ra-items th { background: #f7f9fc; color: #7c899c; font-weight: 500; }
+.registration-audit-dialog .ra-items th:first-child,
+.registration-audit-dialog .ra-items td:first-child { width: 88px; }
+.registration-audit-dialog .ra-items tbody tr:last-child td { border-bottom: 0; }
+.registration-audit-dialog .ra-section .ra-files { display: grid; gap: 10px; padding: 14px 16px; }
+.registration-audit-dialog .na-file-row { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 9px 12px; border: 1px solid #e7ecf4; border-radius: 6px; background: #f8fafc; }
+.registration-audit-dialog .na-file-row > div { flex: 1; min-width: 0; }
+.registration-audit-dialog .na-file-row strong { display: block; font-size: 13px; color: #3c4d65; font-weight: 600; }
+.registration-audit-dialog .na-file-row small { display: block; margin-top: 3px; font-size: 11px; color: #8a98ad; overflow-wrap: anywhere; }
+.registration-audit-dialog .na-file-row .link { padding: 0 4px; font-size: 12px; white-space: nowrap; }
+.registration-audit-dialog .identity-audit-material-note { display: flex; align-items: center; gap: 12px; margin: 0 16px 14px; padding: 10px 14px; background: #f2f6fc; border: 1px solid #d9e4f6; border-radius: 5px; font-size: 12px; color: #4a6285; }
+.registration-audit-dialog .identity-audit-bottom-close { display: block; width: calc(100% - 44px); margin: 14px 22px 20px; padding: 9px 0; }
+.registration-audit-dialog .identity-audit-bottom-close .btn { width: 100%; }
+.registration-audit-dialog .identity-audit-information,
+.registration-audit-dialog .identity-audit-side { scrollbar-width: thin; scrollbar-color: #c9d4e5 transparent; }
+.registration-audit-dialog .identity-audit-information::-webkit-scrollbar,
+.registration-audit-dialog .identity-audit-side::-webkit-scrollbar { width: 6px; }
+.registration-audit-dialog .identity-audit-information::-webkit-scrollbar-thumb,
+.registration-audit-dialog .identity-audit-side::-webkit-scrollbar-thumb { background: #c9d4e5; border-radius: 6px; }
+.registration-audit-dialog .ra-flow .identity-flow-content p { display: block; }
+.registration-audit-dialog .ra-flow .identity-flow-opinion { margin-top: 8px; }
+@media (max-width: 1400px) {
+  .identity-page.registration-audit-page .identity-filters label > span { flex-basis: 104px; width: 104px; max-width: 104px; }
+}

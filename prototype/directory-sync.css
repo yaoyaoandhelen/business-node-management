@@ -1,0 +1,741 @@
+/* 节点目录管理系统 · 全域目录信息互通（列表 + 共享链接详情，同步成功/失败两种状态） */
+
+/* ===== 列表页补充 ===== */
+[data-req-surface='directorySync.list'] table {
+  min-width: 1120px;
+}
+[data-req-surface='directorySync.list'] table th {
+  white-space: nowrap;
+}
+[data-req-surface='directorySync.list'] table th:first-child {
+  width: 56px;
+}
+[data-req-surface='directorySync.list'] .status {
+  white-space: nowrap;
+}
+.status.fail {
+  color: #cf5d50;
+  background: #fff3f1;
+}
+.ds-batchbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 14px;
+  flex-wrap: wrap;
+}
+.ds-auto-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ds-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #273344;
+  cursor: pointer;
+  user-select: none;
+}
+.ds-switch input {
+  width: 16px;
+  height: 16px;
+  accent-color: #1677ff;
+  cursor: pointer;
+}
+.ds-switch-note {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.45);
+}
+.ds-switch-state {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.ds-switch-state.on {
+  color: #389e0d;
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+}
+.ds-switch-state.off {
+  color: rgba(0, 0, 0, 0.45);
+  background: #fafafa;
+  border: 1px solid #d9d9d9;
+}
+.ds-more {
+  position: relative;
+  display: inline-block;
+  margin-left: 12px;
+}
+.ds-more .ds-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  background: white;
+  border: 1px solid #e3e9f2;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(31, 56, 88, 0.16);
+  padding: 6px 0;
+  min-width: 140px;
+  z-index: 30;
+}
+.ds-more.open .ds-menu {
+  display: block;
+}
+.ds-more .ds-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 14px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.ds-more .ds-menu button:hover {
+  background: #f2f6fc;
+}
+
+/* ===== 共享链接详情（整页视图） ===== */
+.ds-share {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.88);
+}
+.ds-banner {
+  color: white;
+  padding: 15px 22px 11px;
+  border-radius: 8px;
+}
+.ds-banner .banner-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.ds-share.success .ds-banner {
+  background: linear-gradient(90deg, #07234a 0%, #103d7e 55%, #1677ff 100%);
+}
+.ds-share.fail .ds-banner {
+  background: linear-gradient(90deg, #3d1010 0%, #7e1a1a 55%, #ff4d4f 100%);
+}
+.ds-banner .title-area {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.ds-banner .icon-box {
+  width: 46px;
+  height: 46px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.ds-banner h1 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+.ds-banner .sub {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 5px;
+}
+.ds-banner .meta-area {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 12px;
+  line-height: 1.7;
+  opacity: 0.85;
+}
+.ds-banner .meta-area .meta-sep {
+  margin: 0 10px;
+  opacity: 0.55;
+}
+.ds-secure-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+.ds-secure-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  backdrop-filter: blur(2px);
+}
+.ds-secure-tag.strong {
+  background: rgba(255, 255, 255, 0.28);
+  font-weight: 600;
+}
+
+.ds-card {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  margin-top: 16px;
+}
+.ds-card-head {
+  padding: 14px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ds-card-head h2 {
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.ds-card-head h2::before {
+  content: '';
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  background: #1677ff;
+  display: inline-block;
+}
+.ds-card-body {
+  padding: 20px;
+}
+
+.ds-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 1px 8px;
+  line-height: 20px;
+}
+.ds-tag.blue {
+  color: #1677ff;
+  background: #e6f4ff;
+  border: 1px solid #91caff;
+}
+.ds-tag.green {
+  color: #52c41a;
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+}
+.ds-tag.gold {
+  color: #d48806;
+  background: #fffbe6;
+  border: 1px solid #ffe58f;
+}
+.ds-tag.red {
+  color: #ff4d4f;
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+}
+.ds-tag.gray {
+  color: rgba(0, 0, 0, 0.45);
+  background: #fafafa;
+  border: 1px solid #d9d9d9;
+}
+
+/* 同步状态监控：卡片按实际张数等分铺满整行，状态色底强化结果语义 */
+.ds-monitor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.ds-monitor-item {
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+.ds-monitor-item.ok {
+  background: linear-gradient(135deg, #f6ffed, #fcffe6);
+  border-color: #b7eb8f;
+}
+.ds-monitor-item.blue {
+  background: linear-gradient(135deg, #e6f4ff, #f0f9ff);
+  border-color: #91caff;
+}
+.ds-monitor-item.fail {
+  background: linear-gradient(135deg, #fff2f0, #fff7e6);
+  border-color: #ffccc7;
+}
+.ds-monitor-item .m-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+.ds-monitor-item .m-label {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.45);
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+.ds-monitor-item .m-value {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+.ds-monitor-item .m-value.ok {
+  color: #389e0d;
+}
+.ds-monitor-item .m-value.blue {
+  color: #0958d9;
+}
+.ds-monitor-item .m-value.gold {
+  color: #d48806;
+}
+.ds-monitor-item .m-value.fail {
+  color: #cf1322;
+}
+.ds-monitor-item .m-value.muted {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ds-progress-block {
+  margin-bottom: 14px;
+}
+.ds-progress-block:last-child {
+  margin-bottom: 0;
+}
+.ds-progress-block .row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 13px;
+  gap: 10px;
+}
+.ds-progress-block .row b {
+  color: #1677ff;
+}
+.ds-progress-block .row b.ok {
+  color: #52c41a;
+}
+.ds-progress-block .row b.fail {
+  color: #ff4d4f;
+}
+.ds-progress {
+  height: 8px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.ds-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #1677ff, #69b1ff);
+}
+.ds-progress > span.full {
+  background: linear-gradient(90deg, #52c41a, #95de64);
+}
+.ds-progress > span.stuck {
+  background: linear-gradient(90deg, #ff4d4f, #ff7875);
+}
+.ds-progress > span.half {
+  background: linear-gradient(90deg, #faad14, #ffd666);
+}
+/* half 仅为进度条历史样式保留位，不再用于中间进度 */
+
+/* 本次同步流程 */
+.ds-flow {
+  display: flex;
+  align-items: flex-start;
+}
+.ds-flow-step {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+.ds-flow-step .f-dot {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+  background: #e6f4ff;
+  border: 1px solid #91caff;
+  color: #1677ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  position: relative;
+  z-index: 1;
+}
+.ds-flow-step.ok .f-dot {
+  background: #f6ffed;
+  border-color: #b7eb8f;
+  color: #52c41a;
+}
+.ds-flow-step.fail .f-dot {
+  background: #fff2f0;
+  border-color: #ffccc7;
+  color: #ff4d4f;
+}
+.ds-flow-step.gray .f-dot {
+  background: #f5f5f5;
+  border-color: #d9d9d9;
+  color: rgba(0, 0, 0, 0.45);
+}
+.ds-flow-step::before {
+  content: '';
+  position: absolute;
+  top: 17px;
+  left: -50%;
+  width: 100%;
+  height: 2px;
+  background: #d9d9d9;
+}
+.ds-flow-step:first-child::before {
+  display: none;
+}
+.ds-flow-step.ok::before {
+  background: #b7eb8f;
+}
+.ds-flow-step.fail::before {
+  background: #ffccc7;
+}
+.ds-flow-step .f-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+.ds-flow-step.fail .f-title,
+.ds-flow-step.fail .f-desc {
+  color: #ff4d4f;
+}
+.ds-flow-step .f-desc {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.45);
+  margin-top: 4px;
+  line-height: 1.6;
+}
+
+.ds-result-banner {
+  margin-top: 18px;
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.ds-share.success .ds-result-banner {
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+}
+.ds-share.fail .ds-result-banner {
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+}
+.ds-result-banner .r-icon {
+  font-size: 18px;
+}
+.ds-share.success .ds-result-banner b {
+  color: #52c41a;
+}
+.ds-share.fail .ds-result-banner b {
+  color: #ff4d4f;
+}
+
+/* 异常自动重试与补正提示（失败态） */
+.ds-retry-card {
+  border: 1px solid #ffe58f;
+  background: #fffbe6;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-top: 14px;
+}
+.ds-retry-card .r-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #d48806;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+.ds-retry-card .r-row {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: 2;
+}
+.ds-retry-card .r-row b {
+  color: rgba(0, 0, 0, 0.88);
+}
+
+/* 同步生命周期 */
+.ds-life-cycle {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.ds-lc-step {
+  flex: 1;
+  min-width: 220px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  background: #fafafa;
+}
+.ds-lc-step.active {
+  border-color: #91caff;
+  background: #e6f4ff;
+}
+.ds-lc-step.error {
+  border-color: #ffccc7;
+  background: #fff2f0;
+}
+.ds-lc-step .lc-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.ds-lc-step .lc-desc {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: 1.6;
+}
+
+/* 节点基本信息：两列信息网格，标签在上、值在下；长字段整行铺开；变更项黄底+金色侧标 */
+.ds-desc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid #f0f2f5;
+}
+.ds-desc-item {
+  padding: 12px 16px 11px;
+  border-bottom: 1px solid #f0f2f5;
+}
+.ds-desc-item.full {
+  grid-column: 1 / -1;
+}
+.ds-desc-item .label {
+  display: block;
+  color: #8b98ab;
+  font-size: 12px;
+  margin-bottom: 3px;
+  letter-spacing: 0.2px;
+}
+.ds-desc-item .value {
+  color: rgba(0, 0, 0, 0.86);
+  font-size: 13px;
+  word-break: break-all;
+  line-height: 1.6;
+}
+.ds-desc-item .value.mono {
+  font-family: 'SF Mono', Consolas, monospace;
+  letter-spacing: 0.3px;
+  color: #2f4d8a;
+}
+.ds-desc-item.changed {
+  background: #fffbe6;
+  box-shadow: inset 3px 0 0 #faad14;
+}
+.ds-chg-tag {
+  display: inline-block;
+  font-size: 10px;
+  color: #d48806;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #ffe58f;
+  border-radius: 3px;
+  padding: 1px 6px;
+  margin-left: 6px;
+  vertical-align: 1px;
+  white-space: nowrap;
+}
+
+/* 材料清单 */
+.ds-mat-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 10px 16px;
+}
+.ds-mat-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  border: 1px solid #f0f0f0;
+  background: #f0f9eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.ds-mat-name {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.88);
+  word-break: break-all;
+}
+.ds-btn-sm {
+  height: 28px;
+  padding: 0 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  border: 1px solid #d9d9d9;
+  background: white;
+  color: rgba(0, 0, 0, 0.88);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.ds-btn-sm:hover {
+  border-color: #1677ff;
+  color: #1677ff;
+}
+
+/* 同步记录时间线 */
+.ds-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ds-timeline li {
+  position: relative;
+  padding: 0 0 14px 22px;
+}
+.ds-timeline li::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #1677ff;
+  box-shadow: 0 0 0 3px #e6f4ff;
+}
+.ds-timeline li.ok::before {
+  background: #52c41a;
+  box-shadow: 0 0 0 3px #f6ffed;
+}
+.ds-timeline li.fail::before {
+  background: #ff4d4f;
+  box-shadow: 0 0 0 3px #fff2f0;
+}
+.ds-timeline li.gray::before {
+  background: #d9d9d9;
+  box-shadow: 0 0 0 3px #f0f0f0;
+}
+.ds-timeline li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 16px;
+  bottom: 0;
+  width: 1px;
+  background: #d9d9d9;
+}
+.ds-timeline .t-title {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.88);
+  line-height: 1.6;
+}
+.ds-timeline .t-meta {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.45);
+  margin-top: 3px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.ds-timeline li.current {
+  border-radius: 8px;
+  margin-left: -8px;
+  padding-left: 30px;
+}
+.ds-share.success .ds-timeline li.current {
+  background: #e6f4ff;
+}
+.ds-share.fail .ds-timeline li.current {
+  background: #fff2f0;
+}
+.ds-timeline li.current::before {
+  left: 13px;
+}
+.ds-timeline li.current::after {
+  left: 17px;
+}
+.ds-current-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+  border-radius: 3px;
+  padding: 1px 7px;
+}
+.ds-share.success .ds-current-badge {
+  background: #1677ff;
+}
+.ds-share.fail .ds-current-badge {
+  background: #ff4d4f;
+}
+
+.ds-two-col {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 1100px) {
+  .ds-two-col {
+    grid-template-columns: 1fr;
+  }
+  .ds-monitor-grid {
+    grid-template-columns: 1fr;
+  }
+  .ds-desc-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.ds-footer-note {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 12px;
+  padding: 8px 0 0;
+  line-height: 2;
+}

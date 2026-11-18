@@ -1314,3 +1314,40 @@ body:has(.identifier-page) .systemtabs .selected{background:#28599c;color:#fff}
 
 .monitor-filters{grid-template-columns:140px minmax(180px,2fr) repeat(2,minmax(120px,1fr)) auto auto}.monitor-filters>.btn,.monitor-filters>.btn.primary,.monitor-filters>.btn:last-child{grid-column:auto;grid-row:auto}@media(max-width:1000px){.monitor-filters{grid-template-columns:repeat(2,minmax(120px,1fr))}}.audit-filters label{flex:1 1 140px}.audit-filters label.wide{flex:2 1 230px}
 .audit-filters.panel{display:grid;grid-template-columns:minmax(140px,1fr) minmax(220px,1.6fr) repeat(2,minmax(140px,1fr));align-items:end}.audit-filters label,.audit-filters label.wide{min-width:0}.audit-filters .btn{justify-self:start;min-width:80px}@media(max-width:1000px){.audit-filters.panel{grid-template-columns:repeat(2,minmax(140px,1fr))}}
+
+/* Launchpad compact: 9 cards fit one screen (1440x900) */
+.launch{padding:26px 5% 30px}
+.launch .hero h1{font-size:30px;letter-spacing:3px;margin:12px 0 6px}
+.launch .hero p{font-size:14px}
+.launch .eyebrow{padding:5px 14px;letter-spacing:2px}
+.launch .cards{margin:26px auto 0;gap:16px;max-width:1240px}
+.launch .card{min-height:0;padding:18px 22px;border-radius:16px}
+.launch .card .icon{width:44px;height:44px;border-radius:13px;font-size:25px}
+.launch .card .num{right:22px;top:20px;font-size:13px}
+.launch .card h2{font-size:17px;margin:13px 0 4px}
+.launch .card p{margin:0 0 12px;font-size:13px}
+.launch .card .enter{padding:5px 14px;font-size:13px}
+.launch .card .arrow{margin-left:12px}
+.launch .card:hover{transform:translateY(-3px)}
+@media(min-width:1800px){.launch{padding-top:26px}.launch .cards{margin-top:26px;gap:16px;max-width:1240px}.launch .card{min-height:0}}
+
+/* Launchpad: always fit viewport height, never overflow */
+.launch{display:flex;flex-direction:column;height:calc(100vh - 60px);box-sizing:border-box;overflow:hidden}
+.launch .hero{flex-shrink:0}
+.launch .cards{flex:1;min-height:0;grid-template-rows:repeat(3,minmax(0,1fr));align-content:stretch}
+.launch .card{display:flex;flex-direction:column;justify-content:center;min-height:0;overflow:hidden}
+.launch .card h2,.launch .card p,.launch .card .enter{flex-shrink:0}
+@media(max-height:760px){
+  .launch{padding-top:16px}
+  .launch .hero h1{font-size:24px;margin:8px 0 4px}
+  .launch .hero p{display:none}
+  .launch .eyebrow{padding:3px 10px;font-size:11px}
+  .launch .cards{margin-top:14px;gap:12px}
+  .launch .card{padding:12px 18px}
+  .launch .card .icon{width:36px;height:36px;border-radius:10px;font-size:20px}
+  .launch .card h2{font-size:15px;margin:10px 0 3px}
+  .launch .card p{margin:0 0 8px;font-size:12px}
+  .launch .card .num{right:16px;top:14px;font-size:12px}
+  .launch .card .enter{padding:4px 12px;font-size:12px}
+  .launch .card .arrow{margin-left:10px}
+}

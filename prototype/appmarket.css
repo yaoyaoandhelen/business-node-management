@@ -1,0 +1,23 @@
+/* 应用市场后台管理系统 —— 复用智能服务/基础设施的简洁后台风格 */
+.amk-page .ai-table table{width:100%;min-width:100%}
+.amk-page .ai-table th,.amk-page .ai-table td{padding:12px 10px!important;font-size:13px;line-height:1.65}
+.amk-page .ai-table th:first-child,.amk-page .ai-table td:first-child{text-align:center;width:56px}
+.amk-page .ai-metrics{margin:0 0 18px}
+.amk-page .ai-metrics article{padding:18px}
+.amk-page .ai-metrics strong{font-size:26px;margin:10px 0}
+.amk-page .ai-list-head h3{font-size:15px;color:#2c466a;margin:0}
+.amk-page .amk-sec{margin-top:22px}
+.amk-page .amk-sec:first-child{margin-top:0}
+.amk-page .amk-filters{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:18px 20px;background:#fff;border:1px solid #e8edf4;border-radius:5px;margin-bottom:14px}
+.amk-page .amk-filters label{display:flex;align-items:center;gap:8px;font-size:13px;color:#65758b}
+.amk-page .amk-search{height:34px;border:1px solid #dce2eb;border-radius:4px;padding:0 12px;min-width:230px;font:inherit;color:#52637b;background:#fff}
+.amk-page .amk-note{font-size:12px;color:#8d99ab;line-height:1.9;margin:12px 2px 0}
+.amk-page .amk-support td:nth-child(6){min-width:300px}
+.amk-page .amk-ops{white-space:nowrap}
+.amk-modal{width:860px!important;max-width:calc(100vw - 40px)}
+.amk-block{border:1px solid #e9eef6;border-radius:6px;padding:14px 16px;margin-bottom:12px;background:#fcfdff}
+.amk-block h3{font-size:14px;color:#3c5375;margin:0 0 10px;font-weight:600}
+.amk-kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 18px;font-size:13px;color:#5d6b80;line-height:1.8}
+.amk-kv b{color:#34465d;font-weight:600}
+.amk-tags span{display:inline-block;background:#eef3ff;color:#4a63a3;border-radius:3px;padding:3px 9px;font-size:12px;margin:0 6px 6px 0}
+@media(max-width:1100px){.amk-page .amk-kv{grid-template-columns:1fr}}

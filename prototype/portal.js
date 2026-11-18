@@ -16,6 +16,46 @@ const storageKey=()=>frozen()?'cq-portal-frozen-demo-v1':userType==='authenticat
 const defaultState=()=>({created:fmt(add(today,-174)),expiry:fmt(add(today,6)),firstRenewal:null,pending:null});
 function loadState(){try{return JSON.parse(localStorage.getItem(storageKey()))||defaultState()}catch{return defaultState()}}
 let state=loadState();
+let loginMethod='password',unlockStage='locked',unlockTimer=null,unlockTicker=null,unlockLockStart=null;
+let unlockSubject='personal',unlockVerifyData={},unlockSubmitted=null;
+const unlockLockDays=5;
+const unlockSubjectNames={personal:'个人',enterprise:'企业',agent:'企业经办人'};
+const unlockRuleMsg={any:'请填写完整',name:'请输入名称（至少 2 个字符）',id:'请输入 18 位有效证件号码',credit:'请输入 18 位统一社会信用代码（大写字母或数字）',phone:'请输入 11 位有效手机号',code:'请输入 6 位短信验证码'};
+const unlockFields={
+ personal:[
+  {k:'name',n:'姓名',t:'text',v:'张明远',ph:'请输入姓名',rule:'name'},
+  {k:'idType',n:'证件类型',t:'select',opts:['中华人民共和国居民身份证','护照','其他有效证件'],v:'中华人民共和国居民身份证',rule:'any'},
+  {k:'idNo',n:'证件号码',t:'text',v:'500228199505070116',ph:'请输入 18 位证件号码',rule:'id'},
+  {k:'phone',n:'预留手机号',t:'text',v:'18900010000',ph:'请输入 11 位手机号',rule:'phone'},
+  {k:'code',n:'短信验证码',t:'code',v:'123456',ph:'请输入 6 位验证码',rule:'code'}
+ ],
+ enterprise:[
+  {k:'orgName',n:'企业名称',t:'text',v:'重庆壹弘科技有限公司',ph:'请输入企业名称',rule:'name'},
+  {k:'creditCode',n:'统一社会信用代码',t:'text',v:'91500103MAE2CF7R62',ph:'请输入 18 位统一社会信用代码',rule:'credit'},
+  {k:'legalName',n:'法定代表人姓名',t:'text',v:'王艳波',ph:'请输入法定代表人姓名',rule:'name'},
+  {k:'legalIdNo',n:'法定代表人证件号码',t:'text',v:'220181198008060421',ph:'请输入 18 位证件号码',rule:'id'},
+  {k:'phone',n:'预留手机号',t:'text',v:'18900010000',ph:'请输入 11 位手机号',rule:'phone'},
+  {k:'code',n:'短信验证码',t:'code',v:'123456',ph:'请输入 6 位验证码',rule:'code'}
+ ],
+ agent:[
+  {k:'orgName',n:'企业名称',t:'text',v:'重庆壹弘科技有限公司',ph:'请输入企业名称',rule:'name'},
+  {k:'creditCode',n:'统一社会信用代码',t:'text',v:'91500103MAE2CF7R62',ph:'请输入 18 位统一社会信用代码',rule:'credit'},
+  {k:'agentName',n:'经办人姓名',t:'text',v:'李思远',ph:'请输入经办人姓名',rule:'name'},
+  {k:'agentIdNo',n:'经办人证件号码',t:'text',v:'500228199203124218',ph:'请输入 18 位证件号码',rule:'id'},
+  {k:'phone',n:'预留手机号',t:'text',v:'18900010000',ph:'请输入 11 位手机号',rule:'phone'},
+  {k:'code',n:'短信验证码',t:'code',v:'123456',ph:'请输入 6 位验证码',rule:'code'}
+ ]
+};
+const loginMethodNotes={password:'使用账号与密码登录，密码需符合密码长度、字符组合与定期更换策略。',phone:'使用账号预留手机号与短信验证码登录。',sso:'跳转统一身份认证平台完成认证（原型演示，不产生真实登录态）。'};
+const loginMethodNote=()=>loginMethodNotes[loginMethod]||loginMethodNotes.password;
+function unlockRemainingText(){
+  if(!unlockLockStart)unlockLockStart=Date.now();
+  const left=Math.max(0,unlockLockStart+unlockLockDays*24*3600*1000-Date.now());
+  const d=Math.floor(left/86400000),h=Math.floor(left%86400000/3600000),m=Math.floor(left%3600000/60000),s=Math.floor(left%60000/1000);
+  return d+' 天 '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+function armUnlockTicker(){clearInterval(unlockTicker);unlockTicker=setInterval(()=>{if(!document.querySelector('[data-req-surface="portal.login.dialog.unlock"]')){clearInterval(unlockTicker);unlockTicker=null;return}document.querySelectorAll('[data-unlock-remaining]').forEach(el=>el.textContent=unlockRemainingText())},1000)}
+function cancelUnlockTimer(){if(unlockTimer){clearTimeout(unlockTimer);unlockTimer=null}if(unlockTicker){clearInterval(unlockTicker);unlockTicker=null}}
 let view=new URL(location.href).searchParams.get('view')||'home',lastFocus;
 const save=()=>localStorage.setItem(storageKey(),JSON.stringify(state));
 function chooseUser(type){freezeForm=false;userType=['personal','enterprise','authentication','frozen'].includes(type)?type:'enterprise';sessionStorage.setItem('cq-portal-user',userType);state=loadState()}
@@ -35,17 +75,105 @@ function enterpriseInfo(){return `${info('主体身份标识','91500103MAE2CF7R6
 function personalInfo(){return `${info('主体身份标识',profile().id)}${info('姓名',profile().name)}${info('证件号码','500228199505070116')}${info('证件号码有效起始日期','2019-07-02')}${info('证件号码有效截止日期','2035-07-02')}${info('个人实名认证等级','<span class="pill blue">♧ 人脸未完成</span>　<button class="pill face" data-action="face">去人脸认证</button>')}${info('实名认证时间','-')}${info('身份状态',`<span class="pill">${daysLeft()<0?'已到期':'可用'}</span>`)}${info('证件类型','中华人民共和国居民身份证')}${info('手机号','18900010000')}${info('个人实名认证方式','微信、支付宝、通信运营商等第三方服务入口')}${info('主体身份凭证','<span class="certificate">jcss/2026/07/28/certificate1785201359640.zip</span><br><button class="pill download-certificate" data-action="download">↧ 下载证书</button>')}`}
 function personalDocuments(){return `<section class="section" ${req('identity.personal.documents')}><div class="section-head"><h3><span>▣</span>证件信息</h3></div><div class="document-grid"><div><label>证件-正面</label><div class="document-card"><svg viewBox="0 0 200 120" aria-hidden="true"><defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#c7e4e3"/><stop offset="1" stop-color="#f8eed1"/></linearGradient></defs><rect width="200" height="120" fill="url(#sky)"/><path d="M0 65L35 37 68 60 110 31 150 56 200 40V120H0" fill="#8daf9e"/><path d="M0 85L50 62 90 80 140 56 200 75V120H0" fill="#5e9288"/><path d="M0 100H200" stroke="#d3e2dc" stroke-width="4"/><circle cx="92" cy="64" r="6" fill="#314a57"/><path d="M85 75h14v35H85z" fill="#f0e7ca"/><circle cx="113" cy="67" r="6" fill="#695441"/><path d="M105 79h15v31h-15z" fill="#ebd6ae"/></svg></div></div><div><label>证件-反面</label><div class="document-card"><svg viewBox="0 0 200 120" aria-hidden="true"><rect x="54" y="13" width="92" height="96" rx="5" fill="#fcfcfc" stroke="#eef0f5"/><path d="M55 72Q80 58 101 77T145 67V108H55Z" fill="#ffe19a"/><path d="M55 85Q80 60 104 84T145 77V108H55Z" fill="#ffbf32"/></svg></div></div></div></section>`}
 
-function login(){app.innerHTML=`<main class="login-page" data-req-page="portal-login" data-req-surface="portal.login" data-req-title="门户登录"><section class="login-card"><h1>欢迎回来</h1><div class="login-sub">重庆区域功能节点</div><div class="login-account-heading">账号登录</div><form id="login-form" ${req('portal.login')}><div class="field" ${req('portal.login','login.accountType')}><label for="account">账号</label><select class="input account-select" id="account" required><option value="personal" ${personal()?'selected':''}>个人</option><option value="enterprise" ${userType==='enterprise'?'selected':''}>企业</option><option value="authentication" ${userType==='authentication'?'selected':''}>身份认证</option><option value="frozen" ${frozen()?'selected':''}>冻结身份</option></select></div><div class="field" ${req('portal.login','login.password')}><label for="password">密码</label><input class="input" id="password" type="password" value="Demo123456" disabled aria-label="密码（演示，无需填写）"></div><div class="field" ${req('portal.login','login.captcha')}><label for="captcha">验证码</label><div class="captcha-line"><input class="input" id="captcha" value="27" disabled aria-label="验证码（演示，无需填写）"><button type="button" class="captcha" disabled aria-label="验证码图片（不可操作）">9+18=?</button></div></div><p class="login-demo-hint">选择个人、企业、身份认证或冻结身份，进入对应功能。</p><label class="remember"><input type="checkbox" checked>记住我</label><button class="btn primary login-button" type="submit">登录</button><div class="error" id="login-error" role="alert"></div></form><div class="register">还没有账号？<button data-action="register">立即注册</button></div><div class="login-foot">渝ICP备20009072号-1　♜ 渝公网安备 50019002502956号</div></section></main>`}
+function login(){app.innerHTML=`<main class="login-page" data-req-page="portal-login" data-req-surface="portal.login" data-req-title="门户登录"><section class="login-card"><h1>欢迎回来</h1><div class="login-sub">重庆区域功能节点</div><div class="login-method-tabs" role="tablist" aria-label="登录方式" ${req('portal.login','login.method')}><button type="button" class="login-method-btn ${loginMethod==='password'?'active':''}" role="tab" aria-selected="${loginMethod==='password'}" data-login-method="password">账号密码</button><button type="button" class="login-method-btn ${loginMethod==='phone'?'active':''}" role="tab" aria-selected="${loginMethod==='phone'}" data-login-method="phone">手机号登录</button><button type="button" class="login-method-btn ${loginMethod==='sso'?'active':''}" role="tab" aria-selected="${loginMethod==='sso'}" data-login-method="sso">统一身份登录</button></div><p class="login-method-note" ${req('portal.login','login.method.note')}>${loginMethodNote()}</p><form id="login-form" ${req('portal.login')}><div class="field" ${req('portal.login','login.accountType')}><label for="account">账号</label><select class="input account-select" id="account" required><option value="personal" ${personal()?'selected':''}>个人</option><option value="enterprise" ${userType==='enterprise'?'selected':''}>企业</option><option value="authentication" ${userType==='authentication'?'selected':''}>身份认证</option><option value="frozen" ${frozen()?'selected':''}>冻结身份</option><option value="locked">锁定</option></select></div><div class="field" ${req('portal.login','login.password')}><label for="password">密码</label><input class="input" id="password" type="password" value="Demo123456" disabled aria-label="密码（演示，无需填写）"></div><div class="field" ${req('portal.login','login.captcha')}><label for="captcha">验证码</label><div class="captcha-line"><input class="input" id="captcha" value="27" disabled aria-label="验证码（演示，无需填写）"><button type="button" class="captcha" disabled aria-label="验证码图片（不可操作）">9+18=?</button></div></div><p class="login-demo-hint" ${req('portal.login','login.hint')}>选择个人、企业、身份认证、冻结身份或锁定身份，进入对应功能；选择「锁定」可查看账号解锁流程。</p><label class="remember"><input type="checkbox" checked>记住我</label><button class="btn primary login-button" type="submit">登录</button><div class="error" id="login-error" role="alert"></div></form><div class="register">还没有账号？<button data-action="register">立即注册</button></div><div class="login-foot">渝ICP备20009072号-1　♜ 渝公网安备 50019002502956号</div></section></main>`}
 function show(content){lastFocus=document.activeElement;root.innerHTML=`<div class="mask">${content}</div>`;root.querySelector('button,input')?.focus()}
-function close(force=false){if(freezeBlocking&&!force)return;cancelAppealTimer();if(successNoticeOpen&&appeal?.status==='success'){appeal.successDismissed=true;persistAppeal()}successNoticeOpen=false;freezeBlocking=false;app.inert=false;app.removeAttribute('aria-hidden');document.body.style.overflow='';root.innerHTML='';lastFocus?.focus();lastFocus=null}
+function close(force=false){if(freezeBlocking&&!force)return;cancelUnlockTimer();cancelAppealTimer();if(successNoticeOpen&&appeal?.status==='success'){appeal.successDismissed=true;persistAppeal()}successNoticeOpen=false;freezeBlocking=false;app.inert=false;app.removeAttribute('aria-hidden');document.body.style.overflow='';root.innerHTML='';lastFocus?.focus();lastFocus=null}
 function modal(title,body,footer,surface='identity.renew'){show(`<section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" data-req-page="${pageId('workbench')}" data-req-surface="${surface}" data-req-layer="dialog" data-req-title="${title}"><div class="dialog-head"><h2 id="dialog-title">${title}</h2><button class="close" data-action="close" aria-label="关闭弹窗">×</button></div>${body}<footer class="dialog-footer">${footer}</footer></section>`)}
+function refreshLoginMethod(){document.querySelectorAll('[data-login-method]').forEach(b=>{const on=b.dataset.loginMethod===loginMethod;b.classList.toggle('active',on);b.setAttribute('aria-selected',String(on))});const n=document.querySelector('.login-method-note');if(n)n.textContent=loginMethodNote()}
+function unlockVal(f){return unlockVerifyData[f.k]!==undefined?unlockVerifyData[f.k]:f.v}
+function collectUnlockInputs(){document.querySelectorAll('[data-uv-key]').forEach(el=>{unlockVerifyData[el.dataset.uvKey]=el.value})}
+function validateUnlockForm(){
+  for(const f of unlockFields[unlockSubject]){
+    const v=String(unlockVal(f)).trim();let ok=v.length>0;
+    if(f.rule==='id')ok=/^\d{17}[\dXx]$/.test(v);
+    else if(f.rule==='credit')ok=/^[0-9A-Z]{18}$/.test(v);
+    else if(f.rule==='phone')ok=/^1\d{10}$/.test(v);
+    else if(f.rule==='code')ok=/^\d{6}$/.test(v);
+    else if(f.rule==='name')ok=v.length>=2;
+    if(!ok)return f;
+  }
+  return null;
+}
+function unlockMask(f,v){
+  v=String(v||'');if(!v)return '—';
+  if(f.rule==='id'||f.rule==='credit')return v.slice(0,4)+'**********'+v.slice(-4);
+  if(f.rule==='phone')return v.slice(0,3)+'****'+v.slice(-4);
+  return v;
+}
+function unlockSubjectHtml(){
+  return `<div class="unlock-subject-tabs" role="radiogroup" aria-label="认证主体类型">${Object.keys(unlockSubjectNames).map(k=>`<button type="button" role="radio" aria-checked="${unlockSubject===k}" class="unlock-subject-btn ${unlockSubject===k?'active':''}" data-unlock-subject="${k}">${unlockSubjectNames[k]}</button>`).join('')}</div>`;
+}
+function unlockFormHtml(){
+  return `<div class="unlock-form-grid">${unlockFields[unlockSubject].map(f=>{
+    const id='uv-'+f.k,v=unlockVal(f);
+    let ctrl=f.t==='select'?`<select class="input" id="${id}" data-uv-key="${f.k}">${f.opts.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}</select>`
+      :f.t==='code'?`<div class="unlock-code-line"><input class="input" id="${id}" data-uv-key="${f.k}" value="${v}" placeholder="${f.ph}"><button type="button" class="btn small" data-unlock-action="send-code">获取验证码</button></div>`
+      :`<input class="input" id="${id}" data-uv-key="${f.k}" value="${v}" placeholder="${f.ph}">`;
+    return `<div class="unlock-field${f.t==='code'?' unlock-field-wide':''}"><label class="required" for="${id}">${f.n}</label>${ctrl}</div>`;
+  }).join('')}</div><div class="unlock-verify-error" id="unlock-verify-error" role="alert"></div>`;
+}
+function unlockSummaryHtml(){
+  const d=unlockSubmitted;
+  if(!d)return '<div class="unlock-summary"><div><span>认证信息</span><strong>待提交</strong></div></div>';
+  return `<div class="unlock-summary"><div><span>认证主体</span><strong>${unlockSubjectNames[d.subject]}</strong></div>${unlockFields[d.subject].filter(f=>f.k!=='code').map(f=>`<div><span>${f.n}</span><strong>${unlockMask(f,d.values[f.k])}</strong></div>`).join('')}</div>`;
+}
+function unlockDialog(stage='locked'){
+  cancelUnlockTimer();unlockStage=stage;
+  const verify=stage==='verify',pending=stage==='pending',success=stage==='success';
+  const title=success?'解锁成功':pending?'申请解锁':verify?'填写认证信息':'解锁';
+  const R=el=>req('portal.login.unlock',el);
+  const accBase=`<div><span>账号</span><strong>demo@cq-node</strong></div><div><span>主体类型</span><strong>企业</strong></div><div><span>锁定原因</span><strong>连续多次登录失败，触发账号锁定保护</strong></div><div><span>锁定时间</span><strong>${fmt(today)} 09:42:16</strong></div><div class="unlock-time-row"><span>锁定时长</span><strong>${unlockLockDays} 天</strong></div>`;
+  const accRemain=success?`<div class="unlock-time-row is-remaining"><span>剩余解锁时长</span><strong class="unlock-time-done">已通过自助解锁提前解除</strong></div>`:`<div class="unlock-time-row is-remaining"><span>剩余解锁时长</span><strong id="unlock-remaining" data-unlock-remaining>${unlockRemainingText()}</strong></div>`;
+  const acc=`<div class="unlock-account" ${R('unlock.account')}>${accBase}${accRemain}</div>`;
+  let head,identity='',verifyBlock='',footer;
+  if(success){
+    head=`<div class="unlock-state unlock-state-success" ${R('unlock.head')}><div class="unlock-icon">✓</div><h2>欢迎回来</h2><p>账号已解锁，可以重新选择认证方式登录。</p></div>`;
+    footer=`<button class="btn primary" data-unlock-action="back">返回登录</button>`;
+  }else if(pending){
+    head=`<div class="unlock-state unlock-state-pending" ${R('unlock.head')}><div class="unlock-icon">◷</div><h2>申请已提交</h2><p>正在核验认证信息与解锁申请，请稍候。</p></div>`;
+    footer=`<button class="btn primary" disabled>◷ 核验中（约 5 秒）</button>`;
+  }else if(verify){
+    head=`<div class="unlock-state unlock-state-verify" ${R('unlock.head')}><div class="unlock-icon">✎</div><h2>填写认证信息</h2><p>申请解锁需先核验主体身份，请按认证主体类型填写对应信息。</p></div>`;
+    identity=`<div class="unlock-block" ${R('unlock.identity')}><div class="unlock-block-title">认证主体类型 <small>不同类型填写不同认证信息</small></div>${unlockSubjectHtml()}</div>`;
+    verifyBlock=`<div class="unlock-verify" ${R('unlock.verify')}><div class="unlock-block-title">认证信息填写 <small>演示数据已预填，可直接提交</small></div>${unlockFormHtml()}</div>`;
+    footer=`<button class="btn" data-unlock-action="backtostep">上一步</button><button class="btn primary" data-unlock-action="submit">提交认证信息 →</button>`;
+  }else{
+    head=`<div class="unlock-state" ${R('unlock.head')}><div class="unlock-icon">⊘</div><h2>该用户账号已被锁定</h2><p>连续多次登录失败，系统已自动触发锁定保护，当前无法登录。</p></div>`;
+    footer=`<button class="btn" data-unlock-action="close">稍后处理</button><button class="btn primary" data-unlock-action="apply">申请解锁 →</button>`;
+  }
+  show(`<section class="dialog unlock-dialog ${success?'unlock-success':pending?'unlock-pending':verify?'unlock-verify-stage':''}" role="dialog" aria-modal="true" aria-labelledby="unlock-dialog-title" data-req-page="portal-login" data-req-surface="portal.login.dialog.unlock" data-req-layer="dialog" data-req-title="${title}"><div class="dialog-head"><h2 id="unlock-dialog-title">${title}</h2><button class="close" data-unlock-action="close" aria-label="关闭解锁弹窗">×</button></div><div class="dialog-body">${head}${acc}${identity}${verifyBlock}</div><footer class="dialog-footer" ${R('unlock.action')}>${footer}</footer></section>`);
+  if(pending)unlockTimer=setTimeout(()=>{unlockTimer=null;if(document.querySelector('[data-req-surface="portal.login.dialog.unlock"]'))unlockDialog('success')},5000);
+  if(!success)armUnlockTicker();
+}
+document.addEventListener('click',e=>{
+  const m=e.target.closest('[data-login-method]');if(m){e.preventDefault();loginMethod=m.dataset.loginMethod;refreshLoginMethod();return}
+  const sb=e.target.closest('[data-unlock-subject]');
+  if(sb){e.preventDefault();if(unlockStage!=='verify'||sb.dataset.unlockSubject===unlockSubject)return;collectUnlockInputs();unlockVerifyData={};unlockSubject=sb.dataset.unlockSubject;unlockDialog('verify');return}
+  const u=e.target.closest('[data-unlock-action]');if(!u)return;e.preventDefault();
+  const act=u.dataset.unlockAction;
+  if(act==='close'){cancelUnlockTimer();close(true);return}
+  if(act==='back'){cancelUnlockTimer();close(true);const sel=$('#account');if(sel&&sel.value==='locked')sel.value=userType||'enterprise';toast('账号已解锁，欢迎回来，请重新登录。');return}
+  if(act==='backtostep'&&unlockStage==='verify'){unlockDialog('locked');return}
+  if(act==='send-code'){const c=document.querySelector('[data-uv-key="code"]');if(c){c.value='123456';unlockVerifyData.code='123456'}toast('演示验证码 123456 已填入（不发送真实短信）');return}
+  if(act==='apply'&&unlockStage==='locked'){unlockDialog('verify');return}
+  if(act==='submit'&&unlockStage==='verify'){
+    collectUnlockInputs();
+    const bad=validateUnlockForm(),err=$('#unlock-verify-error');
+    if(bad){if(err)err.textContent=unlockRuleMsg[bad.rule]||'请填写完整';const f=$('#uv-'+bad.k);if(f)f.focus();return}
+    if(err)err.textContent='';
+    unlockSubmitted={subject:unlockSubject,values:Object.fromEntries(unlockFields[unlockSubject].map(f=>[f.k,unlockVal(f)]))};
+    unlockDialog('pending');return
+  }
+});
+document.addEventListener('change',e=>{const k=e.target.dataset&&e.target.dataset.uvKey;if(k)unlockVerifyData[k]=e.target.value;if(e.target.id==='account'&&e.target.value==='locked'&&!document.querySelector('[data-req-surface="portal.login.dialog.unlock"]'))unlockDialog('locked')});
 function renew(){if(state.pending){return modal('续期申请详情',`<div class="dialog-body"><div class="renew-subject">${profile().label}主体 · ${profile().subject}</div><div class="notice">您的续期申请已提交，正在审核中，请勿重复提交。</div><div class="date-grid"><div><label>申请时间</label><strong>${state.pending.date}</strong></div><div><label>申请续期时长</label><strong>${state.pending.days} 天</strong></div><div><label>首次续期时间</label><strong>${state.firstRenewal||'暂无（首次申请）'}</strong></div><div><label>当前到期时间</label><strong>${state.expiry}</strong></div></div><div class="estimate">审核通过后到期时间<strong>${state.pending.newExpiry}</strong></div></div>`,'<button class="btn primary" data-action="close">我知道了</button>')}
 modal('主体身份续期申请',`<form id="renew-form"><div class="dialog-body"><div class="renew-subject">${profile().label}主体 · ${profile().subject}</div><div class="notice">ⓘ 主体身份默认有效期为 180 天，请在到期前申请续期。单次续期最长 180 天，审核通过后生效。</div><div class="date-grid"><div><label>首次续期时间</label><strong>${state.firstRenewal||'暂无'} <small>${state.firstRenewal?'':'（首次申请）'}</small></strong></div><div><label>当前到期时间</label><strong>${state.expiry}</strong></div></div><div class="field" ${req('identity.renew','renew.duration')}><label class="required" for="duration">申请续期时长</label><div class="duration"><input class="input" type="number" id="duration" min="1" max="180" step="1" value="180" required><span>天</span></div><div class="presets"><button type="button" data-days="30">30 天</button><button type="button" data-days="90">90 天</button><button type="button" class="active" data-days="180">180 天</button></div><p class="hint">请输入 1–180 的整数，默认 180 天。</p></div><div class="estimate" ${req('identity.renew','renew.estimate')}>预计续期后到期时间<strong id="estimated">${fmt(add(state.expiry+'T00:00:00+08:00',180))}</strong></div><p class="hint">未到期从当前到期日顺延；已到期从审核通过日计算。预计日期以审核结果为准。</p><div id="renew-error" class="error" role="alert"></div></div></form>`,`<button class="btn" data-action="close">取消</button><button class="btn primary" type="submit" form="renew-form" ${req('identity.renew','renew.submit')}>提交申请</button>`)}
 function remind(){modal('主体身份即将到期',`<div class="reminder" ${req('identity.reminder')}><div class="clock-icon">◷</div><h2>您的主体身份即将到期</h2><p>距离到期还有 <span class="days">${daysLeft()} 天</span>，请及时申请续期<br>保障您的业务持续办理。</p><div class="reminder-details">${personal()?'姓名':'主体名称'}<strong>${profile().subject}</strong><br>到期时间<strong>${state.expiry}</strong><br>续期上限<strong>180 天 / 次</strong></div><p>申请审核通过后生效，请预留审核时间。</p></div>`,`<button class="btn" data-action="close">稍后提醒</button><button class="btn primary" data-action="renew" ${req('identity.reminder','reminder.apply')}>立即申请续期 →</button>`,'identity.reminder')}
 function updateEstimate(){const n=Number($('#duration').value);$('#estimated').textContent=Number.isInteger(n)&&n>=1&&n<=180?fmt(add(daysLeft()<0?today:state.expiry+'T00:00:00+08:00',n)):'—';root.querySelectorAll('[data-days]').forEach(b=>b.classList.toggle('active',Number(b.dataset.days)===n))}
 document.addEventListener('input',e=>{if(e.target.id==='duration')updateEstimate()});
+document.addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.uvKey;if(k)unlockVerifyData[k]=e.target.value});
 document.addEventListener('click',e=>{const authControl=e.target.closest('[data-auth-action]');if(authControl){e.preventDefault();handleAuth(authControl);return}const preset=e.target.closest('[data-days]');if(preset){$('#duration').value=preset.dataset.days;updateEstimate();return}const a=e.target.closest('[data-action]');if(!a)return;e.preventDefault();if(frozenLocked()&&view!=='login')return;switch(a.dataset.action){case'resources':go('resources');break;case'trade':go('trade');break;case'home':go('home');break;case'workbench':go('workbench');break;case'logout':if(frozen())resetAppeal();go('login');break;case'demo':go('login');break;case'renew':renew();break;case'close':close();break;case'nodes':location.href='./index.html';break;case'catalog':location.href='./index.html?view=catalog';break;case'history':modal('变更记录','<div class="dialog-body"><div class="notice">暂无主体信息变更记录。</div></div>','<button class="btn primary" data-action="close">关闭</button>','identity.history');break;case'captcha':$('#captcha').value='';a.textContent='9+18=?';$('#captcha').focus();break;case'download':toast('演示环境暂无可下载的真实证书');break;default:toast('当前原型聚焦身份续期流程，该功能暂未展开。')}});
-document.addEventListener('submit',e=>{if(e.target.id==='login-form'){e.preventDefault();chooseUser($('#account').value);if(frozen())resetAppeal();if(userType==='authentication'){go('auth-entry');return}go('home');if(frozen())return;if(daysLeft()>=0&&daysLeft()<=7&&!state.pending)remind();else if(daysLeft()<0)toast('主体身份已到期，请进入工作台申请续期。')}if(e.target.id==='renew-form'){e.preventDefault();const n=Number($('#duration').value);if(!Number.isInteger(n)||n<1||n>180){$('#renew-error').textContent='续期时长必须为 1–180 的整数。';return}if(state.pending)return;state.pending={date:fmt(today),days:n,newExpiry:fmt(add(daysLeft()<0?today:state.expiry+'T00:00:00+08:00',n))};save();close();render();modal('续期申请已提交',`<div class="reminder"><div class="clock-icon success-icon">✓</div><h2>申请提交成功</h2><p>您的主体身份续期申请正在审核中。<br>审核通过后生效，当前到期时间保持不变。</p><div class="reminder-details">申请续期时长<strong>${n} 天</strong><br>预计新到期时间<strong>${state.pending.newExpiry}</strong><br>申请状态<strong>待审核</strong></div></div>`,'<button class="btn primary" data-action="close">完成</button>','identity.renew.result')}});
+document.addEventListener('submit',e=>{if(e.target.id==='login-form'){e.preventDefault();if($('#account').value==='locked'){unlockDialog('locked');return}chooseUser($('#account').value);if(frozen())resetAppeal();if(userType==='authentication'){go('auth-entry');return}go('home');if(frozen())return;if(daysLeft()>=0&&daysLeft()<=7&&!state.pending)remind();else if(daysLeft()<0)toast('主体身份已到期，请进入工作台申请续期。')}if(e.target.id==='renew-form'){e.preventDefault();const n=Number($('#duration').value);if(!Number.isInteger(n)||n<1||n>180){$('#renew-error').textContent='续期时长必须为 1–180 的整数。';return}if(state.pending)return;state.pending={date:fmt(today),days:n,newExpiry:fmt(add(daysLeft()<0?today:state.expiry+'T00:00:00+08:00',n))};save();close();render();modal('续期申请已提交',`<div class="reminder"><div class="clock-icon success-icon">✓</div><h2>申请提交成功</h2><p>您的主体身份续期申请正在审核中。<br>审核通过后生效，当前到期时间保持不变。</p><div class="reminder-details">申请续期时长<strong>${n} 天</strong><br>预计新到期时间<strong>${state.pending.newExpiry}</strong><br>申请状态<strong>待审核</strong></div></div>`,'<button class="btn primary" data-action="close">完成</button>','identity.renew.result')}});
 document.addEventListener('keydown',e=>{if(!root.children.length)return;if(e.key==='Escape'){if(freezeBlocking){e.preventDefault();e.stopPropagation();return}close();return}if(e.key==='Tab'){const els=[...root.querySelectorAll('button,input,select,textarea,[tabindex="0"]')].filter(x=>!x.disabled),first=els[0],last=els.at(-1);if(!first){e.preventDefault();root.querySelector('[role="dialog"]')?.focus();return}if(freezeBlocking&&!root.contains(document.activeElement)){e.preventDefault();(e.shiftKey?last:first).focus();return}if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
 let authStage='review';
 const authPerson=()=>view==='auth-personal';
@@ -132,3 +260,4 @@ document.addEventListener('click',e=>{document.querySelectorAll('.trade-nav[open
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.trade-nav[open]').forEach(menu=>menu.open=false)});
 
 window.addEventListener('popstate',()=>{view=new URL(location.href).searchParams.get('view')||'home';chooseUser(selectedType());close(true);render()});render();
+const unlockDemo=new URL(location.href).searchParams.get('unlock');if(unlockDemo){const sel=$('#account');if(sel)sel.value='locked';if(unlockDemo==='apply'||unlockDemo==='success')unlockSubmitted={subject:'enterprise',values:Object.fromEntries(unlockFields.enterprise.map(f=>[f.k,f.v]))};unlockDialog({'verify':'verify','apply':'pending','success':'success'}[unlockDemo]||'locked')}

@@ -1,0 +1,128 @@
+/* 基础设施管理系统 · 运行监测（复用智能搜索设计语言，蓝灰主题） */
+.infra-page .ai-nav-title{color:#2c466a}
+.infra-page .ai-nav-item.active{background:#eef2f9;color:#3f5d8f;border-right-color:#5d7fb1}
+.infra-page .ai-heading h1{color:#253f65}
+.infra-meter{display:flex;align-items:center;gap:10px;font-size:12px;color:#64748b;min-width:150px}
+.infra-meter>i{display:block;height:7px;border-radius:4px;background:linear-gradient(90deg,#9db8de,#5d7fb1);flex:1;min-width:36px}
+.infra-meter.warn>i{background:linear-gradient(90deg,#e7c07a,#d89a36)}
+.infra-meter.bad>i{background:linear-gradient(90deg,#e2a09b,#d77672)}
+.infra-meter.off>i{background:#cfd7e2}
+.infra-meter b{font-weight:500;color:#42597b;min-width:44px;text-align:right}
+.infra-protocols{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 2px}
+.infra-protocol{display:inline-flex;align-items:center;gap:9px;border:1px solid #dbe4f0;background:#f5f8fc;border-radius:4px;padding:10px 15px;font-size:13px;color:#4a6282}
+.infra-protocol i{font-style:normal;font-size:11px;color:#35a178}
+.infra-protocol i.off{color:#d77672}
+.infra-storage{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.infra-storage article{border:1px solid #e6ebf3;border-radius:6px;padding:20px;background:#fbfcfe}
+.infra-storage h4{margin:0 0 6px;font-size:14px;color:#38507a}
+.infra-storage b{display:block;font-size:21px;color:#2c466a;margin:8px 0 4px;font-weight:600}
+.infra-storage p{margin:0;font-size:12px;color:#8b99ad;line-height:1.8}
+.infra-curve{background:#fbfcfe;border:1px solid #e9eef5;border-radius:6px;padding:18px 20px 14px}
+.infra-curve svg{width:100%;height:180px;display:block}
+.infra-curve-legend{display:flex;gap:22px;font-size:12px;color:#7c8ca3;margin-top:10px}
+.infra-curve-legend i{display:inline-block;width:18px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.infra-flow{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.infra-flow span{display:inline-flex;align-items:center;font-size:12px;padding:5px 12px;border-radius:14px;background:#f0f4fa;color:#8496ad;white-space:nowrap}
+.infra-flow span.done{background:#e8f5ef;color:#35a178}
+.infra-flow span.current{background:#e7eeff;color:#3a5c9e;font-weight:600}
+.infra-flow em{font-style:normal;color:#b9c6d8;font-size:11px}
+.infra-priority{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:#5c7191}
+.infra-priority span{border:1px solid #dbe4f0;background:#f5f8fc;border-radius:4px;padding:8px 14px}
+.infra-priority em{font-style:normal;color:#93a5bd}
+.infra-hero{display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:stretch;margin-bottom:20px}
+.infra-hero .panel{margin:0}
+.infra-modal{width:720px!important;max-width:calc(100vw - 40px)}
+.infra-modal .modalbody h3{font-size:14px;color:#42597b;margin:20px 0 12px}
+.infra-modal .modalbody h3:first-child{margin-top:0}
+.infra-modal dl{display:grid;grid-template-columns:110px 1fr;gap:12px 18px;margin:0;font-size:13px;line-height:1.8}
+.infra-modal dt{color:#8b9bb0}
+.infra-modal dd{margin:0;color:#54677f;word-break:break-all}
+.infra-modal textarea{width:100%;border:1px solid #dce2eb;min-height:84px;padding:12px;border-radius:4px;font:inherit;resize:vertical;color:#52637b;box-sizing:border-box}
+.infra-modal label.field-line{display:flex;flex-direction:column;gap:9px;font-size:13px;color:#4a5d77;margin:0 0 14px}
+.infra-modal label.field-line input,.infra-modal label.field-line select{height:36px;border:1px solid #dce2eb;border-radius:4px;background:#fff;padding:0 12px;font:inherit;color:#52637b}
+.infra-detail-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+/* 头部工具区（查询 + 主按钮） */
+.infra-head-tools{display:flex;align-items:center;gap:10px}
+/* 宽表：避免 KPI/闭环进度被挤压 */
+.infra-obj-table table{min-width:1120px}
+.infra-obj-table .infra-meter{min-width:132px}
+.infra-ticket-table table{min-width:1080px}
+.infra-ticket-table .infra-flow{flex-wrap:nowrap;gap:4px}
+.infra-ticket-table .infra-flow span{padding:4px 8px;font-size:11px}
+.infra-ticket-table .infra-flow em{font-size:10px}
+/* 监测对象配置：筛选条件条 */
+.infra-obj-filters{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;background:#f4f7fb;border:1px solid #e2eaf4;border-radius:8px;padding:10px 14px;margin-bottom:14px}
+.infra-obj-filters label{display:flex;align-items:center;gap:6px;font-size:12px;color:#64748f;white-space:nowrap}
+.infra-obj-filters select{min-width:104px}
+.infra-obj-filters .infra-of-key{flex:1;min-width:150px}
+.infra-obj-filters input{width:100%}
+.infra-obj-filters select,.infra-obj-filters input{height:30px;padding:0 8px;border:1px solid #d8e1ec;border-radius:6px;background:#fff;font-size:12px;color:#3f5679;outline:none}
+.infra-obj-filters select:focus,.infra-obj-filters input:focus{border-color:#5a86c6}
+.infra-obj-filters .btn{height:30px;padding:0 14px;font-size:12px}
+
+/* 数据处理链路 */
+.infra-pipe{display:flex;align-items:stretch;gap:8px;margin:6px 0 14px}
+.infra-pipe-step{flex:1;min-width:0;border:1px solid #e4eaf5;background:linear-gradient(180deg,#fbfcff,#f5f8fd);border-radius:6px;padding:16px 16px 14px;position:relative}
+.infra-pipe-step span{display:block;font-size:11px;letter-spacing:1px;color:#8ea0b8}
+.infra-pipe-step b{display:block;font-size:23px;color:#2c466a;font-weight:600;margin:9px 0 4px;line-height:1.1}
+.infra-pipe-step b small{font-size:11px;color:#93a4ba;font-weight:400;margin-left:3px}
+.infra-pipe-step em{font-style:normal;font-size:11px;color:#94a3b8;line-height:1.6;display:block}
+.infra-pipe-step.done{border-color:#cfe6da;background:linear-gradient(180deg,#f7fdfa,#edf8f2)}
+.infra-pipe-step.done b{color:#2f8f6c}
+.infra-pipe>i{display:flex;align-items:center;color:#c3d0e2;font-style:normal;font-size:18px}
+.infra-pipe-legend{display:flex;gap:22px;flex-wrap:wrap;font-size:11px;color:#93a2b6;border-top:1px dashed #e8edf5;padding-top:12px}
+.infra-pipe-legend i{display:inline-block;width:7px;height:7px;border-radius:2px;background:#9db8de;margin-right:6px}
+.infra-pipe-legend i.green{background:#7cc4a4}
+/* 存储分层用量条 */
+.infra-storage article b small{display:inline}
+.infra-tier{height:6px;border-radius:4px;background:#eef2f8;margin:12px 0 10px;overflow:hidden}
+.infra-tier i{display:block;height:6px;border-radius:4px;background:linear-gradient(90deg,#a9c3e6,#5d7fb1)}
+.infra-tier.cold i{background:linear-gradient(90deg,#c9d6e8,#8fa3bf)}
+/* 配置监测对象：勾选清单 */
+.infra-check-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.infra-check-item{display:flex;align-items:flex-start;gap:10px;border:1px solid #e4eaf4;border-radius:5px;padding:12px 14px;background:#fbfcfe;cursor:pointer}
+.infra-check-item:hover{border-color:#b9cbe6;background:#f6f9fe}
+.infra-check-item input{margin-top:3px;width:15px;height:15px;accent-color:#5d7fb1}
+.infra-check-item span{display:flex;flex-direction:column;gap:4px;min-width:0}
+.infra-check-item b{font-size:13px;color:#3c5478;font-weight:500}
+.infra-check-item small{font-size:11px;color:#93a2b6}
+/* 确认预警：通知渠道勾选 */
+.infra-channel-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:4px 0 12px}
+.infra-channel{display:flex;align-items:center;gap:9px;border:1px solid #e4eaf4;border-radius:5px;padding:10px 13px;font-size:13px;color:#54677f;background:#fbfcfe;cursor:pointer}
+.infra-channel:hover{border-color:#b9cbe6}
+.infra-channel input{width:15px;height:15px;accent-color:#5d7fb1}
+/* 新增规则：条件行 */
+.infra-rule-cond{display:grid;grid-template-columns:1.4fr .8fr .8fr .7fr 1.1fr;gap:10px;border:1px solid #e6ecf5;border-radius:6px;padding:14px;background:#fbfcfe;margin:0 0 16px}
+.infra-rule-cond label{display:flex;flex-direction:column;gap:7px;font-size:12px;color:#7c8ca3;min-width:0}
+.infra-rule-cond select,.infra-rule-cond input{width:100%;min-width:0}
+/* 报告订阅配置 */
+.infra-subscribe{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;border-top:1px solid #eef2f8;padding-top:16px;margin-top:4px}
+.infra-subscribe>div{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#8b9bb0}
+.infra-subscribe b{font-size:13px;color:#455c7d;font-weight:500}
+@media(max-width:1100px){.infra-hero{grid-template-columns:1fr}.infra-storage{grid-template-columns:1fr 1fr}.infra-pipe{flex-wrap:wrap}.infra-pipe-step{flex:1 1 30%}.infra-pipe>i{display:none}.infra-rule-cond{grid-template-columns:1fr 1fr}}
+@media(max-width:800px){.infra-storage{grid-template-columns:1fr}.infra-check-list,.infra-channel-grid,.infra-subscribe{grid-template-columns:1fr}}
+
+/* 重要对象：CPU/内存紧凑展示 */
+.infra-usage-meters{display:grid;gap:6px;min-width:0;width:100%;max-width:210px}
+.infra-usage-meters .infra-meter{min-width:0;gap:6px}
+.infra-usage-meters .infra-meter>span{width:28px;flex-shrink:0;font-size:11px}
+.infra-usage-meters .infra-meter>i{min-width:20px}
+.infra-usage-meters .infra-meter>b,.infra-meter>b{white-space:nowrap;font-variant-numeric:tabular-nums;min-width:36px;font-size:12px;text-align:right}
+
+
+/* 预警列表：对象当前指标列与相邻列留白，防止进度条视觉串列 */
+.infra-alert-table th,.infra-alert-table td{padding-left:14px;padding-right:14px}
+.infra-alert-table .infra-usage-meters{max-width:140px;padding-right:0}
+.infra-alert-table .infra-meter{gap:8px}
+.infra-alert-table .infra-meter>span{width:30px}
+
+/* 预警列表：反制 intelligent.css 的全表强制均分，锁定对象当前指标列并允许面板内横向滚动 */
+.ai-page .ai-table:has(.infra-alert-table){overflow-x:auto!important}
+.ai-page .ai-table .infra-alert-table{min-width:980px!important}
+.ai-page .ai-table .infra-alert-table th,.ai-page .ai-table .infra-alert-table td{padding-left:14px!important;padding-right:14px!important}
+.ai-page .ai-table .infra-alert-table th:nth-child(1),.ai-page .ai-table .infra-alert-table td:nth-child(1){width:52px!important}
+.ai-page .ai-table .infra-alert-table th:nth-child(4),.ai-page .ai-table .infra-alert-table td:nth-child(4){width:170px!important;min-width:170px!important}
+.ai-page .ai-table .infra-alert-table .infra-meter>span{white-space:nowrap!important}
+.ai-page .ai-table .infra-alert-table .infra-meter>b{white-space:nowrap!important;flex-shrink:0!important}
+.ai-page .ai-table .infra-alert-table .infra-meter>i{min-width:10px}
+.infra-alert-table .infra-usage-meters{max-width:150px}

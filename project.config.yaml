@@ -37,8 +37,8 @@ pages:
     name: 查询安全管控
     path: ./index.html?view=audit
   - id: monitor
-    name: 数据风险监测与处置
-    path: ./index.html?view=monitor
+    name: 数据登记管理系统 · 数据风险监测
+    path: ./index.html?system=registration&view=monitor
   - id: portal-person-home
     name: 个人用户门户首页
     path: ./portal-standalone.html?user=personal
@@ -69,9 +69,6 @@ pages:
   - id: intelligent-tags
     name: 智能搜索 · 检索标签管理
     path: ./index.html?system=intelligent&view=tags
-  - id: intelligent-templates
-    name: 智能搜索 · 主题模板管理
-    path: ./index.html?system=intelligent&view=templates
   - id: intelligent-sources
     name: 智能搜索 · 数据源管理
     path: ./index.html?system=intelligent&view=sources
@@ -123,12 +120,48 @@ pages:
   - id: identity-audit-agent
     name: 经办人审核弹窗
     path: ./index.html?system=identity&view=pending&kind=agent&review=1
+  - id: infra-overview
+    name: 基础设施管理 · 监测看板
+    path: ./index.html?system=infrastructure&view=overview
+  - id: infra-collection
+    name: 基础设施管理 · 运行信息收集
+    path: ./index.html?system=infrastructure&view=collection
+  - id: infra-objects
+    name: 基础设施管理 · 重要对象监测
+    path: ./index.html?system=infrastructure&view=objects
+  - id: infra-alerts
+    name: 基础设施管理 · 预警管理
+    path: ./index.html?system=infrastructure&view=alerts
+  - id: infra-control
+    name: 基础设施管理 · 采集与处置管控
+    path: ./index.html?system=infrastructure&view=control
+  - id: infra-efficiency
+    name: 基础设施管理 · 运行效能分析
+    path: ./index.html?system=infrastructure&view=efficiency
   - id: identity-renewal-personal
     name: 个人续期审批
     path: ./index.html?system=identity&view=pending&kind=personal&review=1&auditType=续期
   - id: identity-renewal-enterprise
     name: 企业续期审批
     path: ./index.html?system=identity&view=pending&kind=enterprise&review=1&auditType=续期
+  - id: portal-my-apps
+    name: 门户工作台 · 我的应用
+    path: ./portal-standalone.html?user=enterprise&view=workbench&panel=apps
+  - id: appmarket-categories
+    name: 应用市场后台 · 分类目录管理
+    path: ./index.html?system=appmarket&view=categories
+  - id: appmarket-frequency
+    name: 应用市场后台 · 分类使用频次统计
+    path: ./index.html?system=appmarket&view=frequency
+  - id: appmarket-keywords
+    name: 应用市场后台 · 应用关键词库管理
+    path: ./index.html?system=appmarket&view=keywords
+  - id: appmarket-searchHistory
+    name: 应用市场后台 · 检索历史记录管理
+    path: ./index.html?system=appmarket&view=searchHistory
+  - id: appmarket-searchApi
+    name: 应用市场后台 · 检索服务接口提供
+    path: ./index.html?system=appmarket&view=searchApi
 build:
   adapter: vite
   root: prototype

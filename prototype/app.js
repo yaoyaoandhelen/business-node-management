@@ -13,21 +13,26 @@ let section = 'launch',
   uploads = {},
   auditScenario = 'pass';
 const req = (id, el = id) => `data-req-id="${id}" data-req-element="${el}"`;
+let sqModalStack = [];
 const icons = [
   '<svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h13l7 7v21H7z"/><path d="M20 3v8h7M11 17h12M11 22h12M11 27h8"/></svg>',
   '<svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h26v22H4zM4 14h26M4 21h26M12 7v22M22 7v22"/></svg>',
   '<svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7h18M12 17h18M12 27h18"/><circle cx="5" cy="7" r="1"/><circle cx="5" cy="17" r="1"/><circle cx="5" cy="27" r="1"/></svg>',
   '<svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="26" height="26" rx="2"/><path d="m9 16 6 7L26 11"/></svg>',
   '<svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 19 3v28L4 28zM21 7h9v21h-9M23 11h5M23 15h5M23 19h5M23 23h5"/></svg>',
-  '<svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 21 9-9M10 17l-3 3a6 6 0 0 0 9 9l5-5M24 17l3-3a6 6 0 0 0-9-9l-5 5"/></svg>'
+  '<svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 21 9-9M10 17l-3 3a6 6 0 0 0 9 9l5-5M24 17l3-3a6 6 0 0 0-9-9l-5 5"/></svg>',
+  '<svg viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="26" height="9" rx="2"/><rect x="4" y="21" width="26" height="9" rx="2"/><circle cx="9" cy="8.5" r="1"/><circle cx="9" cy="25.5" r="1"/><path d="M13 8.5h9M13 25.5h9M17 13v8"/></svg>'
 ];
+icons.push(icons[4]);
 const names = [
   '标识管理系统',
   '连接器管理系统',
   '主体身份管理系统',
   '业务节点管理系统',
-  '数据目录管理系统',
-  '存证服务'
+  '区域目录管理系统',
+  '存证服务',
+  '基础设施管理系统',
+  '数据登记管理系统'
 ];
 const colors = [
   ['#7599dc', '#294e9b'],
@@ -35,7 +40,9 @@ const colors = [
   ['#6ed8c7', '#229a8b'],
   ['#d8b16e', '#a4742c'],
   ['#df7777', '#a92c30'],
-  ['#79a3df', '#2d5c9e']
+  ['#79a3df', '#2d5c9e'],
+  ['#9aa8c7', '#44598a'],
+  ['#68c9b4', '#237f77']
 ];
 function toast(t) {
   $('#toast').textContent = t;
@@ -75,7 +82,7 @@ function render() {
   nav();
   if (section === 'launch') {
     $('#main').innerHTML =
-      `<div class="launch" ${req('portal.system.switch','management.system.launchpad')}><div class="hero"><span class="eyebrow">• LAUNCHPAD</span><h1>快捷入口</h1><p>选择业务子系统，快速开始工作</p></div><div class="cards">${names.map((n, i) => `<article class="card ${selectedSystem === i ? 'selected' : ''}" tabindex="0" ${selectedSystem === i ? 'aria-current="true"' : ''} onfocusin="selectSystem(${i})" onkeydown="if(event.target===this && (event.key==='Enter' || event.key===' ')){event.preventDefault();this.click()}" ${req(i === 3 ? 'node.enter' : i === 4 ? 'catalog.browse' : 'system.' + i)} onclick="selectSystem(${i});${i === 0 ? 'identifierOpen()' : i === 3 ? "section='home';render()" : i === 4 ? 'catalogOpen()' : "toast('当前服务暂不可用，请稍后重试')"}"><span class="num">0${i + 1}</span><div class="icon" style="--light:${colors[i][0]};--dark:${colors[i][1]}">${icons[i]}</div><h2>${n}</h2><p>业务子系统</p><button class="enter">立即进入</button><span class="arrow">→</span></article>`).join('')}</div></div>`;
+      `<div class="launch" ${req('portal.system.switch','management.system.launchpad')}><div class="hero"><span class="eyebrow">• LAUNCHPAD</span><h1>快捷入口</h1><p>选择业务子系统，快速开始工作</p></div><div class="cards">${names.map((n, i) => `<article class="card ${selectedSystem === i ? 'selected' : ''}" tabindex="0" ${selectedSystem === i ? 'aria-current="true"' : ''} onfocusin="selectSystem(${i})" onkeydown="if(event.target===this && (event.key==='Enter' || event.key===' ')){event.preventDefault();this.click()}" ${req(i === 3 ? 'node.enter' : i === 4 ? 'catalog.browse' : i === 6 ? 'infrastructure.enter' : i === 7 ? 'registration.enter' : 'system.' + i)} onclick="selectSystem(${i});${i === 0 ? 'identifierOpen()' : i === 3 ? "section='home';render()" : i === 4 ? 'catalogOpen()' : i === 6 ? 'infraOpen()' : i === 7 ? 'registrationOpen()' : "toast('当前服务暂不可用，请稍后重试')"}"><span class="num">0${i + 1}</span><div class="icon" style="--light:${colors[i][0]};--dark:${colors[i][1]}">${icons[i]}</div><h2>${n}</h2><p>业务子系统</p><button class="enter">立即进入</button><span class="arrow">→</span></article>`).join('')}</div></div>`;
     return;
   }
   if (section === 'home') {
@@ -299,11 +306,12 @@ nav = function () {
     : '业务节点管理系统';
   const menu = portal
     ? ['快捷入口', '鉴权管理', '流程中心', '区域目录管理系统', '应用上架', '审核管理']
-    : ['接入登记审核'];
+    : ['接入登记审核', '全域目录信息互通'];
+  const activeIndex = portal ? 0 : section === 'dirsync' ? 1 : 0;
   $('#sidebar').innerHTML = menu
     .map(
       (n, i) =>
-        `<div class="nav ${!portal && i === 0 ? 'active' : ''} ${!portal && i === 0 ? 'subnav' : ''}" ${!portal && i === 0 ? req('node.review') : ''} onclick="${portal ? 'navigate(' + i + ')' : i === 0 ? "section='review';render()" : "toast('当前服务暂不可用，请稍后重试')"}"><span>${['◉', '✉', '▧', '▤', '', '▦', '▧', '▣'][i % 8]}</span>${n}${!portal && i === 3 ? '<em>⌄</em>' : ''}</div>`
+        `<div class="nav ${i === activeIndex ? 'active' : ''} ${!portal && i === 0 ? 'subnav' : ''}" ${!portal && i === 0 ? req('node.review') : !portal && i === 1 ? req('dirsync.menu', 'directorySync.menu.interop') : ''} onclick="${portal ? 'navigate(' + i + ')' : i === 0 ? "section='review';render()" : "dsOpen()"}"><span>${['◉', '✉', '▧', '▤', '', '▦', '▧', '▣'][i % 8]}</span>${n}${!portal && i === 3 ? '<em>⌄</em>' : ''}</div>`
     )
     .join('');
 };
@@ -319,7 +327,7 @@ render = function () {
   section = 'review';
   nav();
   $('#main').innerHTML =
-    `<div class="systemtabs"><span onclick="section='launch';render()">首页</span><span class="selected">● 接入登记审核 ×</span></div><div class="registration-page"><div class="inner-page-heading"><div><h1>接入登记审核</h1><p>管理业务节点接入登记与审核进度</p></div></div><section class="panel querypanel" ${req('node.query')}><div class="query-panel-heading">筛选条件</div><div class="querygrid">${['业务节点登记名称', '业务节点标识', '状态', '统一社会信用代码', '所属法人或组织名称', '所属法人身份标识'].map((n, i) => `<label><span>${n}</span>${i === 2 ? '<select id="state"><option>请选择</option><option>待人工审核</option></select>' : `<input id="${i === 0 ? 'search' : 'filter-' + i}" placeholder="请输入">`}</label>`).join('')}</div><div class="queryactions"><button class="btn primary" onclick="drawRows()">⌕ 查询</button><button class="btn" onclick="document.querySelectorAll('.querygrid input').forEach(e=>e.value='');$('#state').selectedIndex=0;drawRows()">↻ 重置</button></div></section><section class="panel listpanel"><div class="list-section-heading"><h2>接入登记列表</h2></div><div class="listtools"><button class="btn" ${req('node.create')} onclick="openForm()">＋ 新增</button><button class="btn" onclick="toast('批量导入服务暂不可用，请稍后重试')">↥ 批量导入</button><button class="btn" onclick="toast('标识样式设置暂不可用，请稍后重试')">⚑ 调整标识样式</button><span style="margin-left:auto;color:#98a5b6">↻　⊞</span></div><table><thead><tr>${['业务节点登记名称', '业务节点标识', '所属法人或其他组织名称', '所属法人身份标识', '统一社会信用代码', '操作'].map((n) => '<th>' + n + '</th>').join('')}</tr></thead><tbody id="rows"></tbody></table><div class="pagination" id="pagination"></div></section></div>`;
+    `<div class="systemtabs"><span onclick="section='launch';render()">首页</span><span class="selected">● 接入登记审核 ×</span></div><div class="registration-page"><div class="inner-page-heading"><div><h1>接入登记审核</h1><p>管理业务节点接入登记与审核进度</p></div></div><section class="panel querypanel" ${req('node.query')}><div class="query-panel-heading">筛选条件</div><div class="querygrid">${['业务节点登记名称', '业务节点标识', '状态', '统一社会信用代码', '所属法人或组织名称', '所属法人身份标识'].map((n, i) => `<label><span>${n}</span>${i === 2 ? '<select id="state"><option>请选择</option><option>待人工审核</option></select>' : `<input id="${i === 0 ? 'search' : 'filter-' + i}" placeholder="请输入">`}</label>`).join('')}</div><div class="queryactions"><button class="btn primary" onclick="drawRows()">⌕ 查询</button><button class="btn" onclick="document.querySelectorAll('.querygrid input').forEach(e=>e.value='');$('#state').selectedIndex=0;drawRows()">↻ 重置</button></div></section><section class="panel listpanel" ${req('registration.table', 'registration.table.list')}><div class="list-section-heading"><h2>接入登记列表</h2></div><div class="listtools"><button class="btn" ${req('node.create')} onclick="openForm()">＋ 新增</button><button class="btn" onclick="toast('批量导入服务暂不可用，请稍后重试')">↥ 批量导入</button><button class="btn" onclick="toast('标识样式设置暂不可用，请稍后重试')">⚑ 调整标识样式</button><span style="margin-left:auto;color:#98a5b6">↻　⊞</span></div><table><thead><tr>${['业务节点登记名称', '业务节点标识', '所属法人或其他组织名称', '所属法人身份标识', '统一社会信用代码', '操作'].map((n) => '<th>' + n + '</th>').join('')}</tr></thead><tbody id="rows"></tbody></table><div class="pagination" id="pagination"></div></section></div>`;
   drawRows();
 };
 const examples = [
@@ -562,19 +570,33 @@ function catalogOpen() {
   catalogTab = 'list';
   catalogRender();
 }
+function registrationOpen() {
+  document.querySelector('#audit')?.remove();
+  $('#overlay').innerHTML = '';
+  section = 'catalog';
+  catalogTab = 'monitor';
+  catalogRender();
+}
 function catalogRender() {
-  document.querySelector('header b').textContent = '数据目录系统';
+  if (typeof sqModalCloseAll === 'function') sqModalCloseAll();
+  const registration = catalogTab === 'monitor';
+  const systemName = registration ? '数据登记管理系统' : '区域目录管理系统';
+  document.querySelector('header b').textContent = systemName;
   if (['alerts','profile'].includes(catalogTab)) catalogTab='logs';
-  $('#sidebar').innerHTML = `<div class="nav ${['list','detail'].includes(catalogTab)?'active':''}" onclick="catalogTab='list';catalogRender()">▦　数据目录</div><div class="nav ${catalogTab==='logs'?'active':''}" onclick="catalogTab='logs';catalogRender()">▤　查询安全管控</div><div class="nav ${catalogTab==='monitor'?'active':''}" ${req('catalog.audit','catalog.monitor.menu')} onclick="catalogTab='monitor';catalogRender()">◈　数据风险监测</div>`;
-  $('#main').innerHTML = `<div class="systemtabs"><span onclick="section='launch';render()">首页</span><span class="selected">● 数据目录管理系统</span></div><div class="catalog ${['logs','monitor'].includes(catalogTab)?'unified-audit':''}"><div class="cat-toolbar"><span>数据目录管理 / ${catalogTab==='detail'?'数据目录详情':catalogTab==='logs'?'查询安全管控':catalogTab==='monitor'?'数据风险监测':'数据目录'}</span></div><div id="catbody"></div></div>`;
+  $('#sidebar').innerHTML = registration
+    ? `<div class="nav active" ${req('registration.enter','registration.monitor.menu')} onclick="registrationOpen()">◈　数据风险监测</div><button class="identity-menu nav" aria-expanded="true" ${req('registration.audit','registrationAudit.nav.group')} onclick="raOpen('pending')"><span>▣</span>审核管理<em>⌄</em></button><button class="identity-menu nav identity-sub" ${req('registration.audit','registrationAudit.nav.pending')} onclick="raOpen('pending')">待我审批</button><button class="identity-menu nav identity-sub" ${req('registration.audit','registrationAudit.nav.completed')} onclick="raOpen('completed')">我已审批</button><button class="identity-menu nav identity-return" onclick="raBack()"><span>⇤</span>返回快捷入口</button>`
+    : `<div class="nav ${['list','detail'].includes(catalogTab)?'active':''}" onclick="catalogTab='list';catalogRender()">▦　数据目录</div><div class="nav ${catalogTab==='logs'?'active':''}" onclick="catalogTab='logs';catalogRender()">▤　查询安全管控</div><div class="nav ${['riskLog','syncQuality'].includes(catalogTab)?'active':''}" ${req('regionCatalog.analysisLog','regionCatalog.analysisLog.menu')} onclick="catalogTab='riskLog';catalogRender()">▧　目录同步<em>⌄</em></div><div class="nav" style="padding-left:28px;font-size:13px;${catalogTab==='riskLog'?'background:rgba(41,78,155,.12);':''}" ${req('regionCatalog.analysisLog','regionCatalog.analysisLog.menu.sub')} onclick="catalogTab='riskLog';catalogRender()">›　冲突检测与处理</div><div class="nav" style="padding-left:28px;font-size:13px;${catalogTab==='syncQuality'?'background:rgba(41,78,155,.12);':''}" ${req('regionCatalog.syncQuality','regionCatalog.syncQuality.menu.sub')} onclick="catalogTab='syncQuality';catalogRender()">›　同步管理</div>`;
+  $('#main').innerHTML = `<div class="systemtabs"><span onclick="section='launch';render()">首页</span><span class="selected">● ${systemName}</span></div><div class="catalog ${['logs','monitor'].includes(catalogTab)?'unified-audit':''}"><div class="cat-toolbar"><span>${systemName} / ${catalogTab==='detail'?'数据目录详情':catalogTab==='logs'?'查询安全管控':catalogTab==='monitor'?'数据风险监测':catalogTab==='riskLog'?'目录同步 / 冲突检测与处理 · 分析日志':catalogTab==='syncQuality'?'目录同步 / 同步管理':'数据目录'}</span></div><div id="catbody"></div></div>`;
   if (catalogTab === 'list') catalogList();
   if (catalogTab === 'detail') catalogDetail();
   if (catalogTab === 'logs') catalogAudit();
   if (catalogTab === 'monitor') monitorRender();
+  if (catalogTab === 'riskLog') analysisLogRender();
+  if (catalogTab === 'syncQuality') syncQualityRender();
 }
 function catalogList() {
   $('#catbody').innerHTML =
-    `<section class="panel"><div class="cat-filters" ${req('catalog.query')} >${['产品类型', '交互方式', '产品名称', '产品唯一标识', '提供方名称', '敏感等级'].map((n, i) => `<label>${n}${[0, 1, 5].includes(i) ? `<select id="cq${i}"><option value="">请选择</option>${(i === 0 ? ['数据报告', 'API产品'] : i === 1 ? ['文件传输'] : ['公开', '内部', '机密']).map((x) => `<option>${x}</option>`).join('')}</select>` : `<input id="cq${i}" placeholder="请输入">`}</label>`).join('')}<div><button class="btn primary" onclick="catalogQuery()">⌕ 查询</button> <button class="btn" onclick="document.querySelectorAll('.cat-filters input,.cat-filters select').forEach(e=>e.value='');catalogResults()">↻ 重置</button></div></div></section><section class="panel cat-results"><aside><input placeholder="请输入行业分类" oninput="document.querySelectorAll('.industry').forEach(e=>e.hidden=!e.textContent.includes(this.value))">${industries.map((n) => `<div class="industry" onclick="this.parentNode.querySelectorAll('.industry').forEach(e=>e.classList.remove('chosen'));this.classList.add('chosen');catalogQuery()">${n}</div>`).join('')}</aside><div id="cat-results"></div></section>`;
+    `<section class="panel"><div class="cat-filters" ${req('catalog.query')} >${['产品类型', '交互方式', '产品名称', '产品唯一标识', '提供方名称', '敏感等级'].map((n, i) => `<label>${n}${[0, 1, 5].includes(i) ? `<select id="cq${i}"><option value="">请选择</option>${(i === 0 ? ['数据报告', 'API产品'] : i === 1 ? ['文件传输'] : ['公开', '内部', '机密']).map((x) => `<option>${x}</option>`).join('')}</select>` : `<input id="cq${i}" placeholder="请输入">`}</label>`).join('')}<div ${req('catalog.query','catalog.query.actions')}><button class="btn primary" onclick="catalogQuery()">⌕ 查询</button> <button class="btn" onclick="document.querySelectorAll('.cat-filters input,.cat-filters select').forEach(e=>e.value='');catalogResults()">↻ 重置</button></div></div></section><section class="panel cat-results"><aside ${req('catalog.browse','catalog.list.industry')}><input placeholder="请输入行业分类" oninput="document.querySelectorAll('.industry').forEach(e=>e.hidden=!e.textContent.includes(this.value))">${industries.map((n) => `<div class="industry" onclick="this.parentNode.querySelectorAll('.industry').forEach(e=>e.classList.remove('chosen'));this.classList.add('chosen');catalogQuery()">${n}</div>`).join('')}</aside><div id="cat-results" ${req('catalog.browse','catalog.list.table')}></div></section>`;
   catalogResults();
 }
 function catalogResults() {
@@ -609,9 +631,9 @@ function catalogQuery(reason) {
   record.filter={productType:$('#cq0')?.value||'',delivery:$('#cq1')?.value||'',productName:$('#cq2')?.value||'',productId:$('#cq3')?.value||'',provider:$('#cq4')?.value||'',securityLevel:$('#cq5')?.value||''};
   record.id=id;record.count=count;record.target=$('#cq2')?.value||'全部数据目录';record.resultSummary=why?'策略拒绝，未执行目录查询':'返回公开目录元数据 '+count+' 条';catalogLogs.unshift(record);catalogLogs.sort((a,b)=>b.at.localeCompare(a.at));
   if (why) {
-    let event=catalogAlerts.find(a=>a.uid==='GOV-1001'&&a.why===(why.includes('高频')?'高频访问':why)&&a.state==='待研判'); if(event)event.evidenceIds.push(id);else catalogAlerts.unshift({id,uid:'GOV-1001',why:why.includes('高频')?'高频访问':why,time:record.time,state:'待研判',evidenceIds:[id]});
+    let event=catalogAlerts.find(a=>a.uid==='GOV-1001'&&a.why===(why.includes('高频')?'高频异常访问':why)&&a.state==='待研判'); if(event)event.evidenceIds.push(id);else catalogAlerts.unshift({id,uid:'GOV-1001',why:why.includes('高频')?'高频异常访问':why,time:record.time,state:'待研判',evidenceIds:[id]});
     $('#overlay').innerHTML =
-      `<div class="veil"><div class="auditbox"><div class="auditmark" style="color:#d45353">!</div><h2>查询已被安全策略阻断</h2><p>${why.includes('高频') ? '最近连续 60 秒查询 ' + queryTimes.length + ' 次，已达到 50 次风险阈值。请在冷却期结束后重试。' : why === '越权访问' ? '当前身份无权查询该资源，请联系管理员核实权限。' : '一次性令牌已使用，请重新认证后再查询。'}</p><p>请求编号：${id}<br>已记录审计轨迹并生成风险预警，本次未执行数据查询。</p><button class="btn primary" onclick="$('#overlay').innerHTML=''">我知道了</button></div></div>`;
+      `<div class="veil"><div class="auditbox"><div class="auditmark" style="color:#d45353">!</div><h2>查询已被安全策略阻断</h2><p>${why.includes('高频') ? '最近连续 60 秒查询 ' + queryTimes.length + ' 次，已达到 50 次风险阈值。请在冷却期结束后重试。' : '查询已命中风险规则，请稍后重试。'}</p><p>请求编号：${id}<br>已记录审计轨迹并生成风险预警，本次未执行数据查询。</p><button class="btn primary" onclick="$('#overlay').innerHTML=''">我知道了</button></div></div>`;
   } else toast('查询完成，返回 ' + count + ' 条目录，已记录审计日志');
 }
 // All records below are labelled prototype fixtures, never production audit evidence.
@@ -627,27 +649,26 @@ const auditWindows=new Map();
 function auditEvaluate(uid,now=Date.now(),reason='') {
   const state=auditWindows.get(uid)||{times:[],until:0};
   state.times=state.times.filter(t=>now-t<60000);state.times.push(now);
-  let why=state.until>now?'高频访问阻断期':state.times.length>=50?'高频访问':reason==='permission'?'越权访问':reason==='token'?'令牌重放':'';
-  if(why==='高频访问')state.until=now+60000;
+  let why=state.until>now?'高频异常访问阻断期':state.times.length>=50?'高频异常访问':'';
+  if(why)state.until=now+60000;
   auditWindows.set(uid,state);
   return {why,frequency:state.times.length,until:state.until};
 }
 function auditMakeRecord(actor,mode,at,index,why='',frequency=1){
   const ts=new Date(at),stamp=new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(ts);
-  return {id:'TR-'+ts.getTime()+'-'+index,at:ts.toISOString(),time:stamp,...actor,user:actor.name+' / '+actor.uid,target:products[0],productId:'691500000736550152L500039D0G2KDI',mode,source:'区域目录节点',destination:mode==='跨域调用'?'外域目录节点':'本地目录节点',count:why?0:1,status:why?'已阻断':'成功',http:why?(why.includes('高频')?429:403):200,why,frequency,token:'jti-masked-'+index,duration:why?8:mode==='跨域调用'?186:42,policy:'RATE-USER-60S-50 / v1',filter:{productName:products[0],provider:'中国移动通信集团重庆有限公司',securityLevel:'公开'},resultSummary:why?'策略拒绝，未执行目录查询':'返回公开目录元数据 1 条；不含产品数据文件',demo:true};
+  return {id:'TR-'+ts.getTime()+'-'+index,at:ts.toISOString(),time:stamp,...actor,user:actor.name+' / '+actor.uid,target:products[0],productId:'691500000736550152L500039D0G2KDI',mode,source:'区域目录节点',destination:mode==='跨域调用'?'外域目录节点':'本地目录节点',count:why?0:1,status:why?'已阻断':'成功',http:why?429:200,why,frequency,token:'jti-masked-'+index,duration:why?8:mode==='跨域调用'?186:42,policy:'RATE-USER-60S-50 / v1',filter:{productName:products[0],provider:'中国移动通信集团重庆有限公司',securityLevel:'公开'},resultSummary:why?'策略拒绝，未执行目录查询':'返回公开目录元数据 1 条；不含产品数据文件',demo:true};
 }
 function auditSeed(){
   if(auditSeeded)return;auditSeeded=true;
   // A complete >=50 burst: same authenticated enterprise identity across both call modes.
   const burst=Date.parse('2026-11-02T10:24:00+08:00');
-  for(let i=0;i<62;i++)catalogLogs.push(auditMakeRecord(auditActors[1],i%2?'跨域调用':'本地查询',burst+i*650,'B'+i,i>=49?(i===49?'高频访问':'高频访问阻断期'):'',i+1));
+  for(let i=0;i<62;i++)catalogLogs.push(auditMakeRecord(auditActors[1],i%2?'跨域调用':'本地查询',burst+i*650,'B'+i,i>=49?(i===49?'高频异常访问':'高频异常访问阻断期'):'',i+1));
   for(let i=0;i<96;i++)catalogLogs.push(auditMakeRecord(auditActors[i%4],i%3===0?'跨域调用':'本地查询',Date.parse('2026-11-02T08:00:00+08:00')+i*75000,'N'+i));
-  for(let i=0;i<3;i++)catalogLogs.push(auditMakeRecord(auditActors[3],'跨域调用',Date.parse('2026-11-02T10:29:00+08:00')+i*12000,'P'+i,'越权访问',i+1));
   catalogLogs.sort((a,b)=>b.at.localeCompare(a.at));
-  for(const actor of [auditActors[1],auditActors[3]]){const records=catalogLogs.filter(r=>r.uid===actor.uid&&r.why);catalogAlerts.push({id:records[0].id,uid:actor.uid,why:actor.uid==='ENT-2001'?'高频访问':'越权访问',time:records[records.length-1].time,state:'待研判',evidenceIds:records.map(r=>r.id),note:''});}
+  for(const actor of [auditActors[1]]){const records=catalogLogs.filter(r=>r.uid===actor.uid&&r.why);catalogAlerts.push({id:records[0].id,uid:actor.uid,why:'高频异常访问',time:records[records.length-1].time,state:'待研判',evidenceIds:records.map(r=>r.id),note:''});}
 }
 let auditRangeDays=1, auditBucket=null, auditEditing=false, auditRefreshAt=Date.now(), auditDetail=null;
-function auditRiskType(r){return r.why?.startsWith('高频')?'高频访问':r.why||'';}
+function auditRiskType(r){return r.why?.startsWith('高频')?'高频异常访问':r.why||'';}
 function auditJudgment(r){const e=auditEventFor(r);return e?.state==='待研判'?'待研判':e?.state?.startsWith('已关闭')?'已关闭':'';}
 function auditDateRange(){
  const day=auditFilters.day||new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -675,10 +696,9 @@ function catalogAudit(){
   auditPage=Math.min(auditPage,Math.max(1,Math.ceil(logs.length/auditPageSize)));
   const opts=(values,current)=>'<option value="">全部</option>'+values.map(v=>`<option ${current===v?'selected':''}>${v}</option>`).join('');
   $('#catbody').innerHTML=`<div class="audit-heading unified-heading"><h1>查询安全管控</h1><div class="audit-refresh-tools" ${req('catalog.audit','catalog.audit.refresh')}><span>统计更新：${auditClock(auditRefreshAt)}</span><span class="auto-refresh-label">1 分钟自动刷新</span><button class="btn" onclick="auditRefresh()">↻ 刷新</button></div></div>
-  <section class="audit-filters panel" data-req-module="catalog.audit.query" ${req('catalog.audit','catalog.audit.filters')}><label>查询截止日期<input type="date" required id="logday" value="${auditFilters.day}"></label><label class="wide">用户 / IP / 请求编号 / 产品<input id="logkey" value="${esc(auditFilters.key)}" placeholder="请输入关键词" onkeydown="if(event.key==='Enter')auditApply()"></label><label>调用方式<select id="logmode">${opts(['本地查询','跨域调用'],auditFilters.mode)}</select></label><label>返回状态<select id="logstatus">${opts(['成功','已阻断'],auditFilters.status)}</select></label><label ${req('catalog.audit','catalog.audit.riskType')}>风险类型<select id="logrisk">${opts(['高频访问','越权访问','令牌重放'],auditFilters.riskType)}</select></label><label ${req('catalog.audit','catalog.audit.judgment')}>研判状态<select id="logjudgment">${opts(['待研判','已关闭'],auditFilters.judgment)}</select></label><button class="btn primary" onclick="auditApply()">查询</button><button class="btn" onclick="auditReset()">重置</button></section>
+  <section class="audit-filters panel" data-req-module="catalog.audit.query" ${req('catalog.audit','catalog.audit.filters')}><label>查询截止日期<input type="date" required id="logday" value="${auditFilters.day}"></label><label class="wide">用户 / IP / 请求编号 / 产品<input id="logkey" value="${esc(auditFilters.key)}" placeholder="请输入关键词" onkeydown="if(event.key==='Enter')auditApply()"></label><label>调用方式<select id="logmode">${opts(['本地查询','跨域调用'],auditFilters.mode)}</select></label><label>返回状态<select id="logstatus">${opts(['成功','已阻断'],auditFilters.status)}</select></label><label ${req('catalog.audit','catalog.audit.riskType')}>风险类型<select id="logrisk">${opts(['高频异常访问'],auditFilters.riskType)}</select></label><label ${req('catalog.audit','catalog.audit.judgment')}>研判状态<select id="logjudgment">${opts(['待研判','已关闭'],auditFilters.judgment)}</select></label><button class="btn primary" onclick="auditApply()">查询</button><button class="btn" onclick="auditReset()">重置</button></section>
   <div class="audit-stats" data-req-module="catalog.audit.statistics" ${req('catalog.audit','catalog.audit.statistics')}>${[['风险查询量',logs.length,'次','仅统计命中风险的查询请求','blue'],['活跃用户',users.size,'人','按认证用户 ID 去重','blue'],['跨域调用',cross.length,'次','占风险查询量 '+(logs.length?(cross.length/logs.length*100).toFixed(1):'0.0')+'%','blue'],['风险事件',events.length,'个','按关联事件编号去重','red']].map(([name,value,unit,note,color])=>`<article><span>${name}</span><strong class="${color}">${value.toLocaleString()}<small> ${unit}</small></strong><p>${note}</p></article>`).join('')}</div>
-  <div class="audit-analysis unified-analysis"><section class="panel" data-req-module="catalog.audit.trend" ${req('catalog.audit','catalog.audit.trend')}><div class="audit-section-head"><h3>风险查询趋势 <small>单位：次</small></h3><div class="trend-controls"><span><i class="legend blue-bg"></i>成功 <i class="legend red-bg"></i>已阻断</span><select aria-label="统计时间范围" ${req('catalog.audit','catalog.audit.timeRange')} onchange="auditRangeDays=Number(this.value);auditBucket=null;auditPage=1;auditRefreshAt=Date.now();catalogAudit()">${[[1,'1天'],[7,'一周'],[30,'30天']].map(([days,label])=>`<option value="${days}" ${auditRangeDays===days?'selected':''}>${label}</option>`).join('')}</select></div></div>${auditTrend(auditBaseLogs())}<div class="audit-chart-caption"><span>${auditDateLabel(auditDateRange().start).slice(0,10)}—${auditFilters.day} · ${auditRangeDays===1?'按小时':'按天'}统计，点击时段联动风险与日志</span>${auditBucket?`<button class="link" onclick="auditBucket=null;auditPage=1;catalogAudit()">清除时段 ${auditPeriod()} ×</button>`:''}</div></section>
-  <section class="panel audit-risk-panel" data-req-module="catalog.audit.events" ${req('catalog.alert','catalog.alert.events')}><div class="audit-section-head"><h3>关联风险事件 <span class="count-pill">${events.length}</span></h3><button class="link ${auditFilters.pending?'filter-active':''}" onclick="auditTogglePending()">${auditFilters.pending?'查看全部':'仅看待研判'}</button></div><div class="risk-panel-summary"><span class="risk-status-dot"></span><b>${pending.length} 个待研判</b><span>命中即阻断，保留请求证据</span></div><div class="risk-event-list">${events.map(a=>{const r=catalogLogs.find(r=>r.id===a.id);return `<button class="audit-event-row" onclick="auditOpenDetail('${a.id}','risk')"><span class="event-severity">!</span><span><b>${a.why}</b><small>${esc(r.name)} · ${r.uid}</small><small>${a.time} · ${a.evidenceIds?.length||1} 次阻断</small></span><span class="audit-badge ${a.state==='待研判'?'warning':'neutral'}">${a.state==='待研判'?'待研判':'已关闭'}</span><span>›</span></button>`}).join('')||'<div class="empty">当前条件下无风险事件</div>'}</div></section></div>
+  
   <section class="panel audit-log-panel" data-req-module="catalog.audit.records" ${req('catalog.audit','catalog.audit.table')}><div class="audit-section-head"><h3>风险查询日志 <span class="count-pill">${logs.length}</span>${auditFilters.pending?'<small class="active-scope">仅待研判风险</small>':''}${auditBucket?`<small class="active-scope">${auditPeriod()}</small>`:''}</h3><button class="btn" onclick="downloadCatalogLogs()">导出日志</button></div><div class="audit-table-scroll"><table><thead><tr>${['查询时间 / 请求编号','用户身份 / 机构','来源 IP / 调用方式','查询对象','返回结果','风险 / 研判状态','操作'].map(n=>`<th>${n}</th>`).join('')}</tr></thead><tbody>${logs.slice((auditPage-1)*auditPageSize,auditPage*auditPageSize).map(r=>{const event=auditEventFor(r);return `<tr><td>${r.time}<small class="trace-id">${r.id}</small></td><td><button class="link user-profile-link" ${req('catalog.profile','catalog.profile.user')} onclick="auditOpenDetail('${r.id}','profile')">${esc(r.name)}</button> <span class="role-pill">${r.role}</span><small>${esc(r.org)} · ${r.uid}</small></td><td class="ip-cell">${r.ip}<small>${r.mode}</small></td><td>${esc(r.target)}<small>公开 · 目录元数据</small></td><td><span class="audit-badge ${r.why?'danger':'success'}">${r.status}</span><small>HTTP ${r.http} · ${r.count} 条 · ${r.duration} ms</small></td><td><span class="${r.why?'risk-text':'muted'}">${r.why||'正常访问'}</span>${event?`<small>${esc(event.state)}</small>`:''}${r.why.includes('高频')?`<small>60 秒内 ${r.frequency} 次</small>`:''}</td><td><button class="link" onclick="catalogTrace('${r.id}')">审计详情</button>${event?.state==='待研判'?`<button class="link row-risk-action" ${req('catalog.alert','catalog.alert.resolve')} onclick="auditOpenDetail('${r.id}','risk')">研判</button>`:''}</td></tr>`}).join('')||'<tr><td colspan="7" class="empty">暂无匹配日志，请调整查询条件。</td></tr>'}</tbody></table></div><div class="audit-pagination"><span>共 ${logs.length} 条 · 每页 ${auditPageSize} 条</span><div><button class="btn" ${auditPage===1?'disabled':''} onclick="auditPage--;catalogAudit()">上一页</button> ${auditPage} / ${Math.max(1,Math.ceil(logs.length/auditPageSize))} <button class="btn" ${auditPage*auditPageSize>=logs.length?'disabled':''} onclick="auditPage++;catalogAudit()">下一页</button></div></div></section>`;
 }
 function auditBuckets(logs){
@@ -703,14 +723,14 @@ function auditOpenDetail(id,tab='trace'){
 }
 function auditCloseDetail(){auditDetail=null;$('#overlay').innerHTML='';document.body.classList.remove('audit-drawer-open');}
 function auditTraceContent(r){
-  const blocked=!!r.why,tokenFail=r.why==='令牌重放',permissionFail=r.why==='越权访问';
-  const stages=[['请求接入','已接收',r.source+' → '+r.destination],['身份认证与令牌校验',tokenFail?'拒绝':'通过',r.uid+' · '+r.role+'；令牌标识 '+r.token],['访问权限判定',tokenFail?'未执行':permissionFail?'拒绝':'通过',tokenFail?'上游拒绝，跳过':permissionFail?'资源授权范围不匹配':'公开目录元数据读取权限通过 / ABAC v1'],['行为与频率检测',tokenFail||permissionFail?'未执行':blocked?'已阻断':'通过',tokenFail||permissionFail?'权限或认证拒绝，跳过':'同一用户滚动 60 秒 '+r.frequency+' 次；阈值 ≥ 50 / RATE-USER-60S-50 v1'],['目录查询 / 跨域转发',blocked?'未执行':'已完成',blocked?'访问策略拒绝，未向目录节点发起查询':r.source+' → '+r.destination],['响应与审计记录','已记录','HTTP '+r.http+' · '+r.count+' 条 · '+r.duration+' ms；'+r.resultSummary]];
+  const blocked=!!r.why;
+  const stages=[['请求接入','已接收',r.source+' → '+r.destination],['身份认证与令牌校验','通过',r.uid+' · '+r.role+'；令牌标识 '+r.token],['访问权限判定','通过','公开目录元数据读取权限通过 / ABAC v1'],['行为与频率检测',blocked?'已阻断':'通过','同一用户滚动 60 秒 '+r.frequency+' 次；阈值 ≥ 50 / RATE-USER-60S-50 v1'],['目录查询 / 跨域转发',blocked?'未执行':'已完成',blocked?'访问策略拒绝，未向目录节点发起查询':r.source+' → '+r.destination],['响应与审计记录','已记录','HTTP '+r.http+' · '+r.count+' 条 · '+r.duration+' ms；'+r.resultSummary]];
   return `<div class="trace-summary"><span>访问用户<b>${esc(r.name)} / ${r.uid}</b></span><span>来源 IP<b>${r.ip}</b></span><span>查询对象<b>${esc(r.target)}</b></span><span>调用方式<b>${r.mode}</b></span></div><h3 class="drawer-section-title">全链路轨迹</h3><ol class="trace audit-timeline">${stages.map(([name,status,note])=>`<li><b>${name}</b><span class="audit-badge ${status==='拒绝'||status==='已阻断'?'danger':status==='未执行'?'neutral':'success'}">${status}</span><p>${esc(note)}</p></li>`).join('')}</ol><details class="audit-parameters"><summary>查询参数与返回摘要</summary><pre>${esc(JSON.stringify({traceId:r.id,productId:r.productId,query:r.filter,response:{status:r.http,returnedCount:r.count,summary:r.resultSummary}},null,2))}</pre></details>`;
 }
 function auditRiskContent(r){
   const a=auditEventFor(r);if(!a)return '<div class="empty">本次查询未命中风险规则。</div>';
   const records=catalogLogs.filter(r=>(a.evidenceIds||[a.id]).includes(r.id)),i=catalogAlerts.indexOf(a);
-  return `<div class="risk-detail-title"><h3>${a.why}</h3><span class="audit-badge ${a.state==='待研判'?'warning':'neutral'}">${esc(a.state)}</span></div><div class="trace-summary"><span>风险主体<b>${esc(r.name)} / ${r.uid}</b></span><span>首次触发<b>${a.time}</b></span><span>检测依据<b>${a.why.includes('高频')?'连续 60 秒达到 50 次':'查询对象不在授权范围'}</b></span><span>系统动作<b>自动阻断 · 返回 0 条</b></span></div><p class="drawer-rule-note">${a.why.includes('高频')?'本地查询与跨域调用按认证用户合并计数，第 50 次起阻断。':'访问控制策略拒绝请求，未执行下游查询。'}</p><h3 class="drawer-section-title">关联请求 <span class="count-pill">${records.length}</span></h3><div class="risk-evidence-list">${records.map(x=>`<button onclick="auditOpenDetail('${x.id}','trace')"><span>${x.time}<small>${x.id}</small></span><span class="audit-badge danger">HTTP ${x.http}</span><span>查看链路 ›</span></button>`).join('')}</div><h3 class="drawer-section-title">风险研判</h3>${a.state==='待研判'?`<form class="audit-resolution-form" ${req('catalog.alert','catalog.alert.resolutionForm')} onsubmit="event.preventDefault();auditResolve(${i})"><label>研判结论 <span class="required">*</span><select id="resolution"><option>确认风险</option><option>业务正常</option><option>规则误报</option></select></label><label>研判依据 <span class="required">*</span><textarea id="resolutionNote" required maxlength="500" placeholder="请填写研判依据，最多 500 字"></textarea></label><p>研判结论仅关闭本事件，不解除访问控制策略。</p><button class="btn primary" type="submit">保存研判</button></form>`:`<div class="resolution-result"><p>研判结论：${esc(a.state.replace('已关闭 / ',''))}</p><p>研判依据：${esc(a.note)}</p><p>处理人：${esc(a.resolvedBy||'安全分析员')}</p><p>处理时间：${a.resolvedAt||'—'}</p></div>`}`;
+  return `<div class="risk-detail-title"><h3>${a.why}</h3><span class="audit-badge ${a.state==='待研判'?'warning':'neutral'}">${esc(a.state)}</span></div><div class="trace-summary"><span>风险主体<b>${esc(r.name)} / ${r.uid}</b></span><span>首次触发<b>${a.time}</b></span><span>检测依据<b>连续 60 秒达到 50 次</b></span><span>系统动作<b>自动阻断 · 返回 0 条</b></span></div><p class="drawer-rule-note">本地查询与跨域调用按认证用户合并计数，第 50 次起阻断。</p><h3 class="drawer-section-title">关联请求 <span class="count-pill">${records.length}</span></h3><div class="risk-evidence-list">${records.map(x=>`<button onclick="auditOpenDetail('${x.id}','trace')"><span>${x.time}<small>${x.id}</small></span><span class="audit-badge danger">HTTP ${x.http}</span><span>查看链路 ›</span></button>`).join('')}</div><h3 class="drawer-section-title">风险研判</h3>${a.state==='待研判'?`<form class="audit-resolution-form" ${req('catalog.alert','catalog.alert.resolutionForm')} onsubmit="event.preventDefault();auditResolve(${i})"><label>研判结论 <span class="required">*</span><select id="resolution"><option>确认风险</option><option>业务正常</option><option>规则误报</option></select></label><label>研判依据 <span class="required">*</span><textarea id="resolutionNote" required maxlength="500" placeholder="请填写研判依据，最多 500 字"></textarea></label><p>研判结论仅关闭本事件，不解除访问控制策略。</p><button class="btn primary" type="submit">保存研判</button></form>`:`<div class="resolution-result"><p>研判结论：${esc(a.state.replace('已关闭 / ',''))}</p><p>研判依据：${esc(a.note)}</p><p>处理人：${esc(a.resolvedBy||'安全分析员')}</p><p>处理时间：${a.resolvedAt||'—'}</p></div>`}`;
 }
 function auditResolve(i){
   const note=$('#resolutionNote')?.value.trim();if(!note){toast('请填写研判依据');return}if(note.length>500){toast('研判依据最多 500 字');return}
@@ -720,7 +740,7 @@ function auditResolve(i){
 }
 function auditProfileContent(r){
   const logs=auditSelected().filter(x=>x.uid===r.uid),bad=logs.filter(x=>x.why),peak=Math.max(0,...logs.map(x=>x.frequency)),events=auditVisibleEvents(logs),pending=events.filter(a=>a.state==='待研判').length;
-  return `<div class="audit-profile-head"><span class="avatar">${r.role==='政府用户'?'政':'企'}</span><div><h2>${esc(r.name)}</h2><p ${req('catalog.profile','catalog.profile.identity')}><span ${req('catalog.profile','catalog.profile.uid')}>${r.uid}</span> · <span ${req('catalog.profile','catalog.profile.role')}>${r.role}</span> · <span ${req('catalog.profile','catalog.profile.organization')}>${esc(r.org)}</span></p></div><span class="audit-badge ${bad.length?'danger':'success'}">${bad.length?'命中风险规则':'未命中风险规则'}</span></div><div class="audit-stats drawer-profile-stats">${[['查询总量',logs.length],['阻断请求',bad.length],['60S请求总数',peak],['来源 IP',new Set(logs.map(r=>r.ip)).size]].map(([name,value])=>`<article><span>${name}</span><strong>${value}</strong></article>`).join('')}</div><p class="drawer-rule-note">统计范围：当前查询条件${auditBucket?' · '+auditPeriod():''}；最近访问：${logs[0]?.time||'—'}</p><h3 class="drawer-section-title">风险标签与证据</h3><div class="profile-tags">${['高频访问','越权访问','令牌重放'].map(n=>`<span class="audit-badge ${bad.some(x=>x.why.includes(n))?'danger':'neutral'}">${n} ${bad.filter(x=>x.why.includes(n)).length} 次</span>`).join('')}</div><div class="profile-columns"><div><h3>访问特征</h3><p>本地查询：${logs.filter(x=>x.mode==='本地查询').length} 次</p><p>跨域调用：${logs.filter(x=>x.mode==='跨域调用').length} 次</p><p>异常率：${logs.length?(bad.length/logs.length*100).toFixed(1):'0.0'}%</p></div><div><h3>访问范围</h3><p>查询对象：${[...new Set(logs.map(x=>x.target))].map(esc).join('、')||'—'}</p><p>来源 IP：${[...new Set(logs.map(x=>x.ip))].join('、')||'—'}</p><p>待研判风险：${pending} 个</p></div></div><h3 class="drawer-section-title">关联风险事件</h3>${events.map(a=>`<button class="profile-risk-entry" onclick="auditOpenDetail('${a.id}','risk')"><span>${a.why} · ${a.time}</span><span>${a.state==='待研判'?'待研判':'已关闭'} ›</span></button>`).join('')||'<p class="muted">当前范围内无关联风险事件。</p>'}<p class="drawer-rule-note">风险标签依据规则命中记录生成，需结合业务背景进行研判。</p>`;
+  return `<div class="audit-profile-head"><span class="avatar">${r.role==='政府用户'?'政':'企'}</span><div><h2>${esc(r.name)}</h2><p ${req('catalog.profile','catalog.profile.identity')}><span ${req('catalog.profile','catalog.profile.uid')}>${r.uid}</span> · <span ${req('catalog.profile','catalog.profile.role')}>${r.role}</span> · <span ${req('catalog.profile','catalog.profile.organization')}>${esc(r.org)}</span></p></div><span class="audit-badge ${bad.length?'danger':'success'}">${bad.length?'命中风险规则':'未命中风险规则'}</span></div><div class="audit-stats drawer-profile-stats">${[['查询总量',logs.length],['阻断请求',bad.length],['60S请求总数',peak],['来源 IP',new Set(logs.map(r=>r.ip)).size]].map(([name,value])=>`<article><span>${name}</span><strong>${value}</strong></article>`).join('')}</div><p class="drawer-rule-note">统计范围：当前查询条件${auditBucket?' · '+auditPeriod():''}；最近访问：${logs[0]?.time||'—'}</p><h3 class="drawer-section-title">风险标签与证据</h3><div class="profile-tags">${['高频异常访问'].map(n=>`<span class="audit-badge ${bad.some(x=>x.why.includes(n))?'danger':'neutral'}">${n} ${bad.filter(x=>x.why.includes(n)).length} 次</span>`).join('')}</div><div class="profile-columns"><div><h3>访问特征</h3><p>本地查询：${logs.filter(x=>x.mode==='本地查询').length} 次</p><p>跨域调用：${logs.filter(x=>x.mode==='跨域调用').length} 次</p><p>异常率：${logs.length?(bad.length/logs.length*100).toFixed(1):'0.0'}%</p></div><div><h3>访问范围</h3><p>查询对象：${[...new Set(logs.map(x=>x.target))].map(esc).join('、')||'—'}</p><p>来源 IP：${[...new Set(logs.map(x=>x.ip))].join('、')||'—'}</p><p>待研判风险：${pending} 个</p></div></div><h3 class="drawer-section-title">关联风险事件</h3>${events.map(a=>`<button class="profile-risk-entry" onclick="auditOpenDetail('${a.id}','risk')"><span>${a.why} · ${a.time}</span><span>${a.state==='待研判'?'待研判':'已关闭'} ›</span></button>`).join('')||'<p class="muted">当前范围内无关联风险事件。</p>'}<p class="drawer-rule-note">风险标签依据规则命中记录生成，需结合业务背景进行研判。</p>`;
 }
 function downloadCatalogLogs(){const logs=auditSelected(),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({dataSource:'prototype-fixtures',exportedAt:new Date().toISOString(),filters:{...auditFilters,rangeDays:auditRangeDays,dateRange:auditDateRange(),timeRange:auditBucket},logs,alerts:auditVisibleEvents(logs)},null,2)],{type:'application/json'}));a.download='查询安全管控.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('已导出当前查询范围的日志及风险记录');}
 window.addEventListener('message',e=>{
@@ -849,10 +869,17 @@ function catalogDetail() {
     ['数据质量、产品价值评估报告', '-'],
     ['数据质量、产品价值评估报告（文件形式）名称', '-']
   ];
+  const entryKey = (key) =>
+    ['提供方名称', '提供主体类型', '主体信息 JSON 字串', '身份标识', '提供方简介', '法人经办人姓名', '法人经办人电话', '法人经办人身份证', '授权委托书', '授权委托书名称', '数据样例', '数据样例（文件形式）名称'].includes(key)
+      ? 'catalog.detail.provider'
+      : ['合法合规声明', '合法合规声明（文件形式）名称', '数据来源声明', '数据来源声明（文件形式）名称', '安全分级分类', '安全分级分类（文件形式）名称', '数据质量、产品价值评估报告', '数据质量、产品价值评估报告（文件形式）名称'].includes(key)
+        ? 'catalog.detail.material'
+        : 'catalog.detail.basic';
   $('#catbody').innerHTML =
-    `<section class="panel" ${req('catalog.detail')}><h2 class="cat-title">基本信息</h2><div class="cat-detail">${entries.map(([k, v]) => `<div><span>${k}</span> ${esc(v)}</div>`).join('')}</div><p style="text-align:center"><button class="btn" onclick="catalogTab='list';catalogRender()">返回</button></p></section>`;
+    `<section class="panel" ${req('catalog.detail')}><h2 class="cat-title">基本信息</h2><div class="cat-detail">${entries.map(([k, v]) => `<div ${req('catalog.detail', entryKey(k))}><span>${k}</span> ${esc(v)}</div>`).join('')}</div><p style="text-align:center"><button class="btn" ${req('catalog.detail','catalog.detail.return')} onclick="catalogTab='list';catalogRender()">返回</button></p></section>`;
 }
 
+if (new URLSearchParams(location.search).get('system') === 'registration') registrationOpen();
 if (['catalog','audit','monitor'].includes(new URLSearchParams(location.search).get('view'))) { catalogOpen(); if(new URLSearchParams(location.search).get('view')==='audit'){catalogTab='logs';catalogRender();} if(new URLSearchParams(location.search).get('view')==='monitor'){catalogTab='monitor';catalogRender();} }
 
 // Business surfaces describe the current view to the independent Studio Inspector.
@@ -874,8 +901,12 @@ if (['catalog','audit','monitor'].includes(new URLSearchParams(location.search).
   };
   function sync() {
     queued = false;
+    if(section==='nodeAudit'){surface($('#main'),naPageId(),naSurface(),naTitle());const naDialog=$('#overlay .node-audit-dialog');if(naDialog)surface(naDialog,naPageId(),naDialog.dataset.reqSurface,naDialog.dataset.reqTitle,true);return;}
+    if(section==='registrationAudit'){surface($('#main'),raPageId(),raSurface(),raTitle());const raDialog=$('#overlay .registration-audit-dialog');if(raDialog)surface(raDialog,raDialog.dataset.reqPage,raDialog.dataset.reqSurface,raDialog.dataset.reqTitle,true);return;}
+    if(section==='identityAuth'){surface($('#main'),'identity-auth-service','identity.auth.service','身份登陆认证服务');const iaaDialog=$('#overlay .iaa-modal');if(iaaDialog)surface(iaaDialog,'identity-auth-service',iaaDialog.dataset.reqSurface,iaaDialog.getAttribute('aria-label')||'操作详情',true);return;}
     if(section==='identity'){surface($('#main'),identityPage(),identityPage().replaceAll('-','.'),(identityQueue==='pending'?'待我审批':'我已审批')+' · '+identityKinds[identityKind]);const auditDialog=$('#overlay .identity-audit-dialog');if(auditDialog)surface(auditDialog,identityPage(),auditDialog.dataset.reqSurface,auditDialog.dataset.reqTitle,true);return;}
     if(section==='intelligent'){surface($('#main'),'intelligent-'+aiTab,'intelligent.'+aiTab,aiPages[aiKeys.indexOf(aiTab)]);const modal=$('#overlay .ai-modal');if(modal)surface(modal,'intelligent-'+aiTab,'intelligent.'+aiTab+'.dialog',modal.getAttribute('aria-label'),true);return;}
+    if(section==='infrastructure'){const infraPage=$('#main .infra-page')?.dataset.reqPage||'infra-'+infraTab;surface($('#main'),infraPage,$('#main .infra-page')?.dataset.reqSurface||'infrastructure.'+infraTab,$('#main .infra-page')?.dataset.reqTitle||infraTitles[infraTab]);const d=$('#overlay .infra-modal');if(d)surface(d,infraPage,'infrastructure.'+infraTab+'.dialog',d.getAttribute('aria-label')||'操作详情',true);return;}
     const main = $('#main'),
       catalog = section === 'catalog',
       identifier = section === 'identifier';
@@ -885,11 +916,13 @@ if (['catalog','audit','monitor'].includes(new URLSearchParams(location.search).
       detail: '数据目录详情',
       logs: '查询安全管控',
       alerts: '风险识别与预警',
-      profile: '风险行为画像'
+      profile: '风险行为画像',
+      riskLog: '冲突检测与处理 · 风险日志',
+      syncQuality: '同步管理'
     };
     surface(
       main,
-      identifier ? 'identifier' : catalog ? 'catalog' : 'home',
+      identifier ? 'identifier' : catalog ? (catalogTab === 'monitor' ? 'monitor' : 'catalog') : 'home',
       identifier ? 'identifier.manage' : catalog ? 'catalog.' + catalogTab : section === 'launch' ? 'portal' : 'registration.list',
       identifier ? '标识管理' : catalog ? titles[catalogTab] : section === 'launch' ? '快捷入口' : '接入登记审核'
     );
@@ -1035,3 +1068,718 @@ document.addEventListener('change', event => {
   target.searchParams.set('view', view);
   location.href = target.href;
 });
+
+const SIM_RESOURCES = [
+  {name:'景区客流统计数据集',id:'SJZY-20261110-001',summary:'汇总景区入园客流、客源地与到访时段的明细数据。',items:'客流人数 / 客源地 / 到访时段',industry:'文化、体育和娱乐业',provider:'中国移动通信集团重庆有限公司',coverage:'重庆市 / 2026-01 至 2026-10'},
+  {name:'春节返乡流动数据集',id:'SJZY-20261110-002',summary:'记录春节前后人口流动的出发地、目的地与迁徙时间。',items:'出发地 / 目的地 / 迁徙日期',industry:'交通运输、仓储和邮政业',provider:'中国移动通信集团重庆有限公司',coverage:'全国 / 2026-01 至 2026-02'},
+  {name:'投资用户行为数据集',id:'SJZY-20261110-003',summary:'归集投资用户在理财场景下的浏览、申购与持仓行为。',items:'用户编号 / 行为类型 / 行为时间',industry:'金融业',provider:'中国移动通信集团重庆有限公司',coverage:'重庆市 / 2026-03 至 2026-09'},
+  {name:'金融风控样本数据集',id:'SJZY-20261110-004',summary:'整理授信审批与风险评分建模使用的样本特征。',items:'样本编号 / 特征项 / 风险标签',industry:'金融业',provider:'中国移动通信集团重庆有限公司',coverage:'全国 / 2026-01 至 2026-10'},
+  {name:'商圈客群到访数据集',id:'SJZY-20261110-005',summary:'统计商圈到访客群的时段分布与消费偏好。',items:'商圈编号 / 到访时段 / 消费偏好',industry:'批发和零售业',provider:'中国移动通信集团重庆有限公司',coverage:'重庆市 / 2026-05 至 2026-10'}
+];
+const SIM_RES_FIELD_LABELS = ['资源名称','资源摘要','信息项列表','行业分类','来源主体','覆盖范围与质量'];
+const SIM_RES_FIELD_WEIGHTS = [30,25,20,10,10,5];
+const SIM_RES_SCORE_BASE = [
+  [98.5,97.1,88.3,89.8,83.9,81.0],
+  [81.2,79.9,97.5,84.9,82.4,83.7]
+];
+const SIM_RES_PEER_DEFS = [
+  [['景区入园客流明细数据集','SJZY-20261111-001'],['游客到访特征数据资源','SJZY-20261111-002']],
+  [['春运人口迁徙明细数据集','SJZY-20261111-003'],['返乡流动轨迹数据资源','SJZY-20261111-004']],
+  [['理财用户行为明细数据集','SJZY-20261111-005'],['投资客群持仓数据资源','SJZY-20261111-006']],
+  [['信贷风控特征明细数据集','SJZY-20261111-007'],['授信评分样本数据资源','SJZY-20261111-008']],
+  [['商圈到访客流明细数据集','SJZY-20261111-009'],['商业客群偏好数据资源','SJZY-20261111-010']]
+];
+const SIM_FIELD_LABELS = ['产品名称','产品简介','适用场景','分类与产品类型','主体与加工方式','地域与时间范围','使用限制','提供方'];
+const SIM_FIELD_WEIGHTS = [25,20,15,12,8,8,7,5];
+const SIM_SCORE_BASE = [
+  [98.5,97.1,88.3,89.8,83.9,81.0,78.1,75.2],
+  [81.2,79.9,97.5,84.9,82.4,83.7,78.7,76.2]
+];
+const SIM_PEER_DEFS = [
+  [['景区客流特征分析数据产品','SJCP-20261110-001','产品名称 / 产品简介'],['游客画像与到访分析数据集','SJCP-20261110-002','适用场景 / 产品简介']],
+  [['春运人口流动分析数据产品','SJCP-20261110-003','产品名称 / 适用场景'],['返乡人群迁徙洞察数据集','SJCP-20261110-004','产品简介 / 分类与产品类型']],
+  [['投资客群画像分析数据产品','SJCP-20261110-005','产品名称 / 产品简介'],['理财用户行为洞察数据集','SJCP-20261110-006','适用场景 / 使用限制']],
+  [['金融风险评估模型数据产品','SJCP-20261110-007','产品名称 / 分类与产品类型'],['信贷风控评分数据集','SJCP-20261110-008','产品简介 / 主体与加工方式']],
+  [['商圈客流洞察数据产品','SJCP-20261110-009','产品名称 / 适用场景'],['商业客群画像数据集','SJCP-20261110-010','产品简介 / 地域与时间范围']]
+];
+function simOwnId(i){return '691500000736550152L5000'+i+'9D0G2KDI'}
+function simPeers(i){
+  return SIM_PEER_DEFS[i].map((p,k)=>{
+    const scores=SIM_SCORE_BASE[k].map((v,j)=>+(v-(i%3)*0.6-k*0.3).toFixed(1));
+    const score=+(scores.reduce((sum,v,j)=>sum+v*SIM_FIELD_WEIGHTS[j],0)/100).toFixed(1);
+    return {own:products[i],ownId:simOwnId(i),peer:p[0],peerId:p[1],hit:p[2],scores:scores,score:score,top:Math.max.apply(null,scores),domain:'全域',type:'数据产品',labels:SIM_FIELD_LABELS,weights:SIM_FIELD_WEIGHTS};
+  }).filter(p=>p.score>=80);
+}
+function simResPeers(i){
+  return SIM_RES_PEER_DEFS[i].map((p,k)=>{
+    const scores=SIM_RES_SCORE_BASE[k].map((v,j)=>+(v-(i%3)*0.6-k*0.3).toFixed(1));
+    const score=+(scores.reduce((sum,v,j)=>sum+v*SIM_RES_FIELD_WEIGHTS[j],0)/100).toFixed(1);
+    const order=scores.map((v,j)=>j).sort((a,b)=>scores[b]-scores[a]);
+    return {own:SIM_RESOURCES[i].name,ownId:SIM_RESOURCES[i].id,peer:p[0],peerId:p[1],hit:SIM_RES_FIELD_LABELS[order[0]]+' / '+SIM_RES_FIELD_LABELS[order[1]],scores:scores,score:score,top:Math.max.apply(null,scores),domain:'全域',type:'数据资源',labels:SIM_RES_FIELD_LABELS,weights:SIM_RES_FIELD_WEIGHTS};
+  }).filter(p=>p.score>=80);
+}
+function simNow(){const d=new Date(),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds())}
+let simAnalysisSeq=0;
+const rcAnalysisRows=[];
+[[0,'2026-11-17 09:12:41'],[2,'2026-11-17 09:48:05'],[4,'2026-11-17 10:26:33']].forEach(g=>{
+  simPeers(g[0]).forEach(h=>{
+    rcAnalysisRows.push({id:'FX-20261117-'+String(++simAnalysisSeq).padStart(3,'0'),at:g[1],type:'数据产品',own:h.own,ownId:h.ownId,peer:h.peer,peerId:h.peerId,score:h.score,top:h.top,hit:h.hit,domain:h.domain});
+  });
+});
+
+const SIM_DEMO_FILE='2026年11月目录上报模板-数据资源.xlsx';
+let simTimer=null, simUploadFile='', simBlocked=false, simUpType='数据资源', simUpMode='整体上传';
+function simClose(){if(simTimer){clearTimeout(simTimer);simTimer=null}$('#overlay').innerHTML=''}
+function simPickFile(name){
+  simUploadFile=name||'';simBlocked=false;
+  const t=$('#simDropText');
+  if(t)t.innerHTML=simUploadFile?'已选择：<b>'+esc(simUploadFile)+'</b><div style="font-size:12px;color:#8a97a8;margin-top:6px">点击重新选择</div>':'将 Excel 模板文件拖到此处，或 <span style="color:#294e9b">点击选择</span>';
+  const start=$('#simStartBtn');if(start){start.disabled=false;start.style.opacity='';start.style.cursor=''}
+  const btn=$('#simAnalyzeBtn');if(btn)btn.disabled=false;
+  const r=$('#simResult');if(r){r.innerHTML='';r.style.display='none'}
+}
+function simDropFile(e){e.preventDefault();const f=e.dataTransfer&&e.dataTransfer.files[0];if(f)simPickFile(f.name)}
+function simUpModeSet(mode){
+  simUpMode=mode;
+  const a=$('#simTabWhole'),b=$('#simTabResume');
+  if(a)a.className=mode==='整体上传'?'sim-tab active':'sim-tab';
+  if(b)b.className=mode==='断点续传'?'sim-tab active':'sim-tab';
+  const m=$('#simUpMode');if(m)m.textContent=mode;
+}
+function simUpTypeChange(v){simUpType=v;simPickFile(simUploadFile)}
+function sqUploadTaskOpen(){
+  simUploadFile='';simBlocked=false;simUpType='数据资源';simUpMode='整体上传';
+  $('#overlay').innerHTML='<div class="veil" style="display:flex;align-items:center;justify-content:center;z-index:80">'
+    +'<style>@keyframes simspin{to{transform:rotate(360deg)}}'
+    +'.sim-tab{border:0;background:none;padding:12px 2px 10px;font-size:14px;color:#5c6b82;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}'
+    +'.sim-tab.active{color:#294e9b;font-weight:600;border-bottom-color:#294e9b}'
+    +'.sim-drop:hover{border-color:#294e9b;background:#fafcff}</style>'
+    +'<section class="dialog" role="dialog" aria-modal="true" aria-labelledby="sim-title" data-req-page="regionCatalog-syncQuality" data-req-surface="regionCatalog.uploadTask.dialog" data-req-layer="dialog" data-req-title="上传上报模板（创建上报任务）" style="width:min(700px,94vw);max-height:88vh;display:flex;flex-direction:column;background:#fff;border-radius:8px;box-shadow:0 18px 60px rgba(0,0,0,.22)">'
+    +'<div class="dialog-head" style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px 10px"><h2 id="sim-title" style="font-size:16px;margin:0;font-weight:500;color:#2c3a4e">上传上报模板（创建上报任务）</h2><button class="close" onclick="simClose()" aria-label="关闭" style="border:0;background:none;font-size:20px;color:#9aa6b6;cursor:pointer">×</button></div>'
+    +'<div style="flex:1;overflow:auto;padding:0 22px">'
+    +'<div style="display:flex;gap:26px;border-bottom:1px solid #e7ecf4" '+req('regionCatalog.uploadTask','regionCatalog.uploadTask.dialog.tabs')+'><button id="simTabWhole" class="sim-tab active" onclick="simUpModeSet(\'整体上传\')">整体上传</button><button id="simTabResume" class="sim-tab" onclick="simUpModeSet(\'断点续传\')">断点续传</button></div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px 24px;padding:22px 0" '+req('regionCatalog.uploadTask','regionCatalog.uploadTask.dialog.file')+'>'
+    +'<div style="display:flex;align-items:center;gap:12px;justify-content:flex-end"><label style="font-size:13px;font-weight:600;color:#3c4d65;white-space:nowrap">目录类型</label><select id="simUpType" onchange="simUpTypeChange(this.value)" style="flex:1;max-width:220px;padding:8px 10px;border:1px solid #dce3ee;border-radius:4px;font-size:13px;color:#5c6b82;background:#fff"><option>数据资源</option><option>数据产品</option></select></div>'
+    +'<div style="display:flex;align-items:center;gap:12px;justify-content:flex-end"><label style="font-size:13px;font-weight:600;color:#3c4d65;white-space:nowrap">上传方式</label><span id="simUpMode" style="flex:1;max-width:220px;padding:8px 10px;border:1px solid #dce3ee;border-radius:4px;font-size:13px;color:#3c4d65;background:#fff">整体上传</span></div>'
+    +'<div style="grid-column:1/-1;display:grid;grid-template-columns:90px 1fr;gap:12px;align-items:start">'
+    +'<label style="font-size:13px;font-weight:600;color:#3c4d65;padding-top:14px;text-align:right">选择文件</label>'
+    +'<label id="simDrop" class="sim-drop" style="border:1px dashed #cfd9e8;border-radius:6px;padding:24px 16px;text-align:center;cursor:pointer;display:block" ondragover="event.preventDefault()" ondrop="simDropFile(event)">'
+    +'<input type="file" hidden accept=".xlsx,.xls,.csv" onchange="simPickFile(this.files[0]&&this.files[0].name)">'
+    +'<div style="font-size:36px;color:#c9d3e2;line-height:1;position:relative">☁<span style="position:absolute;left:50%;top:14px;transform:translateX(-50%);font-size:17px;color:#fff;font-weight:700">↑</span></div>'
+    +'<div id="simDropText" style="font-size:13px;color:#65748a;margin-top:12px">将 Excel 模板文件拖到此处，或 <span style="color:#294e9b">点击选择</span></div>'
+    +'</label></div></div>'
+    +'<div style="background:#eaf8ee;border-radius:6px;padding:10px 14px;font-size:12px;color:#3f7a52;display:flex;gap:8px;align-items:center" '+req('regionCatalog.uploadTask','regionCatalog.uploadTask.dialog.hint')+'><span>ⓘ</span><span>适合中小文件。大文件或网络不稳请使用「断点续传」。</span></div>'
+    +'<div id="simResult" style="display:none;margin-top:14px;max-height:360px;overflow:auto" '+req('regionCatalog.uploadTask','regionCatalog.uploadTask.dialog.result')+'></div>'
+    +'</div>'
+    +'<footer class="dialog-footer" style="padding:14px 22px;border-top:1px solid rgba(0,0,0,.06);text-align:right" '+req('regionCatalog.uploadTask','regionCatalog.uploadTask.dialog.actions')+'>'
+    +'<button class="btn" onclick="simClose()">取消</button> '
+    +'<button id="simAnalyzeBtn" class="btn" onclick="simUploadAnalyze()">相似度分析</button> '
+    +'<button id="simStartBtn" class="btn primary" style="background:#294e9b;border-color:#294e9b" onclick="simUploadStart()">开始上传</button>'
+    +'</footer></section></div>';
+}
+function simUploadAnalyze(){
+  if(!simUploadFile)simPickFile(SIM_DEMO_FILE);
+  const btn=$('#simAnalyzeBtn');if(btn)btn.disabled=true;
+  const r=$('#simResult');r.style.display='block';
+  const spin='<div style="width:32px;height:32px;border:3px solid #dce5f2;border-top-color:#294e9b;border-radius:50%;animation:simspin .8s linear infinite;margin:0 auto 12px"></div>';
+  const load=(txt)=>'<div style="padding:34px 0;text-align:center" '+req('regionCatalog.uploadTask','regionCatalog.uploadTask.dialog.loading')+'>'+spin+'<div style="font-size:13px;color:#65748a">'+txt+'</div></div>';
+  r.innerHTML=load('正在上传并解析目录文件…');
+  simTimer=setTimeout(function(){
+    r.innerHTML=load('正在进行全域目录相似度匹配…');
+    simTimer=setTimeout(function(){simTimer=null;simUploadResult();if(btn)btn.disabled=false},1300);
+  },700);
+}
+function simUploadResult(){
+  const isRes=simUpType==='数据资源';
+  const idx=[0,1],hits=[];
+  idx.forEach(function(i){(isRes?simResPeers(i):simPeers(i)).forEach(function(h){hits.push(h)})});
+  const at=simNow();
+  hits.forEach(h=>{rcAnalysisRows.unshift({id:'FX-20261117-'+String(++simAnalysisSeq).padStart(3,'0'),at:at,type:h.type,own:h.own,ownId:h.ownId,peer:h.peer,peerId:h.peerId,score:h.score,top:h.top,hit:h.hit,domain:h.domain})});
+  const cell='border-bottom:1px solid rgba(0,0,0,.08);padding:8px 6px;text-align:left;white-space:nowrap';
+  const rowsHtml=hits.map((h,i)=>'<tr><td style="'+cell+'">'+(i+1)+'</td><td style="'+cell+'">'+esc(h.own)+'</td><td style="'+cell+'">'+esc(h.ownId)+'</td><td style="'+cell+'">'+esc(h.peer)+'</td><td style="'+cell+'">'+esc(h.peerId)+'</td><td style="'+cell+'"><b style="color:#a92c30">'+h.score.toFixed(1)+'%</b></td><td style="'+cell+'">'+esc(h.hit)+'</td><td style="'+cell+'">'+esc(h.domain)+'</td></tr>').join('');
+  const scoresHtml=hits.map(h=>'<div style="margin-bottom:10px"><div style="font-size:12px;margin-bottom:4px">「'+esc(h.peer)+'」 → <b style="color:#a92c30">'+h.score.toFixed(1)+'%</b></div><div style="display:flex;flex-wrap:wrap;gap:6px">'+h.scores.map((v,j)=>'<span style="border:1px solid rgba(0,0,0,.12);border-radius:6px;padding:4px 8px;font-size:12px">'+h.labels[j]+' <b>'+v.toFixed(1)+'%</b> × '+h.weights[j]+'%</span>').join('')+'</div></div>').join('');
+  simBlocked=hits.length>0;
+  const start=$('#simStartBtn');
+  if(start){start.disabled=simBlocked;start.style.opacity=simBlocked?'0.45':'';start.style.cursor=simBlocked?'not-allowed':''}
+  const alert=simBlocked
+    ? '<div class="notice" style="border-left:3px solid #a92c30;background:#fff5f5;margin-bottom:12px" '+req('regionCatalog.uploadTask','regionCatalog.uploadTask.dialog.alert')+'>检测到与全域目录库存在相似目录，暂不可发起开始上传。</div>'
+    : '<div class="notice" style="margin-bottom:12px" '+req('regionCatalog.uploadTask','regionCatalog.uploadTask.dialog.alert')+'>未检测到相似目录，可发起开始上传。</div>';
+  $('#simResult').innerHTML=alert
+    +'<div class="notice" '+req('regionCatalog.uploadTask','regionCatalog.uploadTask.dialog.summary')+'>上传文件「'+esc(simUploadFile)+'」（'+esc(simUpType)+'）解析出 <b>'+idx.length+'</b> 条文件目录，命中 <b>'+hits.length+'</b> 条相似目录（来源：全域目录库）。</div>'
+    +(hits.length
+      ? '<div style="margin-top:12px" '+req('regionCatalog.uploadTask','regionCatalog.uploadTask.dialog.hits')+'><div style="font-size:13px;font-weight:500;margin-bottom:6px">相似目录清单</div><div style="overflow-x:auto"><table style="width:100%;min-width:760px;border-collapse:collapse;font-size:12px"><thead><tr><th style="'+cell+'">序号</th><th style="'+cell+'">目标目录</th><th style="'+cell+'">目标目录标识</th><th style="'+cell+'">相似目录</th><th style="'+cell+'">相似目录标识</th><th style="'+cell+'">综合相似度</th><th style="'+cell+'">命中字段</th><th style="'+cell+'">来源域</th></tr></thead><tbody>'+rowsHtml+'</tbody></table></div></div>'
+        +'<div style="margin-top:14px" '+req('regionCatalog.uploadTask','regionCatalog.uploadTask.dialog.scores')+'><div style="font-size:13px;font-weight:500;margin-bottom:6px">字段级相似度得分</div>'+scoresHtml+'</div>'
+      : '<div class="empty" style="margin-top:16px">暂无相似目录</div>')
+    +'<div style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(0,0,0,.06);text-align:right" '+req('regionCatalog.uploadTask','regionCatalog.uploadTask.dialog.logLink')+'><button class="link" onclick="simGoLog()" style="font-size:13px">查看分析日志 →</button></div>';
+  toast(simBlocked?'相似度分析命中，已生成 '+hits.length+' 条分析日志':'相似度分析完成，未命中相似目录');
+}
+function simGoLog(){simClose();section='catalog';catalogTab='riskLog';catalogRender()}
+function simUploadStart(){
+  if(!simUploadFile){toast('请先选择上传文件');return}
+  if(simBlocked){toast('检测到相似目录，暂不可发起开始上传');return}
+  simClose();toast('已发起上传任务');
+}
+
+function analysisLogRender(){
+  $('#catbody').innerHTML =
+    '<div class="workspace" data-req-surface="regionCatalog.analysisLog" data-req-page="regionCatalog-analysisLog" data-req-title="区域目录管理系统 · 目录同步 / 冲突检测与处理 · 分析日志">' +
+    '<section class="panel"><div class="cat-filters" '+req('regionCatalog.analysisLog','regionCatalog.analysisLog.query')+'>' +
+    '<label>分析编号</label><input id="rcq0" placeholder="请输入分析编号">' +
+    '<label>目录类型</label><select id="rcq1"><option value="">全部</option><option>数据资源</option><option>数据产品</option></select>' +
+    '<label>目录名称或标识</label><input id="rcq2" placeholder="请输入目录名称或标识">' +
+    '<label>相似度下限</label><input id="rcq3" type="number" min="0" max="100" step="0.1" placeholder="80">' +
+    '<label>分析时间</label><input id="rcq4" type="date">' +
+    '<label>来源域</label><select id="rcq5"><option value="">全部</option><option>全域</option><option>区域</option></select>' +
+    '<div '+req('regionCatalog.analysisLog','regionCatalog.analysisLog.actions')+'><button class="btn primary" onclick="analysisLogQuery()">⌕ 查询</button> <button class="btn" onclick="analysisLogReset()">↻ 重置</button></div></div></section>' +
+    '<section class="panel" style="margin-top:12px"><table style="width:100%" '+req('regionCatalog.analysisLog','regionCatalog.analysisLog.table')+'><thead><tr><th>序号</th><th>分析编号</th><th>分析时间</th><th>目录类型</th><th>目标目录</th><th>目标目录标识</th><th>相似目录</th><th>相似目录标识</th><th>综合相似度</th><th>最高字段得分</th><th>命中字段</th><th>来源域</th></tr></thead><tbody id="rcAnalysisRows"></tbody></table><div class="muted" style="margin-top:10px;font-size:12px">共 <span id="rcAnalysisCount">0</span> 条</div></section></div>';
+  rcAnalysisDraw();
+}
+function rcAnalysisDraw(){
+  const id=($('#rcq0')?.value||'').trim(),type=$('#rcq1')?.value||'',name=($('#rcq2')?.value||'').trim(),
+    min=Number($('#rcq3')?.value||0),date=$('#rcq4')?.value||'',domain=$('#rcq5')?.value||'';
+  const found=rcAnalysisRows.filter(r=>
+    (!id||r.id.includes(id))&&(!type||r.type===type)&&
+    (!name||[r.own,r.ownId,r.peer,r.peerId].some(v=>v.includes(name)))&&
+    r.score>=min&&(!date||r.at.slice(0,10)===date)&&(!domain||r.domain===domain));
+  $('#rcAnalysisRows').innerHTML=found.length?found.map((r,i)=>
+    '<tr style="cursor:pointer" onclick="analysisLogDetail(\''+esc(r.id)+'\')"><td>'+(i+1)+'</td><td><span class="link">'+esc(r.id)+'</span></td><td>'+esc(r.at)+'</td><td>'+esc(r.type)+'</td><td>'+esc(r.own)+'</td><td>'+esc(r.ownId)+'</td><td>'+esc(r.peer)+'</td><td>'+esc(r.peerId)+'</td><td><b style="color:#a92c30">'+r.score.toFixed(1)+'%</b></td><td>'+r.top.toFixed(1)+'%</td><td>'+esc(r.hit)+'</td><td>'+esc(r.domain)+'</td></tr>').join('')
+    :'<tr><td colspan="12" class="empty">▤<br><br>暂无符合条件的分析日志</td></tr>';
+  $('#rcAnalysisCount').textContent=found.length;
+}
+function analysisLogDetail(id){
+  const r=rcAnalysisRows.find(x=>x.id===id);if(!r)return;
+  const rows=[['分析编号',r.id],['分析时间',r.at],['目录类型',r.type],['目标目录',r.own],['目标目录标识',r.ownId],['相似目录',r.peer],['相似目录标识',r.peerId],['综合相似度',r.score.toFixed(1)+'%'],['最高字段得分',r.top.toFixed(1)+'%'],['命中字段',r.hit],['来源域',r.domain]];
+  const cell='padding:9px 12px;border-bottom:1px solid rgba(0,0,0,.07);font-size:13px';
+  $('#overlay').innerHTML='<div class="veil" style="display:flex;align-items:center;justify-content:center;z-index:80">'
+    +'<section class="dialog" role="dialog" aria-modal="true" aria-labelledby="alog-title" data-req-page="regionCatalog-analysisLog" data-req-surface="regionCatalog.analysisLog.dialog" data-req-layer="dialog" data-req-title="分析日志详情" style="width:min(620px,92vw);background:#fff;border-radius:12px;box-shadow:0 18px 60px rgba(0,0,0,.22)">'
+    +'<div class="dialog-head" style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,.08)"><h2 id="alog-title" style="font-size:16px;margin:0">分析日志详情</h2><button class="close" onclick="simClose()" aria-label="关闭" style="border:0;background:none;font-size:20px;cursor:pointer">×</button></div>'
+    +'<div style="padding:16px 18px" '+req('regionCatalog.analysisLog','regionCatalog.analysisLog.dialog.detail')+'><div style="display:grid;grid-template-columns:132px 1fr;border:1px solid rgba(0,0,0,.08);border-radius:8px;overflow:hidden">'
+    +rows.map(x=>'<div style="'+cell+';background:#f7f9fc;color:#65748a">'+x[0]+'</div><div style="'+cell+'">'+esc(x[1])+'</div>').join('')
+    +'</div></div>'
+    +'<footer class="dialog-footer" style="padding:12px 18px;border-top:1px solid rgba(0,0,0,.08);text-align:right" '+req('regionCatalog.analysisLog','regionCatalog.analysisLog.dialog.actions')+'><button class="btn" onclick="simClose()">关闭</button></footer>'
+    +'</section></div>';
+}
+function analysisLogQuery(){rcAnalysisDraw();toast('查询完成')}
+function analysisLogReset(){['rcq0','rcq2','rcq3','rcq4'].forEach(k=>$('#'+k).value='');['rcq1','rcq5'].forEach(k=>$('#'+k).selectedIndex=0);rcAnalysisDraw()}
+const SQ_NODE_DEFS = [
+  ['N0', '区域目录归集'],
+  ['N1', '目录标准化封装'],
+  ['N2', '区域节点上报队列'],
+  ['N3', '接入链路传输'],
+  ['N4', '全域节点接收'],
+  ['N5', '全域节点回执确认']
+];
+const SQ_STATE = {
+  NORMAL: { label: '正常', cls: 'normal', rank: 0 },
+  UNKNOWN: { label: '未知', cls: 'unknown', rank: 1 },
+  DELAYED: { label: '延迟', cls: 'delayed', rank: 2 },
+  ABNORMAL: { label: '异常', cls: 'abnormal', rank: 3 }
+};
+const SQ_LEVELS = [
+  { key: 'L1', label: '一级 · 黄色', cls: 'lv1', multiple: 1 },
+  { key: 'L2', label: '二级 · 橙色', cls: 'lv2', multiple: 2 },
+  { key: 'L3', label: '三级 · 红色', cls: 'lv3', multiple: 4 }
+];
+const SQ_TASKS = [
+  {
+    view: 'TASK',
+    taskId: 'CAT-REPORT-20261116-0003',
+    taskStatus: '同步完成',
+    overallPercentage: 100,
+    snapshotTime: '2026-11-16 09:42:18',
+    configIntervalSeconds: 300,
+    records: 1280,
+    durationSeconds: 240,
+    successBatches: 128,
+    totalBatches: 128,
+    states: [
+      { status: 'NORMAL', progress: 100, detail: '已完成' },
+      { status: 'NORMAL', progress: 100, detail: '已完成' },
+      { status: 'NORMAL', progress: 100, detail: '已完成' },
+      { status: 'NORMAL', progress: 100, detail: '已完成' },
+      { status: 'DELAYED', progress: 80, stagnant: 420, detail: '等待下一批' },
+      { status: 'UNKNOWN', progress: null, detail: '全域节点回执待确认' }
+    ],
+    checksum: { send: 'e10adc3949ba59abbe56e057f20f883e', recv: 'e10adc3949ba59abbe56e057f20f883e' }
+  },
+  {
+    view: 'TASK',
+    taskId: 'CAT-REPORT-20261116-0002',
+    taskStatus: '同步完成',
+    overallPercentage: 100,
+    snapshotTime: '2026-11-16 08:15:06',
+    configIntervalSeconds: 300,
+    records: 1180,
+    durationSeconds: 236,
+    successBatches: 126,
+    totalBatches: 128,
+    states: [
+      { status: 'NORMAL', progress: 100, detail: '已完成' },
+      { status: 'NORMAL', progress: 100, detail: '已完成' },
+      { status: 'NORMAL', progress: 100, detail: '已完成' },
+      { status: 'DELAYED', progress: 62, stagnant: 780, detail: '批次传输停滞' },
+      { status: 'ABNORMAL', progress: null, detail: '全域节点离线' },
+      { status: 'DELAYED', progress: 55, stagnant: 610, detail: '等待回执窗口' }
+    ],
+    checksum: { send: '7d5a3c91e0b8426fa18c34d2e97b05f1c', recv: '7d5a3c91e0b8426fa18c34d2e97b05f1c' }
+  },
+  {
+    view: 'TASK',
+    taskId: 'CAT-REPORT-20261115-0001',
+    taskStatus: '同步完成',
+    overallPercentage: 100,
+    snapshotTime: '2026-11-15 22:03:41',
+    configIntervalSeconds: 300,
+    records: 1350,
+    durationSeconds: 270,
+    successBatches: 124,
+    totalBatches: 128,
+    states: [
+      { status: 'NORMAL', progress: 100, detail: '已完成' },
+      { status: 'NORMAL', progress: 100, detail: '已完成' },
+      { status: 'NORMAL', progress: 100, detail: '已完成' },
+      { status: 'DELAYED', progress: 71, stagnant: 1320, detail: '链路超时未推进' },
+      { status: 'DELAYED', progress: 64, stagnant: 1250, detail: '等待全域节点回执' },
+      { status: 'UNKNOWN', progress: null, detail: '全域节点回执待确认' }
+    ],
+    checksum: { send: 'c4f90b2a61d83e5709af2bc46d18e3c05', recv: 'c4f90b2a61d83e5709af2bc46d18e3c05' }
+  }
+];
+
+const SQ_FLOW = ['下载模板', '上传前预览', '预校验', '上传建任务', '进度 / 完整性', '上报任务列表'];
+const SQ_CAT_TYPES = ['数据产品', '数据资源', '业务节点'];
+const SQ_UPLOAD_STATUS = ['部分失败', '失败', '断点续传', '已完成'];
+const SQ_UPLOAD_MODES = ['整体上传', '断点续传'];
+const SQ_UPLOADS = [
+  { no: 'UPL5acd0ffb047a1', type: '数据产品', file: 'catalog_report_upload_20261116_001.xlsx', size: '12.4 KB', mode: '整体上传', uploader: 'yangyan', status: '部分失败', total: 15, ok: 9, fail: 6, start: '2026-11-16 09:46:00', end: '2026-11-16 09:47:02', taskId: 'CAT-REPORT-20261116-0002' },
+  { no: 'UPL5cc0f8fe2d4b7', type: '数据产品', file: 'catalog_report_upload_20261116_002.xlsx', size: '12.4 KB', mode: '整体上传', uploader: 'yangyan', status: '部分失败', total: 15, ok: 9, fail: 6, start: '2026-11-16 09:36:38', end: '2026-11-16 09:37:52', taskId: 'CAT-REPORT-20261116-0002' },
+  { no: 'UPL35844ad8cbb02', type: '数据产品', file: 'catalog_report_upload_20261116_003.xlsx', size: '12.4 KB', mode: '整体上传', uploader: 'yangyan', status: '失败', total: 15, ok: 0, fail: 15, start: '2026-11-16 09:30:37', end: '2026-11-16 09:31:38', taskId: 'CAT-REPORT-20261116-0002' },
+  { no: 'UPL1e8ccd45305c9', type: '数据资源', file: 'catalog_report_upload_20261116_004.xlsx', size: '12.4 KB', mode: '整体上传', uploader: 'yangyan', status: '失败', total: 0, ok: 0, fail: 0, start: '2026-11-16 10:29:59', end: '2026-11-16 10:29:59', taskId: 'CAT-REPORT-20261116-0002' },
+  { no: 'UPLcbcaae0601338', type: '数据资源', file: '资源配置导入模板（数据资源）.xlsx', size: '5.0 KB', mode: '整体上传', uploader: 'yangyan', status: '失败', total: 0, ok: 0, fail: 0, start: '2026-11-13 17:27:57', end: '2026-11-13 17:28:04', taskId: 'CAT-REPORT-20261115-0001' },
+  { no: 'UPLca9254ae66a12b', type: '数据资源', file: '资源配置导入模板（数据资源）.xlsx', size: '5.0 KB', mode: '整体上传', uploader: 'yangyan', status: '失败', total: 0, ok: 0, fail: 0, start: '2026-11-13 17:01:28', end: '2026-11-13 17:01:29', taskId: 'CAT-REPORT-20261115-0001' },
+  { no: 'UPL0090b5aad64d41', type: '业务节点', file: '上报业务节点模板（区域节点）.xlsx', size: '10.2 KB', mode: '断点续传', uploader: 'yangyan', status: '失败', total: 2, ok: 0, fail: 2, start: '2026-10-23 15:04:20', end: '2026-10-23 15:04:23', taskId: 'CAT-REPORT-20261116-0002' },
+  { no: 'UPL4e41b43bc3e56', type: '业务节点', file: '上报业务节点模板（区域节点）.xlsx', size: '10.2 KB', mode: '整体上传', uploader: 'yangyan', status: '失败', total: 1, ok: 0, fail: 1, start: '2026-09-28 14:25:55', end: '2026-09-28 14:25:57', taskId: 'CAT-REPORT-20261116-0002' },
+  { no: 'UPL7c63338687f40', type: '业务节点', file: '上报模板_3.xlsx', size: '9.4 KB', mode: '整体上传', uploader: '1762325', status: '已完成', total: 1, ok: 1, fail: 0, start: '2026-09-24 14:24:57', end: '2026-09-24 14:26:46', taskId: 'CAT-REPORT-20261116-0003' },
+  { no: 'UPLneed8d0da7e6', type: '业务节点', file: '上报模板_3.xlsx', size: '9.4 KB', mode: '整体上传', uploader: 'yangyan', status: '已完成', total: 1, ok: 1, fail: 0, start: '2026-11-04 11:56:36', end: '2026-11-04 11:58:54', taskId: 'CAT-REPORT-20261116-0003' }
+];
+let sqSelUploadNo = SQ_UPLOADS[0].no;
+let sqSelTaskId = SQ_UPLOADS[0].taskId;
+let sqSelNodeCode = '';
+
+function sqUploadProgress(u) { return u.total ? Math.round((u.ok / u.total) * 100) : 0; }
+function sqCurrentTask() { return SQ_TASKS.find((t) => t.taskId === sqSelTaskId) || SQ_TASKS[0]; }
+function sqUploadFilter() {
+  const typ = $('#sqUpType') ? $('#sqUpType').value : '';
+  const st = $('#sqUpStatus') ? $('#sqUpStatus').value : '';
+  const md = $('#sqUpMode') ? $('#sqUpMode').value : '';
+  const from = $('#sqUpFrom') ? $('#sqUpFrom').value : '';
+  const to = $('#sqUpTo') ? $('#sqUpTo').value : '';
+  return SQ_UPLOADS.filter((u) =>
+    (!typ || u.type === typ) && (!st || u.status === st) && (!md || u.mode === md) &&
+    (!from || u.start.slice(0, 10) >= from) && (!to || u.start.slice(0, 10) <= to)
+  );
+}
+function sqNodes(t) {
+  return SQ_NODE_DEFS.map((d, i) => {
+    const s = t.states[i];
+    return {
+      code: d[0], name: d[1], orderNo: i + 1,
+      progress: s.progress === null ? null : s.progress,
+      status: s.status,
+      stagnantSeconds: s.status === 'DELAYED' ? s.stagnant : null,
+      effectiveThresholdSeconds: t.configIntervalSeconds,
+      lastProgressTime: s.lastProgressTime || t.snapshotTime,
+      detail: s.detail
+    };
+  });
+}
+function sqEdges(t) {
+  const ns = sqNodes(t);
+  return ns.slice(0, -1).map((n, i) => ({
+    fromNode: n.code, toNode: ns[i + 1].code,
+    status: SQ_STATE[ns[i + 1].status].rank >= SQ_STATE[n.status].rank ? ns[i + 1].status : n.status
+  }));
+}
+function sqLevel(n, t) {
+  if (n.status === 'ABNORMAL') return SQ_LEVELS[2];
+  if (n.status !== 'DELAYED') return null;
+  const base = n.effectiveThresholdSeconds || t.configIntervalSeconds;
+  const s = n.stagnantSeconds || 0;
+  let hit = null;
+  SQ_LEVELS.forEach((l) => { if (s >= l.multiple * base) hit = l; });
+  return hit;
+}
+function sqTaskWarnings(t) {
+  return sqNodes(t).map((n) => ({ node: n, level: sqLevel(n, t) })).filter((x) => x.level);
+}
+function sqChecksums() {
+  const seq = {};
+  return SQ_TASKS.map((t) => {
+    const day = t.snapshotTime.slice(0, 10).replace(/-/g, '');
+    seq[day] = (seq[day] || 0) + 1;
+    return {
+      id: 'JY-' + day + '-' + String(seq[day]).padStart(3, '0'),
+      taskId: t.taskId, object: '目录批次文件',
+      send: t.checksum.send, recv: t.checksum.recv,
+      same: t.checksum.send === t.checksum.recv,
+      date: t.snapshotTime.slice(0, 10), time: t.snapshotTime
+    };
+  });
+}
+function sqMetrics(t) {
+  const delayed = sqNodes(t).filter((n) => n.status === 'DELAYED');
+  return {
+    status: t.taskStatus,
+    overall: t.overallPercentage,
+    success: ((t.successBatches / t.totalBatches) * 100).toFixed(1),
+    avg: delayed.length ? Math.round(delayed.reduce((a, n) => a + n.stagnantSeconds, 0) / delayed.length) : 0,
+    throughput: ((t.records / t.durationSeconds) * 60).toFixed(1)
+  };
+}
+function sqFill(tbodyId, countId, rows, colspan, rowFn) {
+  const el = document.getElementById(tbodyId);
+  if (!el) return;
+  el.innerHTML = rows.length ? rows.map(rowFn).join('') :
+    '<tr><td colspan="' + colspan + '" class="empty">暂无符合条件的记录</td></tr>';
+  const c = document.getElementById(countId);
+  if (c) c.textContent = rows.length;
+}
+function sqTool(name) { if (name === '上传建任务') { sqUploadTaskOpen(); return; } toast(name); }
+function sqExport() { toast('导出完成'); }
+function sqListQuery() { sqUploadListDraw(); toast('查询完成'); }
+function sqListReset() {
+  ['sqUpFrom', 'sqUpTo'].forEach((k) => { const e = $('#' + k); if (e) e.value = ''; });
+  ['sqUpType', 'sqUpStatus', 'sqUpMode'].forEach((k) => { const e = $('#' + k); if (e) e.selectedIndex = 0; });
+  sqUploadListDraw();
+}
+function sqUploadListDraw() {
+  const rows = sqUploadFilter();
+  sqFill('sqUpRows', 'sqUpCount', rows, 13, (u, i) => {
+    const p = sqUploadProgress(u);
+    const cls = u.status === '已完成' ? 'is-ok' : u.status === '断点续传' ? 'is-lv1' : 'is-lv3';
+    return '<tr class="' + (u.no === sqSelUploadNo ? 'is-selected' : '') + '" onclick="sqPickUpload(\'' + u.no + '\',\'\')">' +
+      '<td>' + (i + 1) + '</td><td class="sq-mono">' + esc(u.no) + '</td><td>' + esc(u.type) + '</td>' +
+      '<td>' + esc(u.file) + '</td><td>' + esc(u.size) + '</td><td>' + esc(u.mode) + '</td><td>' + esc(u.uploader) + '</td>' +
+      '<td><span class="sq-pill ' + cls + '">' + esc(u.status) + '</span></td>' +
+      '<td><div class="sq-progress"><div class="sq-progress-bar"><span style="width:' + p + '%"></span></div><b>' + p + '%</b></div></td>' +
+      '<td>' + u.total + ' / ' + u.ok + ' / ' + u.fail + '</td><td>' + esc(u.start) + '</td><td>' + esc(u.end) + '</td>' +
+      '<td class="sq-ops">' +
+      '<button class="sq-link" onclick="event.stopPropagation();sqOpenL1(\'detail\',\'' + u.no + '\')">详情</button>' +
+      '</td></tr>';
+  });
+}
+function sqPickUpload(no, anchor) {
+  const u = SQ_UPLOADS.find((x) => x.no === no);
+  if (!u) return;
+  sqSelUploadNo = u.no;
+  sqSelTaskId = u.taskId;
+  sqSelNodeCode = '';
+  sqUploadListDraw();
+  sqQualityDraw();
+  if (anchor) {
+    const el = document.getElementById(anchor);
+    if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+function sqPickNode(code) {
+  sqSelNodeCode = code;
+  sqQualityDraw();
+}
+function sqQualityDraw() {
+  const task = sqCurrentTask();
+  const m = sqMetrics(task);
+  const selUp = SQ_UPLOADS.find((x) => x.no === sqSelUploadNo);
+  $('#sqContext').innerHTML =
+    '<span>当前上报任务 <b>' + esc(selUp ? selUp.no : task.taskId) + '</b></span>' +
+    '<span>目录类型 <b>' + esc(selUp ? selUp.type : '—') + '</b></span>' +
+    '<span>关联同步快照 <b>' + esc(task.taskId) + '</b></span>' +
+    '<span>快照时间 <b>' + esc(task.snapshotTime) + '</b></span>';
+  $('#sqStats').innerHTML = [
+    ['同步成功率', m.success + '%', '', false],
+    ['平均延迟', String(m.avg), '秒', false],
+    ['吞吐量', m.throughput, '条/分钟', false]
+  ].map((x) => '<article class="sq-stat"><div class="sq-stat-label">' + x[0] +
+    '</div><div class="sq-stat-value' + (x[3] ? ' is-text' : '') + '">' + x[1] +
+    (x[2] ? '<span class="sq-stat-unit">' + x[2] + '</span>' : '') + '</div></article>').join('');
+  sqTopoDraw(task);
+  sqWarnDraw(task);
+  sqFill('sqCheckRows', 'sqCheckCount',
+    sqChecksums().filter((c) => c.taskId === task.taskId), 9,
+    (c, i) => '<tr><td>' + (i + 1) + '</td><td class="sq-mono">' + esc(c.id) + '</td><td class="sq-mono">' + esc(c.taskId) + '</td><td>' + esc(c.object) + '</td><td class="sq-mono">' + esc(c.send) + '</td><td class="sq-mono">' + esc(c.recv) + '</td><td><span class="sq-pill ' + (c.same ? 'is-ok' : 'is-lv3') + '">' + (c.same ? '一致' : '不一致') + '</span></td><td>' + esc(c.time) + '</td><td>' + sqDlgLink('报告明细', 'checksum', c.id) + '</td></tr>');
+}
+function sqTopoDraw(task) {
+  const nodes = sqNodes(task), edges = sqEdges(task);
+  const levels = {};
+  nodes.forEach((n) => { const l = sqLevel(n, task); if (l) levels[n.code] = l; });
+  if (!sqSelNodeCode) {
+    const rank = { L1: 1, L2: 2, L3: 3 };
+    const first = nodes.filter((n) => levels[n.code]).sort((a, b) =>
+      rank[levels[b.code].key] - rank[levels[a.code].key] || a.orderNo - b.orderNo)[0];
+    sqSelNodeCode = first ? first.code : nodes[0].code;
+  }
+  $('#sqTopo').innerHTML = nodes.map((n, i) => {
+    const meta = SQ_STATE[n.status], lv = levels[n.code];
+    const card = '<div class="sq-node is-' + meta.cls + (lv ? ' is-' + lv.cls : '') +
+      (sqSelNodeCode === n.code ? ' is-picked' : '') + 
+      '" onclick="sqPickNode(\'' + n.code + '\')">' +
+      '<div class="sq-node-head"><span class="sq-node-code">' + n.code + '</span><span class="sq-node-badges">' +
+      '<span class="sq-pill is-' + meta.cls + '">' + meta.label + '</span>' +
+      (lv ? '<span class="sq-pill is-' + lv.cls + '">' + lv.label + '</span>' : '') + '</span></div>' +
+      '<div class="sq-node-name">' + esc(n.name) + '</div>' +
+      '<div class="sq-node-meta">链路顺序 <b>' + n.orderNo + '</b></div>' +
+      '<div class="sq-bar"><span style="width:' + (n.progress === null ? 0 : n.progress) + '%"></span></div>' +
+      '<div class="sq-node-meta">阶段进度 <b>' + (n.progress === null ? '—' : n.progress + '%') + '</b>' +
+      (n.status === 'DELAYED' ? '<br>停滞 <b>' + n.stagnantSeconds + ' 秒</b> · 生效阈值 <b>' + n.effectiveThresholdSeconds + ' 秒</b>' : '') +
+      '<br>最后推进 <b>' + esc(n.lastProgressTime) + '</b><br>' + esc(n.detail) +
+      '<div class="sq-node-ops"><button class="sq-link" onclick="event.stopPropagation();sqDlgOpen(\'node\',\'' + n.code + '\')">节点详情 ›</button></div></div></div>';
+    return card + (i < edges.length ? '<div class="sq-edge is-' + SQ_STATE[edges[i].status].cls + '" title="' + edges[i].fromNode + ' → ' + edges[i].toNode + '"></div>' : '');
+  }).join('');
+}
+function sqWarnDraw(task) {
+  const nodes = sqNodes(task);
+  const all = sqTaskWarnings(task);
+  const rank = { L1: 1, L2: 2, L3: 3 };
+  const shown = all.slice()
+    .sort((a, b) => rank[b.level.key] - rank[a.level.key] || a.node.orderNo - b.node.orderNo);
+  if (!sqSelNodeCode || !nodes.some((n) => n.code === sqSelNodeCode)) {
+    const first = shown.length ? shown[0].node : null;
+    sqSelNodeCode = first ? first.code : nodes[0].code;
+  }
+  const counts = { L1: 0, L2: 0, L3: 0 };
+  shown.forEach((w) => { counts[w.level.key] += 1; });
+  const summary = SQ_LEVELS.map((l) => '<span class="sq-warn-total is-' + l.cls + '">' + l.label + ' <b>' + counts[l.key] + '</b></span>').join('');
+  const picked = nodes.find((n) => n.code === sqSelNodeCode) || nodes[0];
+  const plv = sqLevel(picked, task);
+  const fields = [
+    ['节点编码', picked.code], ['节点名称', picked.name], ['链路顺序', String(picked.orderNo)],
+    ['节点状态', SQ_STATE[picked.status].label], ['阶段进度', picked.progress === null ? '—' : picked.progress + '%'],
+    ['停滞秒数', picked.stagnantSeconds === null ? '—' : picked.stagnantSeconds + ' 秒'],
+    ['生效阈值', picked.effectiveThresholdSeconds + ' 秒'],
+    ['触发时间', task.snapshotTime], ['状态说明', picked.detail]
+  ];
+  const detail = '<div class="sq-warn-detail"><div class="sq-warn-detail-head"><b>' + esc(picked.code + ' · ' + picked.name) + '</b><span>' +
+    (plv ? '<span class="sq-pill is-' + plv.cls + '">' + plv.label + '</span>' : '<span class="sq-pill is-ok">当前无预警</span>') +
+    ' <button class="sq-link" onclick="sqDlgOpen(\'node\',\'' + picked.code + '\')">节点详情 ›</button></span></div>' +
+    '<div class="sq-warn-fields">' + fields.map((f) => '<div><dt>' + f[0] + '</dt><dd>' + esc(f[1]) + '</dd></div>').join('') + '</div></div>';
+  const chips = shown.length
+    ? shown.map((w) => '<button class="sq-warn-chip is-' + w.level.cls + (w.node.code === sqSelNodeCode ? ' is-picked' : '') + '" onclick="sqPickNode(\'' + w.node.code + '\')">' +
+      esc(w.node.code + ' · ' + w.node.name) + '<span>' + w.level.label + '</span></button>').join('')
+    : '<span class="sq-warn-none">当前无预警节点</span>';
+  $('#sqWarnBody').innerHTML = '<div class="sq-warn-summary">' + summary + '</div>' +
+    '<div class="sq-warn-grid">' + detail + '<div class="sq-warn-list"><div class="sq-warn-list-title">预警节点</div>' + chips + '</div></div>';
+}
+const SQDLG = {
+  detail: 'regionCatalog.syncQuality.dialog.detail',
+  node: 'regionCatalog.syncQuality.dialog.node',
+  checksum: 'regionCatalog.syncQuality.dialog.checksum'
+};
+const SQ_MODAL_Z = 1200;
+const SQ_MODAL_MAX = 2;
+
+function sqUpload() { return SQ_UPLOADS.find((u) => u.no === sqSelUploadNo) || SQ_UPLOADS[0]; }
+function sqDlgKv(pairs) {
+  return '<dl class="sq-dlg-kv">' + pairs.map((p) =>
+    '<div><dt>' + esc(p[0]) + '</dt><dd>' + esc(String(p[1])) + '</dd></div>').join('') + '</dl>';
+}
+function sqDlgBlock(surface, suffix, title, body) {
+  return '<section class="sq-dlg-block" ' + req(surface, surface + '.' + suffix) +
+    '><h4>' + esc(title) + '</h4>' + body + '</section>';
+}
+function sqDlgLink(label, kind, arg) {
+  return '<button class="sq-link" onclick="sqDlgOpen(\'' + kind + '\'' +
+    (arg ? ',\'' + arg + '\'' : '') + ')">' + esc(label) + '</button>';
+}
+
+const SQ_DLG_SPEC = {
+  detail: () => {
+    const u = sqUpload(), t = sqCurrentTask(), m = sqMetrics(t), s = SQDLG.detail;
+    return {
+      title: '上报任务详情 · ' + u.no, short: '任务详情', surface: s,
+      html: sqDlgBlock(s, 'info', '基本信息', sqDlgKv([
+        ['任务ID', u.no], ['目录类型', u.type], ['文件名', u.file], ['大小', u.size],
+        ['上传方式', u.mode], ['上传人', u.uploader], ['上报状态', u.status],
+        ['开始时间', u.start], ['结束时间', u.end]
+      ])) + sqDlgBlock(s, 'batches', '上报批次统计', sqDlgKv([
+        ['总批次', u.total], ['成功批次', u.ok], ['失败批次', u.fail],
+        ['整体进度', sqUploadProgress(u) + '%']
+      ])) + sqDlgBlock(s, 'snapshot', '关联同步快照', sqDlgKv([
+        ['快照任务ID', t.taskId], ['快照时间', t.snapshotTime], ['任务状态', t.taskStatus],
+        ['目录记录数', t.records], ['同步成功率', m.success + '%']
+      ]))
+    };
+  },
+  node: (arg) => {
+    const t = sqCurrentTask(), nodes = sqNodes(t), edges = sqEdges(t);
+    const code = arg || sqSelNodeCode || nodes[0].code;
+    const n = nodes.find((x) => x.code === code) || nodes[0];
+    const i = nodes.indexOf(n), lv = sqLevel(n, t), s = SQDLG.node;
+    const up = i > 0 ? edges[i - 1] : null, down = i < edges.length ? edges[i] : null;
+    return {
+      title: '节点详情 · ' + n.code + ' ' + n.name, short: '节点 ' + n.code, surface: s,
+      html: sqDlgBlock(s, 'info', '节点基本信息', sqDlgKv([
+        ['节点编码', n.code], ['节点名称', n.name], ['链路顺序', n.orderNo],
+        ['节点状态', SQ_STATE[n.status].label], ['阶段进度', n.progress === null ? '—' : n.progress + '%'],
+        ['停滞秒数', n.stagnantSeconds === null ? '—' : n.stagnantSeconds + ' 秒'],
+        ['生效阈值', n.effectiveThresholdSeconds + ' 秒'], ['最后推进', n.lastProgressTime],
+        ['状态说明', n.detail]
+      ])) + sqDlgBlock(s, 'link', '链路位置', sqDlgKv([
+        ['上游节点', up ? up.fromNode : '—'], ['入边状态', up ? SQ_STATE[up.status].label : '—'],
+        ['下游节点', down ? down.toNode : '—'], ['出边状态', down ? SQ_STATE[down.status].label : '—'],
+        ['快照任务', t.taskId], ['快照时间', t.snapshotTime]
+      ])) + sqDlgBlock(s, 'warning', '预警信息', sqDlgKv([
+        ['预警级别', lv ? lv.label : '当前无预警'], ['节点状态', SQ_STATE[n.status].label],
+        ['停滞秒数', n.stagnantSeconds === null ? '—' : n.stagnantSeconds + ' 秒'],
+        ['生效阈值', n.effectiveThresholdSeconds + ' 秒'], ['触发时间', t.snapshotTime],
+        ['状态说明', n.detail]
+      ]))
+    };
+  },
+  checksum: (arg) => {
+    const t = sqCurrentTask(), list = sqChecksums().filter((c) => c.taskId === t.taskId);
+    const c = list.find((x) => x.id === arg) || list[0] || sqChecksums().find((x) => x.taskId === t.taskId);
+    const s = SQDLG.checksum;
+    return {
+      title: '校验报告明细 · ' + (c ? c.id : '—'), short: '报告明细', surface: s,
+      html: sqDlgBlock(s, 'info', '报告基本信息', sqDlgKv([
+        ['报告编号', c ? c.id : '—'], ['上报任务', c ? c.taskId : '—'],
+        ['校验对象', c ? c.object : '—'], ['生成时间', c ? c.time : '—'],
+        ['一致性', c ? (c.same ? '一致' : '不一致') : '—']
+      ])) + sqDlgBlock(s, 'md5', 'MD5 对照', sqDlgKv([
+        ['发送端 MD5', c ? c.send : '—'], ['接收端 MD5', c ? c.recv : '—'],
+        ['比对结果', c ? (c.same ? '一致' : '不一致') : '—']
+      ]))
+    };
+  }
+};
+
+function sqModalRootEl() {
+  let root = document.getElementById('sqModalRoot');
+  if (!root) {
+    root = document.createElement('div');
+    root.id = 'sqModalRoot';
+    document.body.appendChild(root);
+  }
+  return root;
+}
+function sqModalRender() {
+  const root = sqModalRootEl(), top = sqModalStack.length - 1;
+  root.innerHTML = sqModalStack.map((m, i) => {
+    const isTop = i === top, shift = (top - i) * 18;
+    const crumbs = ['<button class="sq-dlg-crumb" onclick="sqModalCloseAll()">同步管理</button>'];
+    sqModalStack.slice(0, i + 1).forEach((x, j) => {
+      crumbs.push(j === i
+        ? '<span class="sq-dlg-crumb is-current">' + esc(x.short) + '</span>'
+        : '<button class="sq-dlg-crumb" onclick="sqModalTruncate(' + j + ')">' + esc(x.short) + '</button>');
+    });
+    return '<div class="sq-dlg-veil' + (isTop ? ' is-top' : ' is-under') +
+      '" style="z-index:' + (SQ_MODAL_Z + (i + 1) * 20) + ';--sq-shift:' + shift + 'px" ' +
+      'onclick="sqModalVeilClick(event,' + i + ')">' +
+      '<section class="sq-dlg sq-dlg-lv' + (i + 1) + '" role="dialog" aria-modal="' +
+      (isTop ? 'true' : 'false') + '" tabindex="-1"' + (isTop ? '' : ' aria-hidden="true" inert') +
+      ' data-req-page="regionCatalog-syncQuality" data-req-surface="' + m.surface +
+      '" data-req-layer="dialog" data-req-title="' + esc(m.title) + '" data-sq-level="' + (i + 1) + '">' +
+      '<header class="sq-dlg-head" ' + req(m.surface, m.surface + '.head') + '>' +
+      '<div class="sq-dlg-head-main"><div class="sq-dlg-path">' +
+      crumbs.join('<span class="sq-dlg-crumb-sep">›</span>') + '</div><h3>' + esc(m.title) + '</h3></div>' +
+      '<div class="sq-dlg-head-tools"><span class="sq-dlg-level">第 ' + (i + 1) + ' 层</span>' +
+      (i > 0 ? '<button class="sq-dlg-btn" onclick="sqModalPop()">← 返回上级</button>' : '') +
+      '<button class="sq-dlg-close" aria-label="关闭当前层" onclick="sqModalPop()">×</button></div></header>' +
+      '<div class="sq-dlg-body">' + m.html + '</div>' +
+      '<footer class="sq-dlg-foot" ' + req(m.surface, m.surface + '.actions') + '>' +
+      '<button class="btn" onclick="sqModalCloseAll()">关闭全部</button>' +
+      '<button class="btn primary" onclick="sqModalPop()">' + (i > 0 ? '返回上级' : '关闭') +
+      '</button></footer></section></div>';
+  }).join('');
+  document.body.classList.toggle('sq-dlg-open', sqModalStack.length > 0);
+  const focusTarget = root.querySelector('.sq-dlg-veil.is-top .sq-dlg');
+  if (focusTarget) { try { focusTarget.focus(); } catch (e) {} }
+  window.dispatchEvent(new CustomEvent('ai-prototype:context-changed'));
+}
+function sqModalPop() {
+  if (!sqModalStack.length) return;
+  sqModalStack.pop();
+  sqModalRender();
+}
+function sqModalTruncate(index) {
+  while (sqModalStack.length > index + 1) sqModalStack.pop();
+  sqModalRender();
+}
+function sqModalCloseAll() {
+  if (!sqModalStack.length && !document.getElementById('sqModalRoot')) return;
+  sqModalStack = [];
+  sqModalRender();
+}
+function sqModalVeilClick(e, i) {
+  if (e.target === e.currentTarget && i === sqModalStack.length - 1) sqModalPop();
+}
+function sqDlgOpen(kind, arg) {
+  if (!SQ_DLG_SPEC[kind] || sqModalStack.length >= SQ_MODAL_MAX) return;
+  const spec = SQ_DLG_SPEC[kind](arg);
+  sqModalStack.push({ key: kind, title: spec.title, short: spec.short, surface: spec.surface, html: spec.html });
+  sqModalRender();
+}
+function sqOpenL1(kind, no) {
+  if (no) sqPickUpload(no, '');
+  sqModalCloseAll();
+  sqDlgOpen(kind);
+}
+(function () {
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && sqModalStack.length) { e.preventDefault(); sqModalPop(); }
+  });
+  const d = new URLSearchParams(location.search).get('dialog');
+  if (d && SQ_DLG_SPEC[d]) {
+    let opened = false;
+    const auto = function () { if (opened) return; opened = true; sqDlgOpen(d); };
+    window.addEventListener('load', function () { setTimeout(auto, 350); });
+    setTimeout(auto, 600);
+  }
+})();
+
+
+function syncQualityRender() {
+  const opt = (arr) => arr.map((x) => '<option value="' + x + '">' + x + '</option>').join('');
+  const tools = ['模板下载', '上传建任务', '上传前预览', '预校验', '上报频率', '网络状态']
+    .map((x) => '<button class="btn" onclick="sqTool(\'' + x + '\')">' + x + '</button>').join('');
+  $('#catbody').innerHTML =
+    '<div class="sq-page" data-req-surface="regionCatalog.syncQuality" data-req-page="regionCatalog-syncQuality" data-req-title="区域目录管理系统 · 目录同步 / 同步管理">' +
+    '<section class="sq-panel sq-query-panel"><h3 class="sq-panel-title sq-query-title">查询条件</h3>' +
+    '<div class="sq-query-grid" ' + req('regionCatalog.syncQuality', 'regionCatalog.syncQuality.query') + '>' +
+    '<label class="sq-field"><span>目录类型</span><select id="sqUpType"><option value="">全部</option>' + opt(SQ_CAT_TYPES) + '</select></label>' +
+    '<label class="sq-field"><span>上报状态</span><select id="sqUpStatus"><option value="">全部</option>' + opt(SQ_UPLOAD_STATUS) + '</select></label>' +
+    '<label class="sq-field"><span>上传方式</span><select id="sqUpMode"><option value="">全部</option>' + opt(SQ_UPLOAD_MODES) + '</select></label>' +
+    '<label class="sq-field"><span>上报时间</span><span class="sq-date-range"><input type="date" id="sqUpFrom"><span>至</span><input type="date" id="sqUpTo"></span></label>' +
+    '<div class="sq-actions sq-query-actions" ' + req('regionCatalog.syncQuality', 'regionCatalog.syncQuality.actions') + '>' +
+    '<button class="btn primary" onclick="sqListQuery()">查询</button> <button class="btn" onclick="sqListReset()">重置</button> <button class="btn" onclick="sqExport()">导出</button></div>' +
+    '</div></section>' +
+    '<section class="sq-panel" ' + req('regionCatalog.syncQuality', 'regionCatalog.syncQuality.table') + '>' +
+    '<h3 class="sq-panel-title">上报任务列表</h3>' +
+    '<div class="sq-toolbar" ' + req('regionCatalog.syncQuality', 'regionCatalog.syncQuality.toolbar') + '>' + tools + '</div>' +
+    '<div class="sq-table-wrap"><table class="sq-table sq-up-table" style="width:100%"><thead><tr><th>序号</th><th>任务ID</th><th>目录类型</th><th>文件名</th><th>大小</th><th>上传方式</th><th>上传人</th><th>状态</th><th>整体进度</th><th>总/成功/失败</th><th>开始时间</th><th>结束时间</th><th>操作</th></tr></thead><tbody id="sqUpRows"></tbody></table></div>' +
+    '<div class="sq-count">共 <span id="sqUpCount">0</span> 条</div></section>' +
+    '<div class="sq-section-label">同步质量保证</div>' +
+    '<div class="sq-context" id="sqContext" ' + req('regionCatalog.syncQuality', 'regionCatalog.syncQuality.context') + '></div>' +
+    '<section class="sq-stats" id="sqStats" ' + req('regionCatalog.syncQuality', 'regionCatalog.syncQuality.stats') + '></section>' +
+    '<section class="sq-panel" id="sqTopoPanel" ' + req('regionCatalog.syncQuality', 'regionCatalog.syncQuality.topology') + '>' +
+    '<h3 class="sq-panel-title">全链路监控拓扑</h3><div class="sq-topo" id="sqTopo"></div></section>' +
+    '<section class="sq-panel" id="sqWarnPanel" ' + req('regionCatalog.syncQuality', 'regionCatalog.syncQuality.warningInfo') + '>' +
+    '<h3 class="sq-panel-title">预警信息</h3><div id="sqWarnBody"></div></section>' +
+    '<section class="sq-panel" id="sqCheckPanel" ' + req('regionCatalog.syncQuality', 'regionCatalog.syncQuality.checksum') + '>' +
+    '<h3 class="sq-panel-title">完整性校验报告</h3><div class="sq-table-wrap"><table class="sq-table" style="width:100%"><thead><tr><th>序号</th><th>报告编号</th><th>上报任务</th><th>校验对象</th><th>发送端 MD5</th><th>接收端 MD5</th><th>一致性</th><th>生成时间</th><th>操作</th></tr></thead><tbody id="sqCheckRows"></tbody></table></div>' +
+    '<div class="sq-count">共 <span id="sqCheckCount">0</span> 条</div></section></div>';
+  sqUploadListDraw(); sqQualityDraw();
+}
+
+(function () {
+  const p = new URLSearchParams(location.search);
+  if (p.get('view') === 'regionCatalog') {
+    section = 'catalog';
+    catalogTab = 'riskLog';
+    catalogRender();
+  }
+  if (p.get('view') === 'syncQuality' || p.get('view') === 'syncManage') {
+    section = 'catalog';
+    catalogTab = 'syncQuality';
+    catalogRender();
+  }
+})();

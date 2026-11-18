@@ -1,0 +1,68 @@
+/* 业务节点管理系统 · 审核管理：沿用主体身份审核列表与弹窗版式 */
+.node-audit-page table { width: 100%; border-collapse: collapse; }
+.node-audit-page .identity-table-scroll { overflow-x: auto; }
+.node-audit-page.identity-page .identity-results table { min-width: 1260px; }
+.node-audit-page .identity-results th,
+.node-audit-page .identity-results td { white-space: nowrap; }
+.node-audit-page.identity-page .identity-results th:nth-child(1) { width: 60px; }
+.node-audit-page.identity-page .identity-results th:nth-child(2) { width: 170px; }
+.node-audit-page.identity-page .identity-results th:nth-child(3) { width: 248px; }
+.node-audit-page.identity-page .identity-results th:nth-child(4) { width: 205px; }
+.node-audit-page.identity-page .identity-results th:nth-child(5) { width: 190px; }
+.node-audit-page.identity-page .identity-results th:nth-child(6) { width: 82px; }
+.node-audit-page.identity-page .identity-results th:nth-child(7) { width: 158px; }
+.node-audit-page.identity-page .identity-results th:nth-child(8) { width: 88px; }
+.node-audit-page.identity-page .identity-results th:last-child { width: 76px; }
+.node-audit-page .identity-table-tools h2 { font-weight: 600; }
+.node-audit-page.identity-page .identity-filters label > span {
+  flex: 0 0 132px; width: 132px; max-width: 132px; white-space: nowrap;
+}
+.node-audit-page .identity-menu.identity-sub { padding-left: 52px; }
+
+.na-files { display: grid; gap: 10px; }
+.na-file-row {
+  display: flex; align-items: center; gap: 12px; min-width: 0;
+  padding: 10px 14px; border: 1px solid #e7ecf4; border-radius: 6px; background: #f8fafc;
+}
+.na-file-row > div { flex: 1; min-width: 0; }
+.na-file-row strong { display: block; font-size: 13px; color: #3c4d65; font-weight: 600; }
+.na-file-row small { display: block; margin-top: 3px; font-size: 11px; color: #8a98ad; overflow-wrap: anywhere; }
+.na-file-row .link { padding: 0 4px; font-size: 12px; white-space: nowrap; }
+.na-file-row .identity-badge { flex-shrink: 0; }
+.na-file-row .identity-audit-file-icon { flex-shrink: 0; }
+
+.node-audit-dialog .identity-audit-material-note {
+  display: flex; align-items: center; gap: 12px; margin-top: 12px; padding: 10px 14px;
+  background: #f2f6fc; border: 1px solid #d9e4f6; border-radius: 5px; font-size: 12px; color: #4a6285;
+}
+.node-audit-dialog .identity-audit-bottom-close { display: block; width: calc(100% - 44px); margin: 14px 22px 20px; padding: 9px 0; }
+.node-audit-dialog .identity-audit-bottom-close .btn { width: 100%; }
+.node-audit-dialog .identity-audit-request dl.identity-audit-fields {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 30px; margin: 0;
+}
+.node-audit-dialog .identity-audit-fields > div { min-width: 0; }
+.node-audit-dialog .identity-audit-fields > div.wide { grid-column: 1 / -1; }
+.node-audit-dialog .identity-audit-fields dt {
+  display: block; margin: 0 0 7px; color: #8995a5; font-size: 12px;
+}
+.node-audit-dialog .identity-audit-fields dd {
+  display: block; margin: 0; color: #31445f; font-size: 13px; line-height: 1.6; word-break: break-all;
+}
+.node-audit-dialog .identity-audit-ref { text-align: right; white-space: nowrap; }
+
+/* 审核类型独立标签条：参考主体身份待我审批页，徽标数字为当前队列实时统计 */
+.node-audit-page .identity-navigation { background: transparent; border: 0; border-radius: 0; margin-bottom: 12px; }
+.node-audit-page .identity-type-navigation {
+  display: flex; flex-wrap: wrap; gap: 10px; padding: 14px 18px;
+  background: #f2f5fb; border: 1px solid #e3eaf5; border-radius: 8px;
+}
+.node-audit-page .identity-type-tab {
+  min-width: 96px; width: auto; height: 36px; padding: 0 16px; gap: 12px;
+  border: 0; border-radius: 6px; background: #e7edf7; color: #6b7b92; font-size: 13px; box-shadow: none;
+}
+.node-audit-page .identity-type-tab b { background: #d8e2f0; color: #7b8ba2; }
+.node-audit-page .identity-type-tab:hover { background: #dfe8f6; border-color: transparent; color: #244b91; }
+.node-audit-page .identity-type-tab.active {
+  background: #fff; border-color: transparent; color: #244b91; font-weight: 600; box-shadow: 0 1px 5px #244b9122;
+}
+.node-audit-page .identity-type-tab.active b { background: #244b91; color: #fff; }
